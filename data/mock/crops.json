@@ -1,0 +1,77 @@
+[
+  {
+    "crop_id": "potato",
+    "botanical_name": "Solanum tuberosum",
+    "name_en": "Potato",
+    "name_hi": "आलू",
+    "icon": "🥔",
+    "season": "Rabi",
+    "description_en": "Major staple tuber crop susceptible to fungal blights during cool, humid weather.",
+    "description_hi": "शीत ऋतु की प्रमुख कंद फसल, जो ठंडे और नम मौसम में झुलसा रोग से प्रभावित होती है।",
+    "supported_diseases": [
+      "potato_early_blight",
+      "potato_late_blight",
+      "potato_healthy"
+    ]
+  },
+  {
+    "crop_id": "tomato",
+    "botanical_name": "Solanum lycopersicum",
+    "name_en": "Tomato",
+    "name_hi": "टमाटर",
+    "icon": "🍅",
+    "season": "Year-round",
+    "description_en": "Widely cultivated vegetable crop vulnerable to fungal leaf spots and viral leaf curl.",
+    "description_hi": "लोकप्रिय सब्जी फसल, जो फफूंद जनित धब्बों और लीफ कर्ल वायरस से प्रभावित होती है।",
+    "supported_diseases": [
+      "tomato_early_blight",
+      "tomato_late_blight",
+      "tomato_leaf_curl",
+      "tomato_healthy"
+    ]
+  },
+  {
+    "crop_id": "rice",
+    "botanical_name": "Oryza sativa",
+    "name_en": "Rice / Paddy",
+    "name_hi": "धान / चावल",
+    "icon": "🌾",
+    "season": "Kharif",
+    "description_en": "Primary grain staple in India vulnerable to bacterial blight and brown spot infections.",
+    "description_hi": "भारत की मुख्य अनाज फसल, जो जीवाणु झुलसा और भूरा धब्बा रोग से प्रभावित होती है।",
+    "supported_diseases": [
+      "rice_bacterial_blight",
+      "rice_brown_spot",
+      "rice_healthy"
+    ]
+  },
+  {
+    "crop_id": "wheat",
+    "botanical_name": "Triticum aestivum",
+    "name_en": "Wheat",
+    "name_hi": "गेहूं",
+    "icon": "🌾",
+    "season": "Rabi",
+    "description_en": "Major cereal crop of North/Central India prone to yellow rust and leaf blights.",
+    "description_hi": "उत्तर और मध्य भारत की प्रमुख रबी फसल, जिसमें पीला रतुआ (येलो रस्ट) का खतरा रहता है।",
+    "supported_diseases": [
+      "wheat_yellow_rust",
+      "wheat_leaf_blight",
+      "wheat_healthy"
+    ]
+  },
+  {
+    "crop_id": "cotton",
+    "botanical_name": "Gossypium hirsutum",
+    "name_en": "Cotton",
+    "name_hi": "कपास",
+    "icon": "🌱",
+    "season": "Kharif",
+    "description_en": "Crucial commercial fiber crop prone to bacterial blight and angular leaf spots.",
+    "description_hi": "महत्वपूर्ण वाणिज्यिक नकदी फसल, जो जीवाणु झुलसा और कोणीय पत्ती धब्बे से प्रभावित होती है।",
+    "supported_diseases": [
+      "cotton_bacterial_blight",
+      "cotton_healthy"
+    ]
+  }
+]

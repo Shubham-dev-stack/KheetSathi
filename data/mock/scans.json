@@ -1,0 +1,53 @@
+[
+  {
+    "id": "scan_mock_001",
+    "crop_id": "potato",
+    "crop_name_en": "Potato",
+    "crop_name_hi": "आलू",
+    "disease_id": "potato_late_blight",
+    "disease_name_en": "Late Blight",
+    "disease_name_hi": "पछेती झुलसा",
+    "scientific_name": "Phytophthora infestans",
+    "confidence": 0.89,
+    "severity": "Moderate",
+    "scanned_at": "2026-08-28T10:15:00Z",
+    "image_quality_score": 94.0,
+    "is_simulated": true,
+    "status": "completed",
+    "thumbnail_url": "/assets/samples/potato_late_blight_thumb.jpg"
+  },
+  {
+    "id": "scan_mock_002",
+    "crop_id": "tomato",
+    "crop_name_en": "Tomato",
+    "crop_name_hi": "टमाटर",
+    "disease_id": "tomato_leaf_curl",
+    "disease_name_en": "Leaf Curl Virus",
+    "disease_name_hi": "पर्ण कुंचन वायरस",
+    "scientific_name": "TYLCV",
+    "confidence": 0.84,
+    "severity": "High",
+    "scanned_at": "2026-08-27T16:40:00Z",
+    "image_quality_score": 88.5,
+    "is_simulated": true,
+    "status": "completed",
+    "thumbnail_url": "/assets/samples/tomato_leaf_curl_thumb.jpg"
+  },
+  {
+    "id": "scan_mock_003",
+    "crop_id": "rice",
+    "crop_name_en": "Rice / Paddy",
+    "crop_name_hi": "धान",
+    "disease_id": "rice_bacterial_blight",
+    "disease_name_en": "Bacterial Blight",
+    "disease_name_hi": "जीवाणु झुलसा",
+    "scientific_name": "Xanthomonas oryzae",
+    "confidence": 0.91,
+    "severity": "High",
+    "scanned_at": "2026-08-26T09:20:00Z",
+    "image_quality_score": 96.0,
+    "is_simulated": true,
+    "status": "completed",
+    "thumbnail_url": "/assets/samples/rice_bacterial_blight_thumb.jpg"
+  }
+]

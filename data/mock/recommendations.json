@@ -1,0 +1,92 @@
+{
+  "_disclaimer": "ILLUSTRATIVE PROTOTYPE DATA — Not a certified agricultural prescription. Exact chemical formulations and application rates must be verified with local agricultural extension officers or certified KVK experts.",
+  "potato_late_blight": {
+    "disease_id": "potato_late_blight",
+    "cultural_en": [
+      "Immediately remove and safely destroy severely infected lower leaves away from the field bed.",
+      "Ensure field drainage channels are clear to prevent waterlogging around plant roots.",
+      "Avoid overhead sprinkler irrigation; prefer morning furrow watering to reduce leaf wetness duration."
+    ],
+    "cultural_hi": [
+      "संक्रमित पत्तियों को तुरंत तोड़कर खेत से दूर नष्ट करें या मिट्टी में गहरा दबाएं।",
+      "खेत में पानी जमा न होने दें, जल निकासी नालियों को साफ रखें।",
+      "फसल पर ऊपर से पानी छिड़कने से बचें; क्यारियों में सुबह के समय सिंचाई करें।"
+    ],
+    "biological_en": [
+      "Foliar application of bio-control agents such as Trichoderma viride or Pseudomonas fluorescens as per package of practices.",
+      "Preventive bio-spray using aqueous Neem Seed Kernel Extract (NSKE) formulation."
+    ],
+    "biological_hi": [
+      "अनुशंसित पैकेज के अनुसार ट्राइकोडर्मा विरिडी (Trichoderma viride) जैसे जैविक नियंत्रण का पत्तियों पर छिड़काव करें।",
+      "नीम के बीज के सत्व (NSKE) का जैविक सुरक्षात्मक छिड़काव करें।"
+    ],
+    "chemical_en": [
+      "Preventive contact fungicides (e.g., Mancozeb or Chlorothalonil generic formulations) as recommended by local agricultural extension guidelines.",
+      "Systemic fungicides (e.g., Metalaxyl-based mixtures) if disease symptoms have initiated, under expert consultation."
+    ],
+    "chemical_hi": [
+      "शुरुआती बचाव: स्थानीय कृषि दिशानिर्देशों के अनुसार संपर्क कवकनाशी (जैसे मैनकोजेब या क्लोरोथैलोनिल) का छिड़काव।",
+      "रोग फैलने पर: कृषि विशेषज्ञ की सलाह से प्रणालीगत कवकनाशी (जैसे मेटालेक्सिल आधारित मिश्रण) का प्रयोग।"
+    ],
+    "safety_warning_en": "Mandatory: Wear protective gloves and face mask during chemical handling. Verify exact regional approved formulations with your nearest Krishi Vigyan Kendra (KVK) or Kisan Call Center (1800-180-1551, to be verified from current official government source).",
+    "safety_warning_hi": "अनिवार्य चेतावनी: किसी भी रासायनिक दवा के प्रयोग के समय मास्क और दस्ताने पहनें। अधिकृत दवा व मात्रा की पुष्टि नजदीकी कृषि विज्ञान केंद्र (KVK) या किसान कॉल सेंटर (1800-180-1551, सरकारी स्रोत से सत्यापन योग्य) से करें।"
+  },
+  "potato_early_blight": {
+    "disease_id": "potato_early_blight",
+    "cultural_en": [
+      "Prune and dispose of diseased lower foliage in contact with soil.",
+      "Adopt crop rotation with non-solanaceous crops (e.g. cereals or legumes) to break pathogen cycle.",
+      "Maintain balanced plant nutrition; avoid excessive nitrogenous fertilizers."
+    ],
+    "cultural_hi": [
+      "जमीन से सटी पुरानी बीमार पत्तियों को हटाकर नष्ट करें।",
+      "रोग चक्र तोड़ने के लिए दलहनी या अनाज वाली फसलों के साथ फसल चक्र अपनाएं।",
+      "संतुलित खाद का प्रयोग करें; अत्यधिक यूरिया से बचें।"
+    ],
+    "biological_en": [
+      "Foliar spray of Bacillus subtilis based bio-formulation as per label guidelines.",
+      "Soil application of well-decomposed Farm Yard Manure (FYM) enriched with Trichoderma species."
+    ],
+    "biological_hi": [
+      "बैसिलस सबटिलिस (Bacillus subtilis) आधारित जैविक दवा का दिशानिर्देशानुसार छिड़काव करें।",
+      "गोबर की सड़ी खाद में ट्राइकोडर्मा मिलाकर खेत में प्रयोग करें।"
+    ],
+    "chemical_en": [
+      "Foliar spray of protectant fungicides (such as Chlorothalonil or Azoxystrobin generic classes) according to regional university recommendations."
+    ],
+    "chemical_hi": [
+      "कृषि विश्वविद्यालय की सिफारिश के अनुसार सुरक्षात्मक कवकनाशी (जैसे क्लोरोथैलोनिल या एज़ोक्सीस्ट्रोबिन समूह) का छिड़काव करें।"
+    ],
+    "safety_warning_en": "Store all agricultural inputs safely away from children and water bodies. Observe pre-harvest waiting intervals. Consult local extension staff.",
+    "safety_warning_hi": "दवाओं को बच्चों और जल स्रोतों से दूर रखें। कटाई से पूर्व प्रतीक्षा समय (PHI) का पालन करें। स्थानीय कृषि अधिकारी से सलाह लें।"
+  },
+  "tomato_leaf_curl": {
+    "disease_id": "tomato_leaf_curl",
+    "cultural_en": [
+      "Rogue out and destroy virus-infected plants during early vegetative stage to prevent vector spread.",
+      "Install yellow sticky traps across the plot to monitor and trap whitefly vectors.",
+      "Use reflective silver mulch to deter vector landing on young seedlings."
+    ],
+    "cultural_hi": [
+      "शुरुआती अवस्था में रोगग्रस्त पौधों को उखाड़कर नष्ट करें ताकि वायरस आगे न फैले।",
+      "सफेद मक्खी की निगरानी और रोकथाम हेतु खेत में पीले चिपचिपे कार्ड (Yellow Sticky Traps) लगाएं।",
+      "सफेद मक्खी को आकर्षित होने से रोकने के लिए सिल्वर मल्चिंग शीट का प्रयोग करें।"
+    ],
+    "biological_en": [
+      "Regular foliar sprays of cold-pressed Neem oil bio-formulations to repel insect vectors.",
+      "Encourage natural biological predators (e.g., Green lacewings / Chrysoperla) for whitefly suppression."
+    ],
+    "biological_hi": [
+      "सफेद मक्खी को भगाने के लिए नीम तेल आधारित जैविक घोल का नियमित छिड़काव करें।",
+      "सफेद मक्खी के प्राकृतिक नियंत्रण हेतु मित्र कीटों (क्राइसोपरला आदि) का संरक्षण करें।"
+    ],
+    "chemical_en": [
+      "Vector management: Recommended insecticide classes (e.g., Diafenthiuron or Imidacloprid generic categories) strictly as approved by local agricultural departments."
+    ],
+    "chemical_hi": [
+      "सफेद मक्खी नियंत्रण हेतु: स्थानीय कृषि विभाग द्वारा अनुशंसित कीटनाशक समूह (जैसे डायफेन्थियुरॉन या इमिडाक्लोप्रिड) का दिशानिर्देशानुसार प्रयोग।"
+    ],
+    "safety_warning_en": "Note: Viral diseases cannot be cured post-infection; management relies on early whitefly vector control. Always consult your local KVK expert before pesticide spraying.",
+    "safety_warning_hi": "विशेष ध्यान: वायरस लगने के बाद पौधे का उपचार संभव नहीं होता; सफेद मक्खी की शुरुआती रोकथाम ही मुख्य उपाय है। छिड़काव से पहले कृषि विशेषज्ञ की सलाह लें।"
+  }
+}

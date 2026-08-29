@@ -1,0 +1,12 @@
+{
+  "user_id": "usr_demo_kisan_01",
+  "name": "Ramesh Patel",
+  "phone": "+91 98765 43210",
+  "preferred_lang": "hi",
+  "state": "Madhya Pradesh",
+  "district": "Indore",
+  "village": "Sanwer",
+  "crops_cultivated": ["potato", "wheat", "soybean"],
+  "total_scans_logged": 3,
+  "registered_at": "2026-08-20T08:00:00Z"
+}
