@@ -102,7 +102,7 @@ const I18N_DICTIONARY = {
     // Diagnostic Result
     condition_eyebrow: "संभावित समस्या",
     result_title: "जांच परिणाम",
-    prototype_badge: "प्रोटोटाइप परिणाम — सिम्युलेटेड AI आउटपुट",
+    prototype_badge: "ऑन-डिवाइस AI परिणाम (MobileNetV2 ONNX)",
     confidence_label: "मॉडल कॉन्फिडेंस स्कोर:",
     severity_label: "प्रभाव का स्तर:",
     severity_mild: "हल्का संक्रमण (Mild)",
@@ -294,7 +294,7 @@ const I18N_DICTIONARY = {
     // Diagnostic Result
     condition_eyebrow: "Possible Condition",
     result_title: "Diagnostic Report",
-    prototype_badge: "Prototype Result — Simulated AI Output",
+    prototype_badge: "On-Device AI Result (MobileNetV2 ONNX)",
     confidence_label: "Model Confidence Score:",
     severity_label: "Severity Tier:",
     severity_mild: "Mild Severity",
