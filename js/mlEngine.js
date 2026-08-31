@@ -167,6 +167,7 @@ class MLEngine {
       confidenceScore: top1.probability,
       confidencePercent: top1.confidencePercent,
       top5,
+      allProbabilities: Array.from(probabilities),
       rawLogits: Array.from(rawLogits)
     };
   }
@@ -175,14 +176,6 @@ class MLEngine {
    * Master Diagnosis Controller for KheetSathi:
    * Combines Image Quality Pre-check + Real On-Device ONNX Inference + Agronomic Remedy Catalog
    * 
-   * @param {Object} params
-   * @param {HTMLImageElement|string} params.imageSource - Actual user leaf image (DataURL or Image)
-   * @param {Object} params.selectedCrop - User-selected crop object from UI
-   * @param {Object} params.qualityData - Output from ImageQualityChecker.analyze()
-   * @param {string|null} params.presetId - Optional preset identifier for testing
-   * @returns {Promise<Object>} Complete diagnostic report expected by KheetSathi UI
-   */
-  /**
    * Helper to identify crop species family from PlantVillage 38 class index
    */
   static getCropIdForClassIndex(index) {
@@ -219,7 +212,7 @@ class MLEngine {
     const selectedCropNameHi = (selectedCrop && selectedCrop.name_hi) ? selectedCrop.name_hi : 'चयनित फसल';
     const selectedCropNameEn = (selectedCrop && selectedCrop.name_en) ? selectedCrop.name_en : 'Selected crop';
 
-    // 1. Non-Leaf Object Gate
+    // Gate 1: Non-Leaf Object Gate
     if (presetId === 'preset_non_leaf') {
       return {
         status: 'uncertain',
@@ -231,19 +224,7 @@ class MLEngine {
       };
     }
 
-    // 2. Image Quality Gate (BUG 2: Threshold raised to 50)
-    if (qualityData && qualityData.qualityScore < 50) {
-      return {
-        status: 'uncertain',
-        isUncertain: true,
-        reason: 'poor_quality',
-        confidence_score: (qualityData.qualityScore / 100),
-        message_en: 'Photo is too blurry or low-light for reliable AI diagnosis. Please retake in good daylight.',
-        message_hi: 'फोटो बहुत धुंधली या कम रोशनी वाली है। कृपया दिन के उजाले में दोबारा साफ फोटो लें।'
-      };
-    }
-
-    // 3. Unsupported Crop Gate (BUG 3: e.g. Rice, Wheat, Cotton)
+    // Gate 2: Unsupported Crop Gate
     const SUPPORTED_CROPS = new Set([
       'potato', 'tomato', 'corn', 'pepper', 'apple', 'grape',
       'peach', 'cherry', 'strawberry', 'orange', 'blueberry',
@@ -261,50 +242,87 @@ class MLEngine {
       };
     }
 
-    // 4. Execute Real ONNX Neural Network Inference
-    const mlResult = await this.classifyImage(imageSource);
-    console.log('[MLEngine] Real ONNX Prediction:', mlResult.predictedLabel, `(${(mlResult.confidenceScore * 100).toFixed(1)}%) in ${mlResult.inferenceTimeMs}ms`);
+    // Gate 3: Image Quality Gate (Threshold: 50)
+    if (qualityData && qualityData.qualityScore < 50) {
+      return {
+        status: 'uncertain',
+        isUncertain: true,
+        reason: 'poor_quality',
+        confidence_score: (qualityData.qualityScore / 100),
+        message_en: 'Photo is too blurry or low-light for reliable AI diagnosis. Please retake in good daylight.',
+        message_hi: 'फोटो बहुत धुंधली या कम रोशनी वाली है। कृपया दिन के उजाले में दोबारा साफ फोटो लें।'
+      };
+    }
 
-    // 5. Global Low-Confidence Threshold
-    if (mlResult.confidenceScore < 0.20) {
+    // Execute Real ONNX Neural Network Inference
+    const mlResult = await this.classifyImage(imageSource);
+
+    // Calculate selected crop probability mass using ALL 38 classes
+    let totalCropMass = 0;
+    let bestInCrop = null;
+
+    if (mlResult.allProbabilities && mlResult.allProbabilities.length === 38) {
+      for (let i = 0; i < 38; i++) {
+        if (this.getCropIdForClassIndex(i) === selectedCropId) {
+          const p = mlResult.allProbabilities[i];
+          totalCropMass += p;
+          if (!bestInCrop || p > bestInCrop.probability) {
+            bestInCrop = {
+              index: i,
+              label: this.classLabels && this.classLabels[i] ? this.classLabels[i].label : `Class ${i}`,
+              probability: p
+            };
+          }
+        }
+      }
+    } else {
+      const cropMatches = mlResult.top5.filter(item => this.getCropIdForClassIndex(item.index) === selectedCropId);
+      bestInCrop = cropMatches[0] || null;
+      totalCropMass = cropMatches.reduce((sum, item) => sum + item.probability, 0);
+    }
+
+    // Calculate conditional confidence within selected crop family
+    const conditionalConfidence = totalCropMass > 0 && bestInCrop ? (bestInCrop.probability / totalCropMass) : 0;
+
+    console.log('[MLEngine DEBUG]', {
+      selectedCropId,
+      totalCropMass: (totalCropMass * 100).toFixed(2) + '%',
+      bestInCropClass: bestInCrop ? bestInCrop.label : 'None',
+      bestInCropProbability: bestInCrop ? (bestInCrop.probability * 100).toFixed(2) + '%' : '0%',
+      conditionalConfidence: (conditionalConfidence * 100).toFixed(2) + '%',
+      selectedClassIndex: bestInCrop ? bestInCrop.index : -1,
+      rawTop1Prediction: mlResult.predictedLabel,
+      rawTop1Confidence: (mlResult.confidenceScore * 100).toFixed(2) + '%'
+    });
+
+    // Gate 4: Total Crop Probability Mass Threshold (< 0.25 -> crop_mismatch)
+    if (totalCropMass < 0.25) {
+      console.warn(`[MLEngine] Crop mismatch: Total crop mass for '${selectedCropId}' is ${(totalCropMass * 100).toFixed(2)}% (< 25%)`);
+      return {
+        status: 'uncertain',
+        isUncertain: true,
+        reason: 'crop_mismatch',
+        confidence_score: mlResult.confidenceScore,
+        message_en: 'The selected crop does not match the detected leaf pattern. Please select the correct crop or retake a clear photo.',
+        message_hi: 'चयनित फसल और पत्ती के लक्षण में अंतर है। कृपया सही फसल चुनें या दोबारा साफ फोटो लें।'
+      };
+    }
+
+    // Gate 5: In-Crop Conditional Confidence Threshold (< 0.50 -> low_confidence)
+    if (conditionalConfidence < 0.50) {
+      console.warn(`[MLEngine] Low conditional confidence: ${(conditionalConfidence * 100).toFixed(2)}% (< 50%) for ${bestInCrop?.label}`);
       return {
         status: 'uncertain',
         isUncertain: true,
         reason: 'low_confidence',
-        confidence_score: mlResult.confidenceScore,
+        confidence_score: bestInCrop ? bestInCrop.probability : mlResult.confidenceScore,
         message_en: 'Foliar symptoms are ambiguous. The AI confidence is too low to guarantee safe remediation.',
         message_hi: 'लक्षण स्पष्ट नहीं हैं। AI का विश्वास स्तर कम है। कृपया कृषि विशेषज्ञ से सलाह लें।'
       };
     }
 
-    // 6. Crop-Species Consistency Gate (BUG 1)
-    const topPredictedCropId = this.getCropIdForClassIndex(mlResult.predictedIndex);
-    let finalPredictionIndex = mlResult.predictedIndex;
-    let finalConfidenceScore = mlResult.confidenceScore;
-
-    if (selectedCropId && topPredictedCropId !== selectedCropId) {
-      // Check whether there is a sufficiently strong prediction belonging to the selected crop in top predictions
-      const bestInCrop = mlResult.top5.find(item => this.getCropIdForClassIndex(item.index) === selectedCropId);
-
-      if (bestInCrop && bestInCrop.probability >= 0.20) {
-        console.log(`[MLEngine] Using best in-crop match for ${selectedCropId}:`, bestInCrop.label, `(${(bestInCrop.probability * 100).toFixed(1)}%)`);
-        finalPredictionIndex = bestInCrop.index;
-        finalConfidenceScore = bestInCrop.probability;
-      } else {
-        console.warn(`[MLEngine] Crop mismatch: Selected '${selectedCropId}' but model predicted '${topPredictedCropId}' (${mlResult.predictedLabel} at ${(mlResult.confidenceScore * 100).toFixed(1)}%)`);
-        return {
-          status: 'uncertain',
-          isUncertain: true,
-          reason: 'crop_mismatch',
-          confidence_score: mlResult.confidenceScore,
-          message_en: 'The selected crop does not match the detected leaf pattern. Please select the correct crop or retake a clear photo.',
-          message_hi: 'चयनित फसल और पत्ती के लक्षण में अंतर है। कृपया सही फसल चुनें या दोबारा साफ फोटो लें।'
-        };
-      }
-    }
-
-    // 7. Map Verified Class Index to Agronomic Disease Catalog
-    const classMeta = this.getDiseaseMetadata(finalPredictionIndex, selectedCrop);
+    // Map Verified Best In-Crop Class Index to Agronomic Disease Catalog
+    const classMeta = this.getDiseaseMetadata(bestInCrop.index, selectedCrop);
 
     return {
       status: 'success',
@@ -318,7 +336,9 @@ class MLEngine {
       name_en: classMeta.name_en,
       name_hi: classMeta.name_hi,
       scientific_name: classMeta.scientific_name,
-      confidence_score: finalConfidenceScore,
+      confidence_score: bestInCrop.probability, // Raw model probability compatible with existing UI
+      conditional_confidence: conditionalConfidence,
+      crop_mass_probability: totalCropMass,
       severity_tier: classMeta.severity_tier,
       symptoms_en: classMeta.symptoms_en,
       symptoms_hi: classMeta.symptoms_hi,
