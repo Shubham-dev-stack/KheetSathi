@@ -74,7 +74,7 @@ class ImageQualityChecker {
         let score = 95;
         if (isDark) score -= 45;
         if (isOverexposed) score -= 35;
-        if (isBlurry) score -= 40;
+        if (isBlurry) score -= 50;
         score = Math.max(15, Math.min(100, Math.round(score)));
         
         let status = "good";

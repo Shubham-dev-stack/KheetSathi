@@ -182,8 +182,44 @@ class MLEngine {
    * @param {string|null} params.presetId - Optional preset identifier for testing
    * @returns {Promise<Object>} Complete diagnostic report expected by KheetSathi UI
    */
+  /**
+   * Helper to identify crop species family from PlantVillage 38 class index
+   */
+  static getCropIdForClassIndex(index) {
+    if (index >= 0 && index <= 3) return 'apple';
+    if (index === 4) return 'blueberry';
+    if (index >= 5 && index <= 6) return 'cherry';
+    if (index >= 7 && index <= 10) return 'corn';
+    if (index >= 11 && index <= 14) return 'grape';
+    if (index === 15) return 'orange';
+    if (index >= 16 && index <= 17) return 'peach';
+    if (index >= 18 && index <= 19) return 'pepper';
+    if (index >= 20 && index <= 22) return 'potato';
+    if (index === 23) return 'raspberry';
+    if (index === 24) return 'soybean';
+    if (index === 25) return 'squash';
+    if (index >= 26 && index <= 27) return 'strawberry';
+    if (index >= 28 && index <= 37) return 'tomato';
+    return 'unknown';
+  }
+
+  /**
+   * Master Diagnosis Controller for KheetSathi:
+   * Combines Image Quality Pre-check + Real On-Device ONNX Inference + Agronomic Remedy Catalog
+   * 
+   * @param {Object} params
+   * @param {HTMLImageElement|string} params.imageSource - Actual user leaf image (DataURL or Image)
+   * @param {Object} params.selectedCrop - User-selected crop object from UI
+   * @param {Object} params.qualityData - Output from ImageQualityChecker.analyze()
+   * @param {string|null} params.presetId - Optional preset identifier for testing
+   * @returns {Promise<Object>} Complete diagnostic report expected by KheetSathi UI
+   */
   static async runDiagnosis({ imageSource, selectedCrop, qualityData, presetId }) {
-    // 1. Image Quality & Non-Leaf Gate
+    const selectedCropId = (selectedCrop && selectedCrop.crop_id) ? selectedCrop.crop_id.toLowerCase() : null;
+    const selectedCropNameHi = (selectedCrop && selectedCrop.name_hi) ? selectedCrop.name_hi : 'चयनित फसल';
+    const selectedCropNameEn = (selectedCrop && selectedCrop.name_en) ? selectedCrop.name_en : 'Selected crop';
+
+    // 1. Non-Leaf Object Gate
     if (presetId === 'preset_non_leaf') {
       return {
         status: 'uncertain',
@@ -195,7 +231,8 @@ class MLEngine {
       };
     }
 
-    if (qualityData && qualityData.qualityScore < 45) {
+    // 2. Image Quality Gate (BUG 2: Threshold raised to 50)
+    if (qualityData && qualityData.qualityScore < 50) {
       return {
         status: 'uncertain',
         isUncertain: true,
@@ -206,12 +243,29 @@ class MLEngine {
       };
     }
 
-    // 2. Execute Real ONNX Neural Network Inference
+    // 3. Unsupported Crop Gate (BUG 3: e.g. Rice, Wheat, Cotton)
+    const SUPPORTED_CROPS = new Set([
+      'potato', 'tomato', 'corn', 'pepper', 'apple', 'grape',
+      'peach', 'cherry', 'strawberry', 'orange', 'blueberry',
+      'raspberry', 'soybean', 'squash'
+    ]);
+
+    if (selectedCropId && !SUPPORTED_CROPS.has(selectedCropId)) {
+      return {
+        status: 'uncertain',
+        isUncertain: true,
+        reason: 'unsupported_crop',
+        confidence_score: 0.0,
+        message_en: `Specialized on-device AI diagnosis for ${selectedCropNameEn} is currently not supported by this model. Please consult local Krishi Vigyan Kendra (KVK).`,
+        message_hi: `इस AI मॉडल में अभी ${selectedCropNameHi} के लिए विशेष जांच उपलब्ध नहीं है। कृपया स्थानीय कृषि विज्ञान केंद्र (KVK) से परामर्श लें।`
+      };
+    }
+
+    // 4. Execute Real ONNX Neural Network Inference
     const mlResult = await this.classifyImage(imageSource);
     console.log('[MLEngine] Real ONNX Prediction:', mlResult.predictedLabel, `(${(mlResult.confidenceScore * 100).toFixed(1)}%) in ${mlResult.inferenceTimeMs}ms`);
 
-    // 3. Uncertainty Thresholding
-    // If top probability is diffuse / very low, trigger uncertainty fallback
+    // 5. Global Low-Confidence Threshold
     if (mlResult.confidenceScore < 0.20) {
       return {
         status: 'uncertain',
@@ -223,8 +277,34 @@ class MLEngine {
       };
     }
 
-    // 4. Map Predicted Class Index to Agronomic Disease Catalog
-    const classMeta = this.getDiseaseMetadata(mlResult.predictedIndex, selectedCrop);
+    // 6. Crop-Species Consistency Gate (BUG 1)
+    const topPredictedCropId = this.getCropIdForClassIndex(mlResult.predictedIndex);
+    let finalPredictionIndex = mlResult.predictedIndex;
+    let finalConfidenceScore = mlResult.confidenceScore;
+
+    if (selectedCropId && topPredictedCropId !== selectedCropId) {
+      // Check whether there is a sufficiently strong prediction belonging to the selected crop in top predictions
+      const bestInCrop = mlResult.top5.find(item => this.getCropIdForClassIndex(item.index) === selectedCropId);
+
+      if (bestInCrop && bestInCrop.probability >= 0.20) {
+        console.log(`[MLEngine] Using best in-crop match for ${selectedCropId}:`, bestInCrop.label, `(${(bestInCrop.probability * 100).toFixed(1)}%)`);
+        finalPredictionIndex = bestInCrop.index;
+        finalConfidenceScore = bestInCrop.probability;
+      } else {
+        console.warn(`[MLEngine] Crop mismatch: Selected '${selectedCropId}' but model predicted '${topPredictedCropId}' (${mlResult.predictedLabel} at ${(mlResult.confidenceScore * 100).toFixed(1)}%)`);
+        return {
+          status: 'uncertain',
+          isUncertain: true,
+          reason: 'crop_mismatch',
+          confidence_score: mlResult.confidenceScore,
+          message_en: 'The selected crop does not match the detected leaf pattern. Please select the correct crop or retake a clear photo.',
+          message_hi: 'चयनित फसल और पत्ती के लक्षण में अंतर है। कृपया सही फसल चुनें या दोबारा साफ फोटो लें।'
+        };
+      }
+    }
+
+    // 7. Map Verified Class Index to Agronomic Disease Catalog
+    const classMeta = this.getDiseaseMetadata(finalPredictionIndex, selectedCrop);
 
     return {
       status: 'success',
@@ -238,7 +318,7 @@ class MLEngine {
       name_en: classMeta.name_en,
       name_hi: classMeta.name_hi,
       scientific_name: classMeta.scientific_name,
-      confidence_score: mlResult.confidenceScore,
+      confidence_score: finalConfidenceScore,
       severity_tier: classMeta.severity_tier,
       symptoms_en: classMeta.symptoms_en,
       symptoms_hi: classMeta.symptoms_hi,
