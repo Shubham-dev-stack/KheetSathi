@@ -23,9 +23,12 @@ class ImageQualityChecker {
         const pixels = imageData.data;
         const totalPixels = targetSize * targetSize;
         
-        // 1. Calculate Mean Grayscale Pixel Luminance (Y = 0.299R + 0.587G + 0.114B)
+        // 1. Calculate Mean Grayscale Pixel Luminance and Botanical Foliar Coverage
         let totalLuminance = 0;
         const grayscale = new Float32Array(totalPixels);
+        let greenFoliarPixels = 0;
+        let yellowFoliarPixels = 0;
+        let neutralPixels = 0;
         
         for (let i = 0; i < pixels.length; i += 4) {
           const r = pixels[i];
@@ -34,9 +37,36 @@ class ImageQualityChecker {
           const lum = 0.299 * r + 0.587 * g + 0.114 * b;
           grayscale[i / 4] = lum;
           totalLuminance += lum;
+
+          const max = Math.max(r, g, b);
+          const min = Math.min(r, g, b);
+          const delta = max - min;
+          const saturation = max === 0 ? 0 : delta / max;
+
+          // Neutral background (plate, white sheet, gray concrete)
+          if (saturation < 0.18 && lum > 35 && lum < 245) {
+            neutralPixels++;
+          }
+
+          // Green foliar
+          if (g >= 0.88 * r && g >= 1.12 * b && g >= 35) {
+            greenFoliarPixels++;
+          }
+          // Yellow / Amber / Chlorotic / Necrotic foliar
+          else if (r >= 1.20 * b && g >= 1.10 * b && (r + g) >= (2 * b + 25) && Math.abs(r - g) <= 75 && max >= 35) {
+            yellowFoliarPixels++;
+          }
         }
         
         const meanLuminance = totalLuminance / totalPixels;
+        const foliarCoverage = (greenFoliarPixels + yellowFoliarPixels) / totalPixels;
+        const neutralBackgroundRatio = neutralPixels / totalPixels;
+
+        // Non-leaf decision logic:
+        // 1. BFC < 0.12 (less than 12% botanical foliage)
+        // OR
+        // 2. NBR > 0.75 AND BFC < 0.20 (plate/desk background with <20% foliar tissue)
+        const isNonLeaf = (foliarCoverage < 0.12) || (neutralBackgroundRatio > 0.75 && foliarCoverage < 0.20);
         
         // 2. Discrete 3x3 Laplacian Convolution Kernel for Blur / Sharpness Variance
         // Kernel: [0,  1, 0]
@@ -99,6 +129,9 @@ class ImageQualityChecker {
           qualityScore: score,
           meanLuminance: Math.round(meanLuminance),
           blurVariance: Math.round(blurVariance),
+          foliarCoverage: Math.round(foliarCoverage * 1000) / 1000,
+          neutralBackgroundRatio: Math.round(neutralBackgroundRatio * 1000) / 1000,
+          isNonLeaf,
           isDark,
           isOverexposed,
           isBlurry,
@@ -112,6 +145,9 @@ class ImageQualityChecker {
           qualityScore: 85,
           meanLuminance: 120,
           blurVariance: 150,
+          foliarCoverage: 0.85,
+          neutralBackgroundRatio: 0.05,
+          isNonLeaf: false,
           isDark: false,
           isOverexposed: false,
           isBlurry: false,

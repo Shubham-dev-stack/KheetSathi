@@ -213,7 +213,7 @@ class MLEngine {
     const selectedCropNameEn = (selectedCrop && selectedCrop.name_en) ? selectedCrop.name_en : 'Selected crop';
 
     // Gate 1: Non-Leaf Object Gate
-    if (presetId === 'preset_non_leaf') {
+    if (presetId === 'preset_non_leaf' || (qualityData && qualityData.isNonLeaf === true)) {
       return {
         status: 'uncertain',
         isUncertain: true,
