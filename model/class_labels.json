@@ -1,0 +1,154 @@
+[
+  {
+    "index": 0,
+    "label": "Apple Scab"
+  },
+  {
+    "index": 1,
+    "label": "Apple with Black Rot"
+  },
+  {
+    "index": 2,
+    "label": "Cedar Apple Rust"
+  },
+  {
+    "index": 3,
+    "label": "Healthy Apple"
+  },
+  {
+    "index": 4,
+    "label": "Healthy Blueberry Plant"
+  },
+  {
+    "index": 5,
+    "label": "Cherry with Powdery Mildew"
+  },
+  {
+    "index": 6,
+    "label": "Healthy Cherry Plant"
+  },
+  {
+    "index": 7,
+    "label": "Corn (Maize) with Cercospora and Gray Leaf Spot"
+  },
+  {
+    "index": 8,
+    "label": "Corn (Maize) with Common Rust"
+  },
+  {
+    "index": 9,
+    "label": "Corn (Maize) with Northern Leaf Blight"
+  },
+  {
+    "index": 10,
+    "label": "Healthy Corn (Maize) Plant"
+  },
+  {
+    "index": 11,
+    "label": "Grape with Black Rot"
+  },
+  {
+    "index": 12,
+    "label": "Grape with Esca (Black Measles)"
+  },
+  {
+    "index": 13,
+    "label": "Grape with Isariopsis Leaf Spot"
+  },
+  {
+    "index": 14,
+    "label": "Healthy Grape Plant"
+  },
+  {
+    "index": 15,
+    "label": "Orange with Citrus Greening"
+  },
+  {
+    "index": 16,
+    "label": "Peach with Bacterial Spot"
+  },
+  {
+    "index": 17,
+    "label": "Healthy Peach Plant"
+  },
+  {
+    "index": 18,
+    "label": "Bell Pepper with Bacterial Spot"
+  },
+  {
+    "index": 19,
+    "label": "Healthy Bell Pepper Plant"
+  },
+  {
+    "index": 20,
+    "label": "Potato with Early Blight"
+  },
+  {
+    "index": 21,
+    "label": "Potato with Late Blight"
+  },
+  {
+    "index": 22,
+    "label": "Healthy Potato Plant"
+  },
+  {
+    "index": 23,
+    "label": "Healthy Raspberry Plant"
+  },
+  {
+    "index": 24,
+    "label": "Healthy Soybean Plant"
+  },
+  {
+    "index": 25,
+    "label": "Squash with Powdery Mildew"
+  },
+  {
+    "index": 26,
+    "label": "Strawberry with Leaf Scorch"
+  },
+  {
+    "index": 27,
+    "label": "Healthy Strawberry Plant"
+  },
+  {
+    "index": 28,
+    "label": "Tomato with Bacterial Spot"
+  },
+  {
+    "index": 29,
+    "label": "Tomato with Early Blight"
+  },
+  {
+    "index": 30,
+    "label": "Tomato with Late Blight"
+  },
+  {
+    "index": 31,
+    "label": "Tomato with Leaf Mold"
+  },
+  {
+    "index": 32,
+    "label": "Tomato with Septoria Leaf Spot"
+  },
+  {
+    "index": 33,
+    "label": "Tomato with Spider Mites or Two-spotted Spider Mite"
+  },
+  {
+    "index": 34,
+    "label": "Tomato with Target Spot"
+  },
+  {
+    "index": 35,
+    "label": "Tomato Yellow Leaf Curl Virus"
+  },
+  {
+    "index": 36,
+    "label": "Tomato Mosaic Virus"
+  },
+  {
+    "index": 37,
+    "label": "Healthy Tomato Plant"
+  }
+]

@@ -937,26 +937,41 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     
     setTimeout(() => {
       stepText.textContent = isHi ? 'पत्ती के लक्षण जांच रहे हैं...' : 'Matching foliar symptom signatures...';
-    }, 500);
+    }, 400);
 
     setTimeout(() => {
-      stepText.textContent = isHi ? 'संभावित समस्या मिलाई जा रही है...' : 'Matching botanical disease catalog...';
-    }, 1000);
+      stepText.textContent = isHi ? 'ऑन-डिवाइस AI मॉडल से विश्लेषण जारी है...' : 'Running on-device neural network inference...';
+    }, 800);
 
-    const result = await SimulationAIEngine.runInference({
-      cropId: this.selectedCrop.crop_id,
-      qualityData: this.currentQualityData,
-      presetId: this.currentPresetId
-    });
+    try {
+      // 1. Run REAL on-device ML model diagnosis
+      const imageSource = this.currentImageDataUrl || (DEMO_PRESETS && DEMO_PRESETS[0] ? DEMO_PRESETS[0].thumbnail : './assets/images/sample_potato_blight.jpg');
 
-    if (result.status === 'uncertain') {
+      const result = await MLEngine.runDiagnosis({
+        imageSource: imageSource,
+        selectedCrop: this.selectedCrop,
+        qualityData: this.currentQualityData,
+        presetId: this.currentPresetId
+      });
+
+      if (result.status === 'uncertain') {
+        const reasonEl = document.getElementById('fallback-reason-text');
+        if (reasonEl) reasonEl.textContent = isHi ? result.message_hi : result.message_en;
+        this.navigateTo('view-fallback');
+      } else {
+        this.currentScanResult = result;
+        this.renderResultScreen(result);
+        this.navigateTo('view-result');
+      }
+    } catch (err) {
+      console.error('[KheetSathi] Real ML Engine diagnosis error:', err);
       const reasonEl = document.getElementById('fallback-reason-text');
-      reasonEl.textContent = isHi ? result.message_hi : result.message_en;
+      if (reasonEl) {
+        reasonEl.textContent = isHi ?
+          'मॉडल विश्लेषण में तकनीकी समस्या आई। कृपया दोबारा प्रयास करें।' :
+          'An issue occurred during on-device model inference. Please try again.';
+      }
       this.navigateTo('view-fallback');
-    } else {
-      this.currentScanResult = result;
-      this.renderResultScreen(result);
-      this.navigateTo('view-result');
     }
   }
 
@@ -982,10 +997,11 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     const severityBadge = document.getElementById('result-severity-badge');
     const isSevere = result.severity_tier && result.severity_tier.includes('Severe');
     const isMod = result.severity_tier && result.severity_tier.includes('Moderate');
+    const isMild = result.severity_tier && result.severity_tier.includes('Mild');
     
-    severityBadge.className = `badge ${isSevere ? 'badge-danger' : (isMod ? 'badge-warning' : 'badge-success')}`;
+    severityBadge.className = `badge ${isSevere ? 'badge-danger' : (isMod ? 'badge-warning' : (isMild ? 'badge-warning' : 'badge-success'))}`;
     severityBadge.textContent = isHi ? 
-      (isSevere ? 'गंभीर संक्रमण (Severe)' : (isMod ? 'मध्यम संक्रमण (Moderate)' : 'स्वस्थ पौधा (Healthy)')) :
+      (isSevere ? 'गंभीर संक्रमण (Severe)' : (isMod ? 'मध्यम संक्रमण (Moderate)' : (isMild ? 'हल्का संक्रमण (Mild)' : 'स्वस्थ पौधा (Healthy)'))) :
       result.severity_tier;
 
     // Observations (3 Concise Bullet Points)
@@ -1030,7 +1046,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       severity_tier: this.currentScanResult.severity_tier,
       scanned_at: new Date().toISOString(),
       quality_score: this.currentQualityData?.qualityScore || 90,
-      is_mock: true,
+      is_mock: this.currentScanResult.is_mock !== undefined ? this.currentScanResult.is_mock : false,
       thumbnail: this.currentImageDataUrl || DEMO_PRESETS[0].thumbnail
     };
 
