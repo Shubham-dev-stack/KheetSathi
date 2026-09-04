@@ -13,6 +13,11 @@ class ImageQualityChecker {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d', { willReadFrequently: true });
         
+        // Check natural dimensions if available
+        const origW = imgElement.naturalWidth || imgElement.width || 0;
+        const origH = imgElement.naturalHeight || imgElement.height || 0;
+        const isTooSmall = (origW > 0 && origW < 64) || (origH > 0 && origH < 64);
+
         // Downscale to standardized 256x256 frame for deterministic performance
         const targetSize = 256;
         canvas.width = targetSize;
@@ -23,8 +28,9 @@ class ImageQualityChecker {
         const pixels = imageData.data;
         const totalPixels = targetSize * targetSize;
         
-        // 1. Calculate Mean Grayscale Pixel Luminance and Botanical Foliar Coverage
+        // 1. Calculate Mean Grayscale Pixel Luminance, Variance, and Botanical Foliar Coverage
         let totalLuminance = 0;
+        let totalLuminanceSq = 0;
         const grayscale = new Float32Array(totalPixels);
         let greenFoliarPixels = 0;
         let yellowFoliarPixels = 0;
@@ -37,6 +43,7 @@ class ImageQualityChecker {
           const lum = 0.299 * r + 0.587 * g + 0.114 * b;
           grayscale[i / 4] = lum;
           totalLuminance += lum;
+          totalLuminanceSq += lum * lum;
 
           const max = Math.max(r, g, b);
           const min = Math.min(r, g, b);
@@ -59,6 +66,9 @@ class ImageQualityChecker {
         }
         
         const meanLuminance = totalLuminance / totalPixels;
+        const luminanceVariance = (totalLuminanceSq / totalPixels) - (meanLuminance * meanLuminance);
+        const isBlank = luminanceVariance < 2.0; // Solid color or completely blank canvas
+
         const foliarCoverage = (greenFoliarPixels + yellowFoliarPixels) / totalPixels;
         const neutralBackgroundRatio = neutralPixels / totalPixels;
 
@@ -66,7 +76,7 @@ class ImageQualityChecker {
         // 1. BFC < 0.12 (less than 12% botanical foliage)
         // OR
         // 2. NBR > 0.75 AND BFC < 0.20 (plate/desk background with <20% foliar tissue)
-        const isNonLeaf = (foliarCoverage < 0.12) || (neutralBackgroundRatio > 0.75 && foliarCoverage < 0.20);
+        const isNonLeaf = isBlank || (foliarCoverage < 0.12) || (neutralBackgroundRatio > 0.75 && foliarCoverage < 0.20);
         
         // 2. Discrete 3x3 Laplacian Convolution Kernel for Blur / Sharpness Variance
         // Kernel: [0,  1, 0]
@@ -102,16 +112,26 @@ class ImageQualityChecker {
         
         // Composite quality score (0 to 100)
         let score = 95;
+        if (isTooSmall) score -= 80;
+        if (isBlank) score -= 80;
         if (isDark) score -= 45;
         if (isOverexposed) score -= 35;
         if (isBlurry) score -= 50;
-        score = Math.max(15, Math.min(100, Math.round(score)));
+        score = Math.max(10, Math.min(100, Math.round(score)));
         
         let status = "good";
         let message_en = "Photo is sharp and well-exposed (Score: Optimal)";
         let message_hi = "फोटो स्पष्ट और अच्छी रोशनी में है (गुणवत्ता: उत्तम)";
         
-        if (isDark) {
+        if (isTooSmall) {
+          status = "error_small";
+          message_en = "⚠️ Image is too small (minimum 64x64 required). Please upload a higher resolution photo.";
+          message_hi = "⚠️ फोटो का आकार बहुत छोटा है (न्यूनतम 64x64 आवश्यक)। कृपया स्पष्ट फोटो लें।";
+        } else if (isBlank) {
+          status = "error_blank";
+          message_en = "⚠️ Blank or solid-color image detected. Please photograph an actual leaf.";
+          message_hi = "⚠️ खाली या एकरंग फोटो पहचानी गई। कृपया पौधे की पत्ती की फोटो लें।";
+        } else if (isDark) {
           status = "warning_dark";
           message_en = "⚠️ Low lighting detected. Move into daylight or use flash.";
           message_hi = "⚠️ फोटो में रोशनी बहुत कम है। अच्छी रोशनी में फोटो लें।";
@@ -127,7 +147,13 @@ class ImageQualityChecker {
         
         resolve({
           qualityScore: score,
+          inputWidth: origW,
+          inputHeight: origH,
+          isTooSmall,
+          isBlank,
+          isValidImage: !isTooSmall && !isBlank,
           meanLuminance: Math.round(meanLuminance),
+          luminanceVariance: Math.round(luminanceVariance),
           blurVariance: Math.round(blurVariance),
           foliarCoverage: Math.round(foliarCoverage * 1000) / 1000,
           neutralBackgroundRatio: Math.round(neutralBackgroundRatio * 1000) / 1000,

@@ -864,12 +864,35 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
   handleFileSelection(file) {
     if (!file) return;
+    const isHi = this.currentLang === 'hi';
+
+    // 1. Validate MIME Type
+    if (!file.type || !file.type.startsWith('image/')) {
+      this.showToast(isHi ? '⚠️ कृपया केवल फोटो फाइल (JPG, PNG, WebP) अपलोड करें।' : '⚠️ Please upload a valid image file (JPG, PNG, WebP).');
+      return;
+    }
+
+    // 2. Validate non-empty file
+    if (file.size === 0) {
+      this.showToast(isHi ? '⚠️ चयनित फाइल खाली है। कृपया सही फोटो चुनें।' : '⚠️ The selected file is empty. Please choose a valid photo.');
+      return;
+    }
+
+    // 3. Validate max size (25MB)
+    if (file.size > 25 * 1024 * 1024) {
+      this.showToast(isHi ? '⚠️ फोटो का आकार बहुत बड़ा है (अधिकतम 25MB)।' : '⚠️ Image file size exceeds 25MB limit.');
+      return;
+    }
+
     this.currentPresetId = null;
 
     const reader = new FileReader();
     reader.onload = (e) => {
       this.currentImageDataUrl = e.target.result;
       this.processImageForPreview(e.target.result, null);
+    };
+    reader.onerror = () => {
+      this.showToast(isHi ? '⚠️ फोटो लोड करने में त्रुटि हुई।' : '⚠️ Error reading image file.');
     };
     reader.readAsDataURL(file);
   }

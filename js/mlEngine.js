@@ -172,9 +172,16 @@ class MLEngine {
     };
   }
 
+  // Configurable Safety & Gating Thresholds
+  static MIN_RAW_CONFIDENCE = 0.30;        // Minimum 30% absolute model probability for accepted diagnosis
+  static MIN_CROP_MASS = 0.25;             // Minimum 25% total crop family mass across all 38 classes
+  static MIN_CONDITIONAL_CONFIDENCE = 0.50; // Minimum 50% conditional confidence within crop family
+  static MIN_TOP_MARGIN = 0.05;            // Minimum 5% margin between Top-1 and Top-2 if confidence < 40%
+  static MAX_OOD_ENTROPY = 4.25;           // Maximum Shannon entropy threshold (bits) for OOD flat distributions
+
   /**
    * Master Diagnosis Controller for KheetSathi:
-   * Combines Image Quality Pre-check + Real On-Device ONNX Inference + Agronomic Remedy Catalog
+   * Combines Image Quality Pre-check + Real On-Device ONNX Inference + OOD Safety + Agronomic Remedy Catalog
    * 
    * Helper to identify crop species family from PlantVillage 38 class index
    */
@@ -197,6 +204,38 @@ class MLEngine {
   }
 
   /**
+   * Calculates Shannon Entropy across probability distribution: H = -sum(p * log2(p))
+   */
+  static calculateEntropy(probabilities) {
+    let entropy = 0;
+    for (let i = 0; i < probabilities.length; i++) {
+      const p = probabilities[i];
+      if (p > 1e-7) {
+        entropy -= p * Math.log2(p);
+      }
+    }
+    return entropy;
+  }
+
+  /**
+   * Formats and logs comprehensive diagnostic report for on-device inference observability
+   */
+  static logDiagnosticReport(diag) {
+    console.group(`[KheetSathi AI Diagnostic Report] - Decision: ${diag.decision} (${diag.rejectionReason || 'Accepted'})`);
+    console.log(`Input Dimensions: ${diag.inputDimensions.width}x${diag.inputDimensions.height} px | Validation: ${diag.isValidImage ? 'PASS' : 'FAIL'}`);
+    console.log(`Preprocessing: ShortestEdge 256px -> CenterCrop 224x224px -> [-1.0, 1.0] Float32 Tensor [1, 3, 224, 224]`);
+    console.log(`Foliar Coverage (BFC): ${(diag.foliarCoverage * 100).toFixed(1)}% | Neutral BG (NBR): ${(diag.neutralBackgroundRatio * 100).toFixed(1)}% | Quality Score: ${diag.qualityScore}/100`);
+    if (diag.mlInferenceExecuted) {
+      console.log(`Entropy: ${diag.entropyBits.toFixed(3)} bits (Max: 5.25) | Top Margin (T1-T2): ${(diag.topMargin * 100).toFixed(2)}% | Inference Time: ${diag.inferenceTimeMs}ms`);
+      console.log(`Selected Crop: ${diag.selectedCropId} | Total Crop Mass (38-class): ${(diag.totalCropMass * 100).toFixed(2)}% | Conditional Conf: ${(diag.conditionalConfidence * 100).toFixed(2)}%`);
+      console.log(`Raw Top-1: "${diag.rawTop1Class}" (${(diag.rawTop1Probability * 100).toFixed(2)}%, Logit: ${diag.rawTop1Logit.toFixed(3)})`);
+      console.log('Top 3 Predictions:', diag.top3Predictions.map(t => `${t.rank}. ${t.label} (${(t.probability * 100).toFixed(2)}%, Logit: ${t.logit.toFixed(3)})`).join(' | '));
+    }
+    console.log(`Gate Reached: ${diag.gateReached} -> Result View: ${diag.renderedView}`);
+    console.groupEnd();
+  }
+
+  /**
    * Master Diagnosis Controller for KheetSathi:
    * Combines Image Quality Pre-check + Real On-Device ONNX Inference + Agronomic Remedy Catalog
    * 
@@ -212,19 +251,74 @@ class MLEngine {
     const selectedCropNameHi = (selectedCrop && selectedCrop.name_hi) ? selectedCrop.name_hi : 'चयनित फसल';
     const selectedCropNameEn = (selectedCrop && selectedCrop.name_en) ? selectedCrop.name_en : 'Selected crop';
 
-    // Gate 1: Non-Leaf Object Gate
+    // Extract image dimensions if available
+    let inputWidth = 256;
+    let inputHeight = 256;
+    if (qualityData && qualityData.inputWidth) {
+      inputWidth = qualityData.inputWidth;
+      inputHeight = qualityData.inputHeight;
+    }
+
+    // Gate 0: Input Image Validation Guard (Reject corrupted, empty, or too small inputs)
+    if (qualityData && qualityData.isValidImage === false) {
+      const isSmall = qualityData.isTooSmall;
+      const diag = {
+        inputDimensions: { width: inputWidth, height: inputHeight },
+        isValidImage: false,
+        qualityScore: qualityData.qualityScore || 10,
+        foliarCoverage: qualityData.foliarCoverage || 0,
+        neutralBackgroundRatio: qualityData.neutralBackgroundRatio || 0,
+        mlInferenceExecuted: false,
+        gateReached: 'Gate 0: Input Validation',
+        decision: 'REJECTED',
+        rejectionReason: 'invalid_image',
+        renderedView: '#view-fallback'
+      };
+      this.logDiagnosticReport(diag);
+
+      return {
+        status: 'uncertain',
+        isUncertain: true,
+        reason: 'invalid_image',
+        confidence_score: 0.0,
+        message_en: isSmall
+          ? 'Image is too small (minimum 64x64 required). Please upload a clear photo.'
+          : 'Invalid or blank image detected. Please upload an actual crop leaf photo.',
+        message_hi: isSmall
+          ? 'फोटो का आकार बहुत छोटा है (न्यूनतम 64x64 आवश्यक)। कृपया स्पष्ट फोटो लें।'
+          : 'अमान्य या खाली फोटो पहचानी गई। कृपया पौधे की पत्ती की साफ फोटो लें।',
+        diagnostic: diag
+      };
+    }
+
+    // Gate 1: Non-Leaf Object Gate (Botanical Foliar & Neutral Background Heuristics)
     if (presetId === 'preset_non_leaf' || (qualityData && qualityData.isNonLeaf === true)) {
+      const diag = {
+        inputDimensions: { width: inputWidth, height: inputHeight },
+        isValidImage: true,
+        qualityScore: qualityData ? qualityData.qualityScore : 95,
+        foliarCoverage: qualityData ? qualityData.foliarCoverage : 0,
+        neutralBackgroundRatio: qualityData ? qualityData.neutralBackgroundRatio : 0,
+        mlInferenceExecuted: false,
+        gateReached: 'Gate 1: Non-Leaf Detection',
+        decision: 'REJECTED',
+        rejectionReason: 'non_leaf',
+        renderedView: '#view-fallback'
+      };
+      this.logDiagnosticReport(diag);
+
       return {
         status: 'uncertain',
         isUncertain: true,
         reason: 'non_leaf',
         confidence_score: 0.28,
         message_en: 'Non-leaf object detected. Please capture a close-up photo of an actual crop leaf.',
-        message_hi: 'फसल की पत्ती नहीं पहचानी गई। कृपया पौधे की प्रभावित पत्ती की साफ फोटो लें।'
+        message_hi: 'फसल की पत्ती नहीं पहचानी गई। कृपया पौधे की प्रभावित पत्ती की साफ फोटो लें।',
+        diagnostic: diag
       };
     }
 
-    // Gate 2: Unsupported Crop Gate
+    // Gate 2: Unsupported Crop Gate (Protect 14-crop supported boundary)
     const SUPPORTED_CROPS = new Set([
       'potato', 'tomato', 'corn', 'pepper', 'apple', 'grape',
       'peach', 'cherry', 'strawberry', 'orange', 'blueberry',
@@ -232,30 +326,76 @@ class MLEngine {
     ]);
 
     if (selectedCropId && !SUPPORTED_CROPS.has(selectedCropId)) {
+      const diag = {
+        inputDimensions: { width: inputWidth, height: inputHeight },
+        isValidImage: true,
+        qualityScore: qualityData ? qualityData.qualityScore : 95,
+        foliarCoverage: qualityData ? qualityData.foliarCoverage : 0.85,
+        neutralBackgroundRatio: qualityData ? qualityData.neutralBackgroundRatio : 0.05,
+        mlInferenceExecuted: false,
+        gateReached: 'Gate 2: Unsupported Crop',
+        decision: 'REJECTED',
+        rejectionReason: 'unsupported_crop',
+        renderedView: '#view-fallback'
+      };
+      this.logDiagnosticReport(diag);
+
       return {
         status: 'uncertain',
         isUncertain: true,
         reason: 'unsupported_crop',
         confidence_score: 0.0,
         message_en: `Specialized on-device AI diagnosis for ${selectedCropNameEn} is currently not supported by this model. Please consult local Krishi Vigyan Kendra (KVK).`,
-        message_hi: `इस AI मॉडल में अभी ${selectedCropNameHi} के लिए विशेष जांच उपलब्ध नहीं है। कृपया स्थानीय कृषि विज्ञान केंद्र (KVK) से परामर्श लें।`
+        message_hi: `इस AI मॉडल में अभी ${selectedCropNameHi} के लिए विशेष जांच उपलब्ध नहीं है। कृपया स्थानीय कृषि विज्ञान केंद्र (KVK) से परामर्श लें।`,
+        diagnostic: diag
       };
     }
 
-    // Gate 3: Image Quality Gate (Threshold: 50)
+    // Gate 3: Image Quality Gate (Threshold: 50 based on Laplacian blur & exposure)
     if (qualityData && qualityData.qualityScore < 50) {
+      const diag = {
+        inputDimensions: { width: inputWidth, height: inputHeight },
+        isValidImage: true,
+        qualityScore: qualityData.qualityScore,
+        foliarCoverage: qualityData.foliarCoverage,
+        neutralBackgroundRatio: qualityData.neutralBackgroundRatio,
+        mlInferenceExecuted: false,
+        gateReached: 'Gate 3: Image Quality (<50)',
+        decision: 'REJECTED',
+        rejectionReason: 'poor_quality',
+        renderedView: '#view-fallback'
+      };
+      this.logDiagnosticReport(diag);
+
       return {
         status: 'uncertain',
         isUncertain: true,
         reason: 'poor_quality',
         confidence_score: (qualityData.qualityScore / 100),
         message_en: 'Photo is too blurry or low-light for reliable AI diagnosis. Please retake in good daylight.',
-        message_hi: 'फोटो बहुत धुंधली या कम रोशनी वाली है। कृपया दिन के उजाले में दोबारा साफ फोटो लें।'
+        message_hi: 'फोटो बहुत धुंधली या कम रोशनी वाली है। कृपया दिन के उजाले में दोबारा साफ फोटो लें।',
+        diagnostic: diag
       };
     }
 
     // Execute Real ONNX Neural Network Inference
     const mlResult = await this.classifyImage(imageSource);
+
+    // Calculate Shannon entropy across all 38 output probabilities
+    const entropy = this.calculateEntropy(mlResult.allProbabilities);
+
+    // Calculate top-1 vs top-2 margin & top-3 predictions
+    const top1Prob = mlResult.confidenceScore;
+    const top2Prob = mlResult.top5 && mlResult.top5[1] ? mlResult.top5[1].probability : 0;
+    const topMargin = top1Prob - top2Prob;
+
+    const top3 = (mlResult.top5 || []).slice(0, 3).map((item, idx) => ({
+      rank: idx + 1,
+      index: item.index,
+      label: item.label,
+      probability: item.probability,
+      logit: mlResult.rawLogits && mlResult.rawLogits[item.index] !== undefined ? mlResult.rawLogits[item.index] : 0
+    }));
 
     // Calculate selected crop probability mass using ALL 38 classes
     let totalCropMass = 0;
@@ -270,7 +410,8 @@ class MLEngine {
             bestInCrop = {
               index: i,
               label: this.classLabels && this.classLabels[i] ? this.classLabels[i].label : `Class ${i}`,
-              probability: p
+              probability: p,
+              logit: mlResult.rawLogits && mlResult.rawLogits[i] !== undefined ? mlResult.rawLogits[i] : 0
             };
           }
         }
@@ -283,46 +424,94 @@ class MLEngine {
 
     // Calculate conditional confidence within selected crop family
     const conditionalConfidence = totalCropMass > 0 && bestInCrop ? (bestInCrop.probability / totalCropMass) : 0;
+    const bestInCropProbability = bestInCrop ? bestInCrop.probability : 0;
 
-    console.log('[MLEngine DEBUG]', {
+    // Diagnostic payload
+    const baseDiag = {
+      inputDimensions: { width: inputWidth, height: inputHeight },
+      isValidImage: true,
+      qualityScore: qualityData ? qualityData.qualityScore : 95,
+      foliarCoverage: qualityData ? qualityData.foliarCoverage : 0.85,
+      neutralBackgroundRatio: qualityData ? qualityData.neutralBackgroundRatio : 0.05,
+      mlInferenceExecuted: true,
+      inferenceTimeMs: mlResult.inferenceTimeMs,
       selectedCropId,
-      totalCropMass: (totalCropMass * 100).toFixed(2) + '%',
+      rawTop1Class: mlResult.predictedLabel,
+      rawTop1Probability: top1Prob,
+      rawTop1Logit: top3[0] ? top3[0].logit : 0,
+      topMargin,
+      entropyBits: entropy,
+      top3Predictions: top3,
+      totalCropMass,
+      conditionalConfidence,
       bestInCropClass: bestInCrop ? bestInCrop.label : 'None',
-      bestInCropProbability: bestInCrop ? (bestInCrop.probability * 100).toFixed(2) + '%' : '0%',
-      conditionalConfidence: (conditionalConfidence * 100).toFixed(2) + '%',
-      selectedClassIndex: bestInCrop ? bestInCrop.index : -1,
-      rawTop1Prediction: mlResult.predictedLabel,
-      rawTop1Confidence: (mlResult.confidenceScore * 100).toFixed(2) + '%'
-    });
+      bestInCropProbability
+    };
 
-    // Gate 4: Total Crop Probability Mass Threshold (< 0.25 -> crop_mismatch)
-    if (totalCropMass < 0.25) {
-      console.warn(`[MLEngine] Crop mismatch: Total crop mass for '${selectedCropId}' is ${(totalCropMass * 100).toFixed(2)}% (< 25%)`);
+    // Gate 4: Total Crop Probability Mass Threshold (< MIN_CROP_MASS -> crop_mismatch)
+    if (totalCropMass < this.MIN_CROP_MASS) {
+      const diag = {
+        ...baseDiag,
+        gateReached: 'Gate 4: Crop Mass (<25%)',
+        decision: 'REJECTED',
+        rejectionReason: 'crop_mismatch',
+        renderedView: '#view-fallback'
+      };
+      this.logDiagnosticReport(diag);
+
       return {
         status: 'uncertain',
         isUncertain: true,
         reason: 'crop_mismatch',
         confidence_score: mlResult.confidenceScore,
         message_en: 'The selected crop does not match the detected leaf pattern. Please select the correct crop or retake a clear photo.',
-        message_hi: 'चयनित फसल और पत्ती के लक्षण में अंतर है। कृपया सही फसल चुनें या दोबारा साफ फोटो लें।'
+        message_hi: 'चयनित फसल और पत्ती के लक्षण में अंतर है। कृपया सही फसल चुनें या दोबारा साफ फोटो लें।',
+        diagnostic: diag
       };
     }
 
-    // Gate 5: In-Crop Conditional Confidence Threshold (< 0.50 -> low_confidence)
-    if (conditionalConfidence < 0.50) {
-      console.warn(`[MLEngine] Low conditional confidence: ${(conditionalConfidence * 100).toFixed(2)}% (< 50%) for ${bestInCrop?.label}`);
+    // Gate 5: Absolute Confidence & OOD Guard:
+    // 1. Raw in-crop probability must meet MIN_RAW_CONFIDENCE (30%)
+    // 2. In-crop conditional confidence must meet MIN_CONDITIONAL_CONFIDENCE (50%)
+    // 3. Ambiguous/OOD distribution check: small top margin (<5%) or high entropy (>4.25 bits) on low confidence
+    const isAmbiguousOOD = (topMargin < this.MIN_TOP_MARGIN && top1Prob < 0.40) ||
+                           (entropy > this.MAX_OOD_ENTROPY && top1Prob < 0.35);
+
+    if (bestInCropProbability < this.MIN_RAW_CONFIDENCE ||
+        conditionalConfidence < this.MIN_CONDITIONAL_CONFIDENCE ||
+        isAmbiguousOOD) {
+      
+      const diag = {
+        ...baseDiag,
+        gateReached: 'Gate 5: Confidence & OOD Guard',
+        decision: 'REJECTED',
+        rejectionReason: 'low_confidence',
+        renderedView: '#view-fallback'
+      };
+      this.logDiagnosticReport(diag);
+
       return {
         status: 'uncertain',
         isUncertain: true,
         reason: 'low_confidence',
-        confidence_score: bestInCrop ? bestInCrop.probability : mlResult.confidenceScore,
-        message_en: 'Foliar symptoms are ambiguous. The AI confidence is too low to guarantee safe remediation.',
-        message_hi: 'लक्षण स्पष्ट नहीं हैं। AI का विश्वास स्तर कम है। कृपया कृषि विशेषज्ञ से सलाह लें।'
+        confidence_score: bestInCropProbability,
+        message_en: 'Unable to confidently identify a crop disease. Please upload a clear crop leaf image.',
+        message_hi: 'फसल रोग की पुष्टि निश्चित रूप से नहीं हो सकी। कृपया फसल की पत्ती की स्पष्ट फोटो अपलोड करें।',
+        diagnostic: diag
       };
     }
 
     // Map Verified Best In-Crop Class Index to Agronomic Disease Catalog
     const classMeta = this.getDiseaseMetadata(bestInCrop.index, selectedCrop);
+
+    const diag = {
+      ...baseDiag,
+      gateReached: 'None (Passed All Gates)',
+      decision: 'ACCEPTED',
+      rejectionReason: 'none',
+      renderedView: '#view-result'
+    };
+    this.logDiagnosticReport(diag);
 
     return {
       status: 'success',
@@ -351,7 +540,8 @@ class MLEngine {
       chemical_hi: classMeta.chemical_hi,
       scanned_at: new Date().toISOString(),
       top5_classes: mlResult.top5,
-      inference_time_ms: mlResult.inferenceTimeMs
+      inference_time_ms: mlResult.inferenceTimeMs,
+      diagnostic: diag
     };
   }
 
