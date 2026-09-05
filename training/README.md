@@ -45,7 +45,7 @@ pip install -r training/requirements.txt
 ```
 
 ### B. Place the Training Dataset
-Download the PlantVillage dataset (e.g. from Kaggle or Zenodo) and place the 38 class directories into:
+Download the PlantVillage dataset (see [DATASET_SETUP.md](../DATASET_SETUP.md) for full instructions) and place the 38 class directories into:
 ```
 data/plantvillage/
   ├── Apple___Apple_scab/
@@ -55,7 +55,13 @@ data/plantvillage/
   └── ... (38 classes total)
 ```
 
-### C. Run Fine-Tuning
+### C. Verify Dataset Integrity
+Before running training, run the dataset audit tool to ensure all 38 classes are present and no images are corrupt:
+```bash
+python training/check_dataset.py --data-dir data/plantvillage --verbose
+```
+
+### D. Run Fine-Tuning
 ```bash
 python training/train.py --data-dir data/plantvillage --epochs 30 --batch-size 32 --lr 1e-4
 ```
@@ -63,14 +69,14 @@ python training/train.py --data-dir data/plantvillage --epochs 30 --batch-size 3
 - Applies realistic field augmentations: random rotations $\pm 30^\circ$, random scaling $[0.8, 1.0]$, color jitter for variable daylight/shadows, horizontal/vertical flips.
 - Saves the best checkpoint based on validation Macro F1 score to `training/checkpoints/best_model.pth`.
 
-### D. Run Full Evaluation
+### E. Run Full Evaluation
 ```bash
 python training/evaluate.py --data-dir data/plantvillage --checkpoint training/checkpoints/best_model.pth
 ```
 - Computes Top-1 Accuracy, Top-5 Accuracy, Macro Precision, Macro Recall, and Macro F1 score.
 - Generates a full $38 \times 38$ Confusion Matrix and per-class classification report saved to `training/evaluation_report.json`.
 
-### E. Export & Verify ONNX Model for KheetSathi Web
+### F. Export & Verify ONNX Model for KheetSathi Web
 ```bash
 python training/export_onnx.py --checkpoint training/checkpoints/best_model.pth --output-onnx model/model.onnx
 ```

@@ -61,12 +61,21 @@ def build_dataloaders(config) -> Tuple[DataLoader, DataLoader, DataLoader, Dict[
             f"Please download the PlantVillage dataset (e.g. from Kaggle/Zenodo) and place classes into '{config.data_dir}'."
         )
 
-    # Check that directory contains subfolders or images
+    # Check that directory contains subfolders
     subdirs = [d for d in os.listdir(config.data_dir) if os.path.isdir(os.path.join(config.data_dir, d))]
     if not subdirs:
         raise FileNotFoundError(
             f"TRAINING DATASET NOT AVAILABLE — TRAINING CANNOT BE PERFORMED YET.\n"
             f"Directory '{config.data_dir}' exists but contains no class subdirectories."
+        )
+
+    from config import CANONICAL_DIR_NAMES
+
+    # Validate class count
+    if len(subdirs) != 38:
+        raise ValueError(
+            f"INVALID DATASET: Found {len(subdirs)} subdirectories, but expected exactly 38 classes.\n"
+            f"Please run 'python training/check_dataset.py --data-dir {config.data_dir}' to inspect missing or extra classes."
         )
 
     train_transform, eval_transform = get_transforms(config)
