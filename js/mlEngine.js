@@ -14,6 +14,13 @@ class MLEngine {
   static modelPath = './model/model.onnx';
   static labelsPath = './model/class_labels.json';
 
+  // Configurable ML Decision & OOD Safeguard Thresholds
+  static MIN_RAW_CONFIDENCE = 0.30;
+  static MIN_CROP_MASS = 0.25;
+  static MIN_CONDITIONAL_CONFIDENCE = 0.50;
+  static MIN_TOP_MARGIN = 0.05;
+  static MAX_OOD_ENTROPY = 4.25;
+
   /**
    * Check if the browser supports required WebAssembly & ONNX Web capabilities
    */
