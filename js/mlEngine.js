@@ -244,9 +244,16 @@ class MLEngine {
    * @param {Object} params.selectedCrop - User-selected crop object from UI
    * @param {Object} params.qualityData - Output from ImageQualityChecker.analyze()
    * @param {string|null} params.presetId - Optional preset identifier for testing
+   * @param {Object} [params.customThresholds] - Optional overrides for scientific threshold tuning
    * @returns {Promise<Object>} Complete diagnostic report expected by KheetSathi UI
    */
-  static async runDiagnosis({ imageSource, selectedCrop, qualityData, presetId }) {
+  static async runDiagnosis({ imageSource, selectedCrop, qualityData, presetId, customThresholds = {} }) {
+    const minRawConfidence = customThresholds.minRawConfidence ?? this.MIN_RAW_CONFIDENCE;
+    const minCropMass = customThresholds.minCropMass ?? this.MIN_CROP_MASS;
+    const minConditionalConfidence = customThresholds.minConditionalConfidence ?? this.MIN_CONDITIONAL_CONFIDENCE;
+    const minTopMargin = customThresholds.minTopMargin ?? this.MIN_TOP_MARGIN;
+    const maxOodEntropy = customThresholds.maxOodEntropy ?? this.MAX_OOD_ENTROPY;
+
     const selectedCropId = (selectedCrop && selectedCrop.crop_id) ? selectedCrop.crop_id.toLowerCase() : null;
     const selectedCropNameHi = (selectedCrop && selectedCrop.name_hi) ? selectedCrop.name_hi : 'चयनित फसल';
     const selectedCropNameEn = (selectedCrop && selectedCrop.name_en) ? selectedCrop.name_en : 'Selected crop';
@@ -448,8 +455,8 @@ class MLEngine {
       bestInCropProbability
     };
 
-    // Gate 4: Total Crop Probability Mass Threshold (< MIN_CROP_MASS -> crop_mismatch)
-    if (totalCropMass < this.MIN_CROP_MASS) {
+    // Gate 4: Total Crop Probability Mass Threshold (< minCropMass -> crop_mismatch)
+    if (totalCropMass < minCropMass) {
       const diag = {
         ...baseDiag,
         gateReached: 'Gate 4: Crop Mass (<25%)',
@@ -471,14 +478,14 @@ class MLEngine {
     }
 
     // Gate 5: Absolute Confidence & OOD Guard:
-    // 1. Raw in-crop probability must meet MIN_RAW_CONFIDENCE (30%)
-    // 2. In-crop conditional confidence must meet MIN_CONDITIONAL_CONFIDENCE (50%)
-    // 3. Ambiguous/OOD distribution check: small top margin (<5%) or high entropy (>4.25 bits) on low confidence
-    const isAmbiguousOOD = (topMargin < this.MIN_TOP_MARGIN && top1Prob < 0.40) ||
-                           (entropy > this.MAX_OOD_ENTROPY && top1Prob < 0.35);
+    // 1. Raw in-crop probability must meet minRawConfidence (default 30%)
+    // 2. In-crop conditional confidence must meet minConditionalConfidence (default 50%)
+    // 3. Ambiguous/OOD distribution check: small top margin (<minTopMargin) or high entropy (>maxOodEntropy) on low confidence
+    const isAmbiguousOOD = (topMargin < minTopMargin && top1Prob < 0.40) ||
+                           (entropy > maxOodEntropy && top1Prob < 0.35);
 
-    if (bestInCropProbability < this.MIN_RAW_CONFIDENCE ||
-        conditionalConfidence < this.MIN_CONDITIONAL_CONFIDENCE ||
+    if (bestInCropProbability < minRawConfidence ||
+        conditionalConfidence < minConditionalConfidence ||
         isAmbiguousOOD) {
       
       const diag = {

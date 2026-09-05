@@ -2,12 +2,31 @@
 // Evaluates pixel luminance (exposure) and discrete Laplacian gradient variance (blur proxy)
 
 class ImageQualityChecker {
+  // Configurable Quality & Botanical Foliar Thresholds
+  static MIN_INPUT_DIMENSION = 64;
+  static MIN_FOLIAR_COVERAGE = 0.12;
+  static MAX_NEUTRAL_BG_RATIO = 0.75;
+  static MIN_BLUR_VARIANCE = 65;
+  static MIN_LUMINANCE = 35;
+  static MAX_LUMINANCE = 230;
+  static MIN_LUMINANCE_VARIANCE = 2.0;
+  static QUALITY_PASS_THRESHOLD = 50;
+
   /**
    * Analyzes an HTMLImageElement or Image Bitmap via off-screen HTML5 Canvas
    * @param {HTMLImageElement} imgElement 
+   * @param {Object} [customThresholds]
    * @returns {Promise<Object>} Quality Assessment Metric Object
    */
-  static async analyze(imgElement) {
+  static async analyze(imgElement, customThresholds = {}) {
+    const minDim = customThresholds.minDimension ?? this.MIN_INPUT_DIMENSION;
+    const minFoliar = customThresholds.minFoliarCoverage ?? this.MIN_FOLIAR_COVERAGE;
+    const maxNeutral = customThresholds.maxNeutralBgRatio ?? this.MAX_NEUTRAL_BG_RATIO;
+    const minBlur = customThresholds.minBlurVariance ?? this.MIN_BLUR_VARIANCE;
+    const minLum = customThresholds.minLuminance ?? this.MIN_LUMINANCE;
+    const maxLum = customThresholds.maxLuminance ?? this.MAX_LUMINANCE;
+    const minLumVar = customThresholds.minLuminanceVariance ?? this.MIN_LUMINANCE_VARIANCE;
+
     return new Promise((resolve) => {
       try {
         const canvas = document.createElement('canvas');
@@ -16,7 +35,7 @@ class ImageQualityChecker {
         // Check natural dimensions if available
         const origW = imgElement.naturalWidth || imgElement.width || 0;
         const origH = imgElement.naturalHeight || imgElement.height || 0;
-        const isTooSmall = (origW > 0 && origW < 64) || (origH > 0 && origH < 64);
+        const isTooSmall = (origW > 0 && origW < minDim) || (origH > 0 && origH < minDim);
 
         // Downscale to standardized 256x256 frame for deterministic performance
         const targetSize = 256;
@@ -51,7 +70,7 @@ class ImageQualityChecker {
           const saturation = max === 0 ? 0 : delta / max;
 
           // Neutral background (plate, white sheet, gray concrete)
-          if (saturation < 0.18 && lum > 35 && lum < 245) {
+          if (saturation < 0.18 && lum > minLum && lum < maxLum) {
             neutralPixels++;
           }
 
@@ -67,21 +86,18 @@ class ImageQualityChecker {
         
         const meanLuminance = totalLuminance / totalPixels;
         const luminanceVariance = (totalLuminanceSq / totalPixels) - (meanLuminance * meanLuminance);
-        const isBlank = luminanceVariance < 2.0; // Solid color or completely blank canvas
+        const isBlank = luminanceVariance < minLumVar; // Solid color or completely blank canvas
 
         const foliarCoverage = (greenFoliarPixels + yellowFoliarPixels) / totalPixels;
         const neutralBackgroundRatio = neutralPixels / totalPixels;
 
         // Non-leaf decision logic:
-        // 1. BFC < 0.12 (less than 12% botanical foliage)
+        // 1. BFC < minFoliar (less than threshold botanical foliage)
         // OR
-        // 2. NBR > 0.75 AND BFC < 0.20 (plate/desk background with <20% foliar tissue)
-        const isNonLeaf = isBlank || (foliarCoverage < 0.12) || (neutralBackgroundRatio > 0.75 && foliarCoverage < 0.20);
+        // 2. NBR > maxNeutral AND BFC < 0.20 (plate/desk background with low foliar tissue)
+        const isNonLeaf = isBlank || (foliarCoverage < minFoliar) || (neutralBackgroundRatio > maxNeutral && foliarCoverage < 0.20);
         
         // 2. Discrete 3x3 Laplacian Convolution Kernel for Blur / Sharpness Variance
-        // Kernel: [0,  1, 0]
-        //         [1, -4, 1]
-        //         [0,  1, 0]
         let laplacianSum = 0;
         let laplacianSqSum = 0;
         let countedEdges = 0;
@@ -105,10 +121,9 @@ class ImageQualityChecker {
         const blurVariance = (laplacianSqSum / countedEdges) - (meanLaplacian * meanLaplacian);
         
         // 3. Heuristic Decision Boundaries
-        const isDark = meanLuminance < 35;
-        const isOverexposed = meanLuminance > 230;
-        // Blur variance threshold: typically < 80 indicates severe motion or defocus blur
-        const isBlurry = blurVariance < 65;
+        const isDark = meanLuminance < minLum;
+        const isOverexposed = meanLuminance > maxLum;
+        const isBlurry = blurVariance < minBlur;
         
         // Composite quality score (0 to 100)
         let score = 95;
