@@ -1,0 +1,24 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Checkpoints and models
+training/checkpoints/
+*.pth
+*.pt
+
+# Large datasets
+data/plantvillage/
+data/*.zip
+data/*.tar.gz
+
+# Environments
+venv/
+env/
+.venv/
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
