@@ -1,0 +1,28 @@
+﻿{
+  "PlantVillage": {
+    "source_url": "https://data.mendeley.com/datasets/tywbtsjrjv/1",
+    "version": "1.0 (Hughes & Salathé, 2015)",
+    "license": "CC0 1.0 Universal",
+    "reported_image_count": 54303,
+    "actual_downloaded_image_count": null,
+    "status": "pending_download",
+    "issue": "Requires Kaggle CLI or Mendeley API token for reproducible CLI download."
+  },
+  "PlantDoc": {
+    "source_url": "https://github.com/pratikkayal/PlantDoc-Dataset",
+    "version": "GitHub master branch",
+    "license": "Apache 2.0 / CC-BY (Open for Research)",
+    "reported_image_count": 2598,
+    "actual_downloaded_image_count": "calculating...",
+    "status": "cloning"
+  },
+  "Rice_OOD": {
+    "source_url": "https://archive.ics.uci.edu/ml/datasets/Rice+Leaf+Diseases (Prajapati)",
+    "version": "V1",
+    "license": "CC BY 4.0",
+    "reported_image_count": 120,
+    "actual_downloaded_image_count": null,
+    "status": "pending_download",
+    "issue": "Direct zip link on UCI returns 404. Mendeley version requires API token."
+  }
+}

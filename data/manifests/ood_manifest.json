@@ -1,0 +1,615 @@
+{
+    "dataset": "Rice_OOD",
+    "classes": [
+        "Bacterial leaf blight",
+        "Brown spot",
+        "Leaf smut"
+    ],
+    "class_counts": {
+        "Bacterial leaf blight": 40,
+        "Brown spot": 40,
+        "Leaf smut": 40
+    },
+    "files": [
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0365.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "9a7afb91384bc6ca8a7a203e2b6090abed2a8a199bb0a40293601c3e74b969e6"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0366.jpg",
+            "class": "Bacterial leaf blight",
+            "sha256": "e26806c5ac0d93def1fe6f09ead59aeaf0635af7a26b081e77a964f1b9e22225"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0367.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "3e332cf2684ae34bc9c725c7cd471c7a4179f1a5eb43e7ead3d4db0163a87527"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0370.jpg",
+            "class": "Bacterial leaf blight",
+            "sha256": "db69fc711a9273866ae51d69289a86c99b4725338ec99b7ab7e8b7bd9bcb0a0f"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0372.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "3882fdd176e12660c90857ef880f182f32b53e0481c39dd8cda1223907873e37"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0373.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "89769483da7b9d7c7ce7e9fac6ffec629ea164daf71859ffbfbadb9bb3c364e9"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0374.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "fd288f4e779dc6e264b500941ee9b0a6b337d518aea295dc774e2651fc3086ff"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0375.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "3f0c619b2310eb9696df0a6e9a6c52fcae9192c010785fec46f0534b300af0f3"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0376.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "feaff83c279f2b231ab40805b39dfe3b5bccd87ef224399ef821db536ce68f05"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0377.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "97304931fb92011162596c71143f10a6242877a738cb2baeab6ae31fbe2f7d9a"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0378.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "9704b6b0daecf24a3452876d92bb0bee7107ec474d930538a9ffa77e4aca25d3"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0379.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "c123817c6051ae485d9bcd3f6cb07a04fb3ef282a990d12151017e405145a96d"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0380.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "184130a024266f96ee8e50b4a3fc82f294a4d47e16efbd3387c72eb8f24a709a"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0381.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "94ecaacd6e3a7295bb78ab1f226ddebfb8cf4ead2e6aceaf28c222c2d4acc185"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0382.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "ab408ae1973719638c0be275c0b3619e6b97758d6c209d73e2bb533295b2b1f2"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0383.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "2dd645302f764793efac140725d06e184b22a6d401ad537bd544a7c257a80bda"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0384.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "607250f64755773b95cb0fcaed9e203391e9119432e3854d6b277cb1c1d1c3a5"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0385.jpg",
+            "class": "Bacterial leaf blight",
+            "sha256": "e72efad83b02ba8cc1c1eb8bc64cfaa7245382cca2562d649891fc38793f369d"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0386.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "4653d65d02d7a54d8adcbe892dc4f07bcc51845371b64a8a8d71d9528b084f8a"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0388.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "9dffc5e123748a68f9c3cfd8f18aa9eaa3f9fa01044ca9e6dfc5a26b80b27b1e"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0389.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "9c8e177014e35efa7a47be9a757518dabd85c93da24427a297c07244e975fdca"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0390.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "ea4798e1efa2c3e1225a667b0bbb5d92610dccc28a3aaefa1062f3925e875f0b"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0392.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "2392d9c2330c42eb3f0f4aa97ea4d3169393d9039feddd063ccdf363332fc2b8"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0393.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "dfa5f0de2b96ee33c0783d357a2c07ab810b2e3c8b5917b6f41e9e6f14db230e"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0395.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "eec2bc64191a221f3ae5e015f5486eb39043a142d032144afe0ec2969c18bc3a"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0396.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "7f939ed8a19772402a48fed9a8d1252a903045454840a09e5d2c96e419bdfea2"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0397.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "e6c91b47c51154371bc016513c9993001dc25e0318232687134ff6ebba81cff4"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0398.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "90f5874ec3eeaeadff4dd45343d319aa6a26d197946334482040e0d286d722c4"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0399.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "029d8a9b981137bbb1f1ecfa3fcd7cf96813b373e9f35f302dbe7e4aad37e2b3"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0400.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "2574163ad0248c06a66b59bbe62c22173cf73abd7a739764b71c30e87897ac3f"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0401.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "24bfc147ef4653543748b397e52b359a062f10e156c92a37faa54e41cc53e64a"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0402.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "b327bf8bbe089c2acc65265dfd633ecba8aec77c6955328ddd072852bfa2193f"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0403.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "77a0b7ac94080ddda686f4c187f5f9a4fe3b609a6cf406d23a09228ed66fd158"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0404.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "b83a225639fb0fd11ba01ff81bea28a3e892726d8763427a553053334a98da29"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0405.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "382e24a5a246971458efa698bd8393182542a4debd0b5b5be011cd99892d55f3"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0406.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "3f89412d8ef3e04502d92f86bee06ea1f0691460154a4938323933de917ead79"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0700.jpg",
+            "class": "Bacterial leaf blight",
+            "sha256": "a1c533c098c93a84abbce38237ca272a6b125808ff463467fa71cc2773749b68"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0701.jpg",
+            "class": "Bacterial leaf blight",
+            "sha256": "776e386a8cef68a4690b7a36c789d9dd1dabb69fa14494a125028774739b3212"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0702.jpg",
+            "class": "Bacterial leaf blight",
+            "sha256": "988a4f259da9613071a58ebec06af8ae884d56c8704db87e7d65b575355cc9c6"
+        },
+        {
+            "path": "data/ood_raw\\Bacterial leaf blight\\DSC_0703.JPG",
+            "class": "Bacterial leaf blight",
+            "sha256": "606c1ef6fe98b7a2a374f9d49d8e9e6eaf12236551ae5a3a10e4c7df6d7e4da4"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0100.jpg",
+            "class": "Brown spot",
+            "sha256": "821731a7cce36ddf19c3e3dc05d91f483d09204fdb851b6e9a304dcebd08ae02"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0101.jpg",
+            "class": "Brown spot",
+            "sha256": "2a8aa914b8be60e035f8c41f6f8649e8d5a624c4ab3d1c7660f1946cdf9fe494"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0104.jpg",
+            "class": "Brown spot",
+            "sha256": "0884f90708852c786ba308cd510af44df16de48ee0f3c4cd974ee5dd6c4dcac8"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0105.jpg",
+            "class": "Brown spot",
+            "sha256": "4af64c8852f2900871c4eecb49dd4c73c9b49b8db901529df4cd2a35c670cc5c"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0106.jpg",
+            "class": "Brown spot",
+            "sha256": "7725af92d0b08c5d0bfad88651048710aef0ba405221487704e35d0b38698b18"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0107.jpg",
+            "class": "Brown spot",
+            "sha256": "a2689aab5f53b95dc5d0a84c2433f69ef16bc6003765cc984c2333fbeef07b1f"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0108.jpg",
+            "class": "Brown spot",
+            "sha256": "a0c4d6d7bb0732098bef42f0add52b8dc4c5135fce1029dc25988c1b5d718fca"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0109.jpg",
+            "class": "Brown spot",
+            "sha256": "14343f25028f60218e2c54453fd7fe581b32ec3a4be125e4bf911da68c566a53"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0110.jpg",
+            "class": "Brown spot",
+            "sha256": "0ff3406749bca67cf131afee1d59eab645d7380dd99dad2b4745fc9b36133d37"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0111.jpg",
+            "class": "Brown spot",
+            "sha256": "34f7ccad110f094c0ae489842ad0966fb72689c62ca1a21144358deaedda9ab0"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0112.jpg",
+            "class": "Brown spot",
+            "sha256": "945f00a94faf66843ddb4a59123c9fd3099f49c3a0ccdeaedc0ddb666cebf30d"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0113.jpg",
+            "class": "Brown spot",
+            "sha256": "3f7e74079e2cb6eda6439bed650293784d77fd9042fe76acab5ceae17e9ab813"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0114.jpg",
+            "class": "Brown spot",
+            "sha256": "4a419e04a5997e15a1af1e0f51c170749faf53efe9c0e3e2d7e5266c483ee45c"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0115.jpg",
+            "class": "Brown spot",
+            "sha256": "06c8836be4bd5df117ecd45e7da58d77f51d83f4c28fb72c5cc9cb75e0c9f0eb"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0116.jpg",
+            "class": "Brown spot",
+            "sha256": "7f1b7ed181ca1cdb5d389fd7f8915d5724b42d8f83c805d0aaa4072552f0e649"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0117.jpg",
+            "class": "Brown spot",
+            "sha256": "2bcae7d21ae30f8684e82a66984f0591d541fd220658b7e96d8d43409bf2ead2"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0118.jpg",
+            "class": "Brown spot",
+            "sha256": "e7d4e3b29700cc3f3c39bc1d5ab66b3535e559d826643f5fdd75f776f2bccab7"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0119.jpg",
+            "class": "Brown spot",
+            "sha256": "cd056dcf3193346c9b0213d5473f757dab8e07414807d1eb3073f8cd90196316"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0121.jpg",
+            "class": "Brown spot",
+            "sha256": "0d24ca559ec7afade340f99fa280681ec3038da3a52ee874d1b39fb2581c088b"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0292.JPG",
+            "class": "Brown spot",
+            "sha256": "aec0fa5db7078a84371627c324dd36e4dc105e782b1aa96c052fc7e2b8cf3eaa"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0295.JPG",
+            "class": "Brown spot",
+            "sha256": "441a6e272d7b3126bbed1328e4d6ab4a583129999140d5a0f7e18ce1620a67f9"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0296.jpg",
+            "class": "Brown spot",
+            "sha256": "78aaf1662d466f3000bd4a0d234389f964370aeb85fa5df50739074f7a2b720c"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0299.JPG",
+            "class": "Brown spot",
+            "sha256": "b98e1e2dadabafcfae7dd25f583fdaf599c842860c180ca2ffc3e4d3234d2923"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0300.JPG",
+            "class": "Brown spot",
+            "sha256": "588eb09925f52a08df0c8e36326fc0d000adf35b522c8fc12976a32d215a1f66"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0301.JPG",
+            "class": "Brown spot",
+            "sha256": "5ee621f2f463b6f632bc312f8aee7fc244b77d48a5cafeb8828aec8fa35983fb"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0302.JPG",
+            "class": "Brown spot",
+            "sha256": "76f8dfcf73998bd10a5dedb3a48d1d7253f5557eb40a19bca6da2fd6ea49c2d6"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0303.JPG",
+            "class": "Brown spot",
+            "sha256": "3b616b0c44fdd9d77f7cdf24fea3d61bb0372f8610ff2f954b808e6ebcefb69a"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0304.JPG",
+            "class": "Brown spot",
+            "sha256": "ce1ed64ada1d4f3c2a50b401bfac9ff19c60218e9524ef6f5881cda98a3ab3f5"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0305.JPG",
+            "class": "Brown spot",
+            "sha256": "8a468ae7e4f49788375dcc861559791f74711dcebc7163bac75139ce1177511b"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0306.JPG",
+            "class": "Brown spot",
+            "sha256": "d9607f0defad78bf635702861b0256425d17b51da92e58603cc3d0431222991f"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0307.JPG",
+            "class": "Brown spot",
+            "sha256": "281cdca10d37f9f4b667eedf931a16dc2cded624ddc389d5b38447a6372fb37c"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0323.JPG",
+            "class": "Brown spot",
+            "sha256": "baa4262d875b3483bcd99d168bc1fb3444864f59e40ca64415853a316d3215e5"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0324.JPG",
+            "class": "Brown spot",
+            "sha256": "26ad72f1d41b910b1bdd7f79e386e6f550b70268b1cfb860cec406504c0fb791"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0325.JPG",
+            "class": "Brown spot",
+            "sha256": "d78afc1285fa8ed2d9447342a6cc4b7c349d149fc62719f93ac942f2be68b0e2"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0329.jpg",
+            "class": "Brown spot",
+            "sha256": "949375d01f793927da564f9bcf031edea843e7d1112596f859350f5d582b40cc"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0332.JPG",
+            "class": "Brown spot",
+            "sha256": "66dc50d27e98bc9e7eb70ffd54588eb6083577973c3e9d823f5138fca78d4ff0"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0333.JPG",
+            "class": "Brown spot",
+            "sha256": "4987c1ab57b80b0e3ebac28eab345d096e4bff173ade3e7fc2279c2e34e22de2"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0337.JPG",
+            "class": "Brown spot",
+            "sha256": "7273997c7235220e25e18889cbb38f06b9364e01da8c82e3b7002c7b20c3d68f"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0391.jpg",
+            "class": "Brown spot",
+            "sha256": "fe86141d244915f53f0eb8cb58ebbb0d1e052c789f9ac001ce607b7a2c875bf8"
+        },
+        {
+            "path": "data/ood_raw\\Brown spot\\DSC_0394.jpg",
+            "class": "Brown spot",
+            "sha256": "84622dd97171ac21473c5887b3561f00556605e91e12014c31b0c35ac72c034e"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0293.JPG",
+            "class": "Leaf smut",
+            "sha256": "8325c918c1b35202593ee5755108f4d8b174889d0452c13462f71e730cc0017d"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0308.JPG",
+            "class": "Leaf smut",
+            "sha256": "b0030417e405895e9a2b739bd29dcb52aa59e12b650c4a309e0ed5e6f4f75a7e"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0309.JPG",
+            "class": "Leaf smut",
+            "sha256": "d7f0cfa1fb1467708bd1b4e93c15b6ea1572284064325c6bc972d0ac8c9b26f2"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0310.JPG",
+            "class": "Leaf smut",
+            "sha256": "76a2b4c0f55f05aebebddbb83f58ff885aff2693e1c29b14ff46d0c4e0e57c6c"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0312.JPG",
+            "class": "Leaf smut",
+            "sha256": "77cf1c7e742b442029b83fabf181b2c9c650cbd25daf604ac21875b1a312c00f"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0313.JPG",
+            "class": "Leaf smut",
+            "sha256": "ef04e5eb9dfcc8b9203d44697b5e33cea5fb82b01f43f3da19cbd64c4d6d8eb2"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0314.JPG",
+            "class": "Leaf smut",
+            "sha256": "46043296d84a7716bf33c698613d945aea547e2ac22b62f2de57755dd8523661"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0315.jpg",
+            "class": "Leaf smut",
+            "sha256": "92a371d74b51729378a7ac6f172b59bc6f175e93775285522e7ea87e5751429b"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0316.JPG",
+            "class": "Leaf smut",
+            "sha256": "00636fe21a0d1bc28a58098f80b000e5c508fb0766c3c36f5401a837e1a338d7"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0317.JPG",
+            "class": "Leaf smut",
+            "sha256": "eec3c337b2b0de1172c994af797305e60b059e20d43e9fd9ac75d2e00c8c1cbe"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0318.JPG",
+            "class": "Leaf smut",
+            "sha256": "a8828fd9ab5922d9841f94b828e5c84bf637fe127cf2cc07074977bb19b99015"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0319.jpg",
+            "class": "Leaf smut",
+            "sha256": "111176f3e3eca16b4348d4e8e91d4c34967f62ac34eccfd04fd6b231f3a79baf"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0320.JPG",
+            "class": "Leaf smut",
+            "sha256": "260ffd42cb85383fde9bf558c4cf936e9d884fd1b14eb3b136ade9182f3133c3"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0321.JPG",
+            "class": "Leaf smut",
+            "sha256": "f25f363b3858a6f8a322fc3f1936a3c3b1b7125afe50a17b0dc5260972506d09"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0322.jpg",
+            "class": "Leaf smut",
+            "sha256": "25f275661360e6d622be2a2e4840c725078bae6c5cd14853a5e08d4340644633"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0327.JPG",
+            "class": "Leaf smut",
+            "sha256": "f52ca6fceffea104097968a15dd8ae21d39d500e40d77025529252c132e63b7d"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0328.jpg",
+            "class": "Leaf smut",
+            "sha256": "8701b5a4dfe96476fa739e8e258eb8e30d530133dbe7fd7a651c9ee39e77c4f5"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0330.jpg",
+            "class": "Leaf smut",
+            "sha256": "afa620b29256b381319c2ec21fba919d3b04993b788d8fa0347e2c37dab1cb16"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0331.JPG",
+            "class": "Leaf smut",
+            "sha256": "2fac97c22e9aa0cfc0f8dc3f5285630817825e6048ed8597bdf1d3cdbe0e120e"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0335.JPG",
+            "class": "Leaf smut",
+            "sha256": "93e34e9eba08198e0b303203e81e33e4b1f6cfdadeae180ace3bab04267476fe"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0336.jpg",
+            "class": "Leaf smut",
+            "sha256": "e697cf088af32b2e01a7716d919209c2b6b60cadadec15f418d8cb3555802efd"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0338.JPG",
+            "class": "Leaf smut",
+            "sha256": "f05000b6d7c57cfa86aae8b818db987b3cc01f6cf4a083fe280c755981762ca9"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0339.jpg",
+            "class": "Leaf smut",
+            "sha256": "9954e206ef4c1b54e5ac6e80e5a44be8a20239cfa0f03a91a3e4496ed84cf2e9"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0500.jpg",
+            "class": "Leaf smut",
+            "sha256": "01505d97b4760640620a845b9e2997592fc922deb1f12add5406d394af57cff7"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0501.jpg",
+            "class": "Leaf smut",
+            "sha256": "dfbed96eb3837ac4c0608f87abfad1972a476115c84adf7429b55eb95b64e788"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0502.jpg",
+            "class": "Leaf smut",
+            "sha256": "325e6a6bf727b594be64581154248d0af9a80d988eff480806d08805fbceb345"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0503.jpg",
+            "class": "Leaf smut",
+            "sha256": "5505e72dc8cc3872d3e436dfa8de64a7790b58ca1e8d4352aaa9ef1e723559ce"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0504.jpg",
+            "class": "Leaf smut",
+            "sha256": "550686a0696b3b4d110e1861d4c4ee5a9093e3c97d01cad317d862a22fe186dc"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0505.jpg",
+            "class": "Leaf smut",
+            "sha256": "3fbf0471ac0d1a225995bc3a8e1d86143e7056b3f9e25dc181907068191c57b6"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0506.jpg",
+            "class": "Leaf smut",
+            "sha256": "704463b8f9c6c6f754a83dea6211c73388c30da247b3a84f9d1023e61ddb8116"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0507.jpg",
+            "class": "Leaf smut",
+            "sha256": "e7e016e22e9f4fbb35963533db512d8c1fabf1048203fb19b2f6332ffb56c181"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0508.jpg",
+            "class": "Leaf smut",
+            "sha256": "c052203ed8b808087b340a006a463296b9d75559ebf88fca1731b785b2553455"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0509.jpg",
+            "class": "Leaf smut",
+            "sha256": "8d8abdadb67dfb3af49962af3e0d2a38bceb84910c426f25d69c0a544a467844"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0510.jpg",
+            "class": "Leaf smut",
+            "sha256": "583938b0976a7ab913b693ebec3c393b4506c14455ed2ffa48e21d1796370add"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0511.jpg",
+            "class": "Leaf smut",
+            "sha256": "768458f879f3b4ff578698893d6d4130d56ca28deb9d9d7a122c69a2cafd1cbc"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0512.jpg",
+            "class": "Leaf smut",
+            "sha256": "d04ca0ef6ee0653957ff7473d95bed86be11dc5922fb9805c5c786ab93f4502b"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0513.jpg",
+            "class": "Leaf smut",
+            "sha256": "d8e2b13d75317575ac4d35264c8e67a395fb02f2ae761ffed7dc31d63e11e956"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0514.jpg",
+            "class": "Leaf smut",
+            "sha256": "e0b24830f711646d549e950ee4a9657ab285789bcdd2ff27be8fb3c69632480b"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0515.jpg",
+            "class": "Leaf smut",
+            "sha256": "f3765ce1c17012832a43d8499fcde6658a9cb0005433deef606733f6fa542367"
+        },
+        {
+            "path": "data/ood_raw\\Leaf smut\\DSC_0516.jpg",
+            "class": "Leaf smut",
+            "sha256": "77b5c1b5a8b5c8a54f358e641a61533237a743b593c124a2748653c472798acd"
+        }
+    ]
+}

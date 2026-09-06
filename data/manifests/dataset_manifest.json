@@ -1,0 +1,17 @@
+﻿{
+  "datasets": {
+    "PlantVillage": {
+      "status": "pending",
+      "expected_classes": 38,
+      "expected_images": 54305
+    },
+    "PlantDoc": {
+      "status": "pending",
+      "expected_classes": 27,
+      "expected_images": 2598
+    },
+    "Rice_OOD": {
+      "status": "pending"
+    }
+  }
+}

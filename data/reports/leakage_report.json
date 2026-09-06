@@ -1,0 +1,1391 @@
+{
+    "exact_sha256_collisions": [],
+    "perceptual_collisions": [
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\4120978-single-green-leaf-of-apple-tree.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\e741c2b4-3b28-4b2c-9664-cb43ba040592___JR_FrgE.S 8610.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\4633813-sweet-apple-with-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\1dbfc9d3-f568-4e19-a83c-8fa408cfea3a___RS_HL 5909.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\apple-leaf-14319997.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\21c10a73-ebeb-4a16-898b-8b39d9d6eca2___RS_HL 6315.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\apple-leaf-9834637.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\66f90307-33fe-4fab-b08c-0a44740268fd___RS_HL 2257.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\apple-leaf-closeup-37636177.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\6d276438-7f26-4b65-b425-a18ce241ab04___RS_HL 6050.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\apple-leaf-isolated-white-background-56631026.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\closeup-red-apple-fruit-leaf-isolated-white-background-57605895.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\4c8a1262-55e1-452c-86c5-5cb1f37b8109___YLCV_NREC 2852.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\depositphotos_30057617-Green-leaf-of-apple-tree.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Apple_scab\\80ddd81b-9c75-4711-8012-7ee68af378db___FREC_Scab 3458.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\depositphotos_4505396-Green-apple-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\f77c7ac1-f55e-4adc-b049-35def4e87c17___JR_FrgE.S 3077.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\depositphotos_45748597-stock-photo-ripe-apple-with-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\334fc49e-b2dc-441b-8e27-ac4374391664___RS_HL 2667.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\depositphotos_56066889-stock-photo-apple-with-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Spider_mites Two-spotted_spider_mite\\af792df7-cfe0-41cc-bb9c-54500e894222___Com.G_SpM_FL 9518.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\depositphotos_6657863-stock-photo-single-red-apple-with-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\d5551b0d-594f-48c7-b689-c409145bf6cf___RS_HL 6325.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\flat,1000x1000,075,f.u2.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Soybean___healthy\\12ad9825-51a5-4330-98ae-9a55f10648a6___RS_HL 7514.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\fresh-wet-green-apple-leaf-water-drops-isolated-white-background-31353097.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\8eb799b7-eb31-4502-985a-c58be3e5dfb9___RS_HL 2250.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-apple-fruits-leaf-25050127.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\a3bfb6c7-1f1e-407a-a2cf-40b316896185___FREC_C.Rust 9819.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-apple-leaf-26110796.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Septoria_leaf_spot\\261666dc-32fb-43b2-93db-efc28e296df4___JR_Sept.L.S 8491.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-apple-leaf-cut-white-ripe-background-clipping-path-42422046.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\fe588823-1009-4181-88e6-bdbf70fe33c3___JR_FrgE.S 8655.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-apple-leaf-slice-isolated-white-ripe-background-clipping-path-42352971.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\17b961d3-e008-4c85-ad6b-d85fba0e7f6c___RS_HL 0390.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-apple-leaf-slice-isolated-white-ripe-background-clipping-path-44598638.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\74a78fca-bd26-47cf-9139-de6365540b1a___YLCV_GCREC 2887.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-apple-leaf-white-background-33503979.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\d54219a2-ac0b-4cf6-a776-10b6a73726c0___RS_HL 0460.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-leaf-apple-tree-14300049.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\0486562b-542a-482e-98a1-e9c66d534c25___RS_HL 2608.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-leaf-apple-tree-isolated-white-background-33032695.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\8fba2297-e4e5-4fab-b41d-d5cb537dc840___RS_HL 6220.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\green-leaf-picture-id177130309_b=1&k=6&m=177130309&s=612x612&w=0&h=VP3U0AM5j0fvQqOwuI5f7cmb2Ji88mVep0eoXQaJRfs=.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\828a6b50-e2fb-4e63-a595-556aa41d43a7___RS_HL 6250.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\malus-floribunda-le-amoro2-a.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\b0ba7a6d-95eb-44e2-a2a5-4d9ef9b489d7___RS_HL 5896.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\red-apple-green-leaf-isolated-white-background-57496220.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\red-apple-leaves-309078.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Septoria_leaf_spot\\1764aae7-ae4b-45f9-b364-23cd799cee12___JR_Sept.L.S 8458.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\red-apple-one-leaf-13226302.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\3d968ff6-ddb5-435b-8fc8-59bca25c097c___CREC_HLB 7320.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\ripe-red-apple-with-green-leaf-isolated-on-white-picture-id184640296_s=612x612.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\shiny-red-apple-green-leaf-isolated-white-background-56202743.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\7c73d0d3-d998-4306-acbf-7385dc780eba___CREC_HLB 7251.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-apple-leaf-isolated-on-white-background-287560226.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\94d6b99f-2ac4-4a88-823f-3c607358d057___FREC_C.Rust 9826.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-apple-leaves-isolated-on-white-background-295979933.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-green-apple-leaf-clipping-path-258728936.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-green-apple-leaf-isolated-on-white-with-clipping-path-195130079.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\ab685ede-83a8-4073-bc81-c90865e8ba3d___RS_HL 2658.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-isolated-apple-green-granny-smith-apple-with-leaf-isolated-on-white-background-60343762.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\94d6b99f-2ac4-4a88-823f-3c607358d057___FREC_C.Rust 9826.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-one-green-leaf-of-apple-tree-isolated-on-white-background-close-up-studio-photography-102522179.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\f6c9080a-95af-48f8-8178-0be757d92d20___JR_FrgE.S 2982.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-red-apple-with-leaf-124592107.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Spider_mites Two-spotted_spider_mite\\476ed525-ff16-4980-88e0-eb39f0fd4670___Com.G_SpM_FL 9593.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-red-apple-with-leaf-138430751.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple leaf\\stock-photo-sweet-apple-with-leaf-111143150.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\8fd3cfbd-fbca-4c33-a2a7-1e7ecc71ec9e___RS_HL 6091.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple rust leaf\\4-apple-rust2_19011_matt-bertone.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 2
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple rust leaf\\buckinghamshire-speen-garden-cedar-apple-rust-on-apple-underside-of-F5D3RD.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\52a6b5dc-dded-4daa-a930-651eff8c7edd___UF.Citrus_HLB_Lab 1225.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple rust leaf\\car-apple9.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___healthy\\bcbbda77-7534-484c-8f5f-d913a370714a___JR_HL 4302.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple rust leaf\\cedar-apple-rust-gymnosporangium-juniperi-pustules-on-apple-leaf-lower-surface-X12A9H.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\2063fc79-fd1b-4669-8f0b-aeefb1a433cb___UF.Citrus_HLB_Lab 0505.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple rust leaf\\Fig-17-Apple-rust-on-lower-surface-on-leaf-at-extreme.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\64577b36-9701-43be-a559-10f787f2d185___JR_FrgE.S 8611.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple Scab Leaf\\816.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\8fba2297-e4e5-4fab-b41d-d5cb537dc840___RS_HL 6220.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple Scab Leaf\\apple%20scab%20leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Common_rust_\\RS_Rust 2672.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple Scab Leaf\\apple_scab.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\76598665-5f8b-4e6e-86c4-36d528385387___RS_HL 6312.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple Scab Leaf\\img_1916.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\13c8382b-ca6c-45f5-a6d0-acd67fb28651___RS_HL 7284.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple Scab Leaf\\IMG_3455-xjgwni-1024x1024.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Apple_scab\\2a800c84-902e-4aa8-af13-4e020d6f17dd___FREC_Scab 3124.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple Scab Leaf\\Scab+close-up5846.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\8cec684f-e301-4016-8bd8-4b686c6e4b9b___RS_HL 8075.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple Scab Leaf\\scab-on-foliage-300x259.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Common_rust_\\RS_Rust 2422.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Apple Scab Leaf\\scab_on_leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___healthy\\7c09e620-aa1a-4516-b97c-fafecba84622___R.S_HL 0637 copy.jpg",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf\\10148582-green-leaf-of-pepper.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\e741c2b4-3b28-4b2c-9664-cb43ba040592___JR_FrgE.S 8610.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf\\28a593.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Orange___Haunglongbing_(Citrus_greening)\\184d36c5-c652-4c52-a873-bdcf813532b7___UF.Citrus_HLB_Lab 1613.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf\\4825902504_5fa80b65b8_z.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\872cef56-f04e-4014-86d6-07bf5a27a87e___UF.Citrus_HLB_Lab 1025.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf\\5493139683d035a18fd0dfa12893f38b--outdoor-decor-worms.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\85f1b51d-ad5e-4ec2-a46b-2a9dade22e2a___FREC_C.Rust 9971.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf\\Bell-pepper-plant.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\0e07d1ac-39e3-404a-b14e-3218ee74e6bd___YLCV_NREC 2784.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf\\dscf1776.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Tomato___Bacterial_spot\\ee328e30-524c-4bcd-86f2-e9facfa6c5ae___GCREC_Bact.Sp 6002.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf\\pepper+leaves.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Apple___Apple_scab\\45000608-507a-46f5-be52-3ee24d0fb47d___FREC_Scab 3113.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf spot\\01.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Peach___Bacterial_spot\\e5cbc86f-c6fa-4326-9ec2-594dbe1666be___Rutg._Bact.S 1098.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf spot\\02.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Soybean___healthy\\40754974-cc25-4188-b463-deacee85c7d8___RS_HL 3821.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf spot\\03.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Grape___Esca_(Black_Measles)\\9de47576-150a-461f-b81b-dc97aad7aa0b___FAM_B.Msls 4344.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf spot\\bacspot_confused_w_pseudomonas.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Peach___Bacterial_spot\\62dd5b5d-67fe-4ce9-8f83-c67782266763___Rutg._Bact.S 2094.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf spot\\image_1500x1500%253E.jpeg_1472603885.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\be76ffa1-32a2-4d45-a5b4-740f0eb73156___RS_HL 5974.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf spot\\image_300x300%2523.jpeg_1472603885.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\be76ffa1-32a2-4d45-a5b4-740f0eb73156___RS_HL 5974.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf spot\\image_original.jpeg_1472603885.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\be76ffa1-32a2-4d45-a5b4-740f0eb73156___RS_HL 5974.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Bell_pepper leaf spot\\IMG_0945.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\156ff5fe-fe13-4485-bb2d-99b3198d4bcd___RS_HL 5412.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\blueberry+leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\de8ef18c-2d11-47e0-8fa1-85f5f0177277___FREC_Pwd.M 0473.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\blueberry-group-leaves-on-white-background-db8p44.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\f77c7ac1-f55e-4adc-b049-35def4e87c17___JR_FrgE.S 3077.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\blueberry-leaf-isolated-white-background-blueberry-leaf-isolated-99227523.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\7ba80ce1-562a-404b-a8e9-273cd917081a___FREC_C.Rust 9833.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\blueberry-leaf-isolated-white-background-clipping-path-82775455.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\14e1991a-a52e-4941-9195-e037e5afcb1b___RS_HL 2503.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\blueberry-leaf-isolated-white-background-clipping-path-84283705.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\3a544ee5-490e-4a41-b03b-cf1700362448___RS_HL 6200.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\blueberry-leaf-isolated-white-background-clipping-path-87355538.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\3a544ee5-490e-4a41-b03b-cf1700362448___RS_HL 6200.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\Blueberry-Leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\f96a5931-6fe2-49a2-a96c-a1c1b79f037e___UF.Citrus_HLB_Lab 0133.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\blueberry-leaves-isolated-shadow-95294017.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___healthy\\ded8ae3a-2f72-4ee5-a7d2-c682bfd59d6b___JR_HL 9875 copy.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\IMG_9275.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\1a69060b-e45e-4d95-881c-f6d1960dffcd___FREC_C.Rust 0065.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\stock-photo-blueberry-leaf-closeup-isolated-on-white-306486470.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Tomato_mosaic_virus\\b637932e-ac61-448a-b0d6-cabd8b444d27___PSU_CG 2407.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Blueberry leaf\\stock-photo-green-blueberry-leaf-isolated-with-clipping-path-550344304.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\e2799f4e-65ba-4f57-aa7d-9ac6cfa6c300___RS_HL 6265.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\02b13cea19417b15cf3d6ff534aa7ea653ad783094a60_1260x1260.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Blueberry___healthy\\a8d393d0-8d29-4132-a65a-6cb2c7ffa6a0___RS_HL 0618.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\2febe52cfac784c3191c804390d51ab756a3a7c8b9314_1260x1260.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\0137389a-9b78-4a94-afdb-c2b50861f89c___RS_HL 2347.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\3b296e7197cc7e3d138892539e2e9ba453ad782db3398_1260x1260.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\0c7b9ac5-8174-4dbe-9cc3-043b920ec276___RS_HL 2290.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\6.-Choke-cherry-fall-leaf-colour.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Corn_(maize)___healthy\\e03d14c1-b022-46a2-9ce6-145c83653c8b___R.S_HL 8181 copy.jpg",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\CHERRY_CHOKE_leaves.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Cherry_(including_sour)___Powdery_mildew\\a311fa97-e506-4f95-85ee-eb23c01f8cfd___FREC_Pwd.M 4795.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\d7b79dbc0bca0eb3e63fbe5dfb256ccd53d90a4eb1413_1260x1260.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\614f453c-b6e7-4a82-8e96-03ea3a976080___RS_HL 2451.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\e52bbb9a08ede2948ba0c006f02fe7b053ad7831d1df6_1260x1260.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\7513b8e0-f4c1-4430-bbd0-a687569b9ada___RS_HL 2421.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\ed12ff77ce021883de241830dee55e2e53d2c93231699_1260x1260.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\7ba80ce1-562a-404b-a8e9-273cd917081a___FREC_C.Rust 9833.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\fc729af279e9087d00bd32d89a1552a756a3ad9de7f2b_1260x1260.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\7ba80ce1-562a-404b-a8e9-273cd917081a___FREC_C.Rust 9833.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\five-cherry-tree-green-leaves-white-isolated-background-34493587.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Soybean___healthy\\8fbac4c2-4e15-4ee7-8c85-0396595c8b34___RS_HL 7463.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\Leaf%20cherry1.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\19de395f-ec98-486c-852b-9f087676abd2___RS_HL 5224.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Cherry leaf\\red-cherry-tree-leaf-isolated-crisp-white-background-35742030.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\4bc8315b-db09-445a-85eb-7d4f6e61745d___CREC_HLB 7206.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn Gray leaf spot\\Gray-leaf-spot.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\f5ad64c9-d9ee-40be-9bbf-452adc290ea4___FREC_Pwd.M 4558.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn Gray leaf spot\\GRAY_LE2.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Squash___Powdery_mildew\\b41a37d3-93a8-4067-bca9-d7427374af66___MD_Powd.M 0522.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn Gray leaf spot\\rsz0715grayleafspot.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Peach___Bacterial_spot\\44ba7487-6eef-4af0-ae96-f3aad6cad0d5___Rutg._Bact.S 2268.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\0805Fig3400.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\cb8476e3-16c7-42fc-a73b-65f60a4f0a1a___UF.Citrus_HLB_Lab 0872.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\2014-07-23-corngosswilt.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Peach___Bacterial_spot\\dbc5b1bf-87ab-454c-8166-28d2158138f4___Rut._Bact.S 1441.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\Common%20Diseases%20Figure%201.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Orange___Haunglongbing_(Citrus_greening)\\32a14cd6-07e3-49c9-b61d-67cf42f345e1___UF.Citrus_HLB_Lab 1604.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\corn-bacterial-leaf-streak-zoomed.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___healthy\\f7ba57f4-27d2-4aea-bffc-60175812e5b9___JR_HL 9832.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\corn-BLS-irregular-lesions.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\dd847210-1bb7-47cb-b408-4baa5fb72615___FAM_B.Rot 5056.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\corn-northern-corn-leaf-blight.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\acc815d0-7b15-421d-a481-ead7faffc3cb___RS_HL 5358.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\corn_disease_clip_image001_0003.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\e1193127-604a-403e-b241-29e2d8dc2fee___FAM_B.Rot 3511.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\helminthosporium-or-turcicum-leaf-stains-on-corn-leaf-disease-of-corn-plant-R5GR3C.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\890379a9-f446-4f14-af25-bbf4a3544473___FREC_Pwd.M 0391.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\img_0099-2.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Peach___Bacterial_spot\\14635ed1-93cb-45b4-adac-c67d2ca7dc52___Rutg._Bact.S 1181.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\northern-corn-leaf-blight-exserohilum-turcicum-lesions-on-a-maize-BX3K2K.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\2cf8906b-0996-48e9-8da1-309283c2d70b___RS_HL 5401.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\northern-corn-leaf-blight-exserohilum-turcicum-lesions-on-a-maize-leaf-south-africa-XDYJWY.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\11d570e7-a7d3-4f03-bb46-6b83b97faf43___FREC_Pwd.M 4496.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\Northern-corn-leaf-blight-V12-leaf-NM-F3.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___healthy\\59bc56e1-31cb-410e-a8bb-4afafb0fac7d___R.S_HL 0599 copy 2.jpg",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\Risk+factors+for+Goss%E2%80%99s+wilt+and+leaf+blight+Percent+surface+residue.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\7b6bf768-f65c-416d-bcb7-4ef68285fc79___UF.GRC_YLCV_Lab 02679.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn leaf blight\\Southern-Corn-Leaf-Blight-USDA.ashx_w=770.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Northern_Leaf_Blight\\a523ac3f-ae53-4da7-a3e1-7cce38714f75___RS_NLB 3812.JPG",
+            "distance": 1
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\80104747.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Common_rust_\\RS_Rust 1860.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\common-rust-in-field-300x200.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Squash___Powdery_mildew\\fbb3d787-da7f-41a4-b0c4-8863c97929a7___MD_Powd.M 0116.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\common-rust-lower-leaf-side.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\2ab4a5c8-c899-4dc2-978a-606b63030047___FREC_Pwd.M 0457.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\Corn-Common-Rust-300x225.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Potato___healthy\\0be9d721-82f5-42c3-b535-7494afe01dbe___RS_HL 1814.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\corn-common-rust-f5-R.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Northern_Leaf_Blight\\311621c2-ce96-4e4d-ae49-b303619e1f9f___RS_NLB 3632.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\Corn-Common-Rust.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Potato___healthy\\0be9d721-82f5-42c3-b535-7494afe01dbe___RS_HL 1814.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\corn-southern-rust-pustules.JPG_itok=VXIzyv8m.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\9fe8f6a6-c1de-4897-9e30-66125ace4a31___UF.Citrus_HLB_Lab 1136.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\Figure%201%20early%20southern%20rust.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\c11965f5-8920-4266-9f47-5dce992bd4c6___FREC_Pwd.M 4525.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\IMG_1762.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Late_blight\\d6dde2e1-097a-4d45-b646-0110aaa06107___GHLB2 Leaf 8816.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\rust.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Common_rust_\\RS_Rust 2470.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\Southern%20corn%20rust.ashx_w=600.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Northern_Leaf_Blight\\a523ac3f-ae53-4da7-a3e1-7cce38714f75___RS_NLB 3812.JPG",
+            "distance": 2
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Corn rust leaf\\Southern%20rust.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\52ecce7d-bcd4-4d36-b455-b0948eb02371___FREC_Pwd.M 4724.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\0000.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\blue-grape-cluster-leaves-3323887.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\fa20564c-09ba-49f4-9840-91c18c579b5e___RS_HL 0747.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\depositphotos_6898486-stock-photo-grape-leaves.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Blueberry___healthy\\02159532-6430-4006-a245-421593949304___RS_HL 2686.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaf-14309623.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\6e0d10c8-1d7d-4916-aa1c-f73eb16c8048___RS_HL 2273.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaf-15796930.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\78128cc7-ab5b-4820-a3a3-413952dc0ab5___RS_HL 2600.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaf-19616502.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\269e971f-7edd-4f4d-8ae4-4b6dce590446___RS_HL 2472.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaf-detail-1457175.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___healthy\\d966ee8e-abdc-4841-94a5-ae1bed9da16c___Mt.N.V_HL 9094.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaf-isolated-cut-out-on-white-background-picture-id172320164_s=612x612.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\0daaeb93-868a-4649-be74-19aa2b231f90___FAM_B.Rot 0739.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaf-picture-id119212425_k=6&m=119212425&s=612x612&w=0&h=8RZBWGcvXe4tAwhhvYZVFzWyRyiN5iTxKfWBpPT1FcU=.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Cherry_(including_sour)___Powdery_mildew\\392bcdd9-eed3-4f4e-a56f-227b990d9719___FREC_Pwd.M 0531.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaf-with-water-drops-41813-1920x1080.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Common_rust_\\RS_Rust 1979.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaves-03-1103349.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\f1465cd9-cfe8-40a4-8e44-84567a461ed6___RS_HL 0583.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaves-878629.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Apple___healthy\\38db4391-44e3-4aae-bb9d-51e8e03500b7___RS_HL 6321.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-leaves-up-close.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Late_blight\\b2fb784b-5601-4b75-93b0-8dcaa7eaca6e___RS_Late.B 6419.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-vine-leaf-1327453.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\92077618-89d9-403c-8e01-410ec8d22c22___RS_HL 0575.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grape-vines-3876069.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Spider_mites Two-spotted_spider_mite\\29e1db02-d6da-4972-a466-7ef0c2fdd2a1___Com.G_SpM_FL 9393.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\grapevine-leaf-7466071.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\0486562b-542a-482e-98a1-e9c66d534c25___RS_HL 2608.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\Grape_leaf_01.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\0e95f40f-89aa-40b2-86a6-8e82b7d05bfc___FREC_Pwd.M 0297.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\IMG_20150511_111942.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Northern_Leaf_Blight\\311621c2-ce96-4e4d-ae49-b303619e1f9f___RS_NLB 3632.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\latest_cb=20100621160325.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___healthy\\72cd93bf-63f6-476a-b3ae-43af2006c9f2___Mt.N.V_HL 6132.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\WildGrapeLeaf_cutout.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___healthy\\193708fa-4888-4c3c-8f58-5b0464042c99___Mt.N.V_HL 6202.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf\\young-fresh-grape-leaf-picture-id183867740_k=6&m=183867740&s=612x612&w=0&h=Q8_s3Yw7p_VKQjda-mZPl9rN4lDmpVjjbMUk95HtVFk=.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\df06401f-3613-4b90-83b2-a3a9cb9ee89a___RS_HL 2248.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf black rot\\150px-Plasmopara_viticola_000.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\23a80c76-8642-4e07-b157-b73eff76c44e___RS_HL 5906.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf black rot\\black-rot-guignardia-bidwellii-leaf-spot-lesions-on-muscadine-grape-BY9J7B.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\011ee5db-ef4a-48d7-ae39-2e9672b1e52f___UF.Citrus_HLB_Lab 1239.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf black rot\\br-ocw-dm.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\62bdf56b-0a59-49e9-8e11-4842b5dcbbbb___UF.GRC_YLCV_Lab 02700.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf black rot\\grape_F15a.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Soybean___healthy\\93c66f89-d24c-41a1-a5d1-203a02761009___RS_HL 4590.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\grape leaf black rot\\p_319.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\52a259e0-e323-4655-84e5-4588cb1c8ed6___JR_FrgE.S 2758.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\22+August+2013+010-1.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\974fc349-46f5-49f6-b269-f4fcd75167a7___FAM_B.Rot 0637.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\depositphotos_140609182-stock-photo-beauty-peach-with-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\a0167593-6219-479d-9e28-161dfea5b19a___RS_HL 5790.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\depositphotos_4009139-stock-photo-ripe-peach-with-leaves.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\depositphotos_50812601-stock-photo-peach-leaf-isolated-on-white.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\09686861-e3c4-496d-9c82-f60e6813a5df___RS_HL 0608.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\depositphotos_6870648-stock-photo-ripe-peach-fruit-with-leaves.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Strawberry___healthy\\a41cf942-f28c-49a8-8c6f-090bed625de2___RS_HL 2219.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\depositphotos_88236122-stock-photo-peach-leaf-isolated-on-white.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Esca_(Black_Measles)\\28a93822-184d-4d73-9fd1-1c3ebf1e72fc___FAM_B.Msls 0861.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\fresh-peach-fruits-green-leaves-15654533.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Esca_(Black_Measles)\\aa1db1a9-86ec-4107-9d40-9ae12e52798e___FAM_B.Msls 1353.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\fresh-peach-green-leaf-3346348.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\5996d131-d64b-405a-ba06-2487f27b7ba8___RS_HL 0538.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\peach-and-leaf-stock-image-2809275.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Septoria_leaf_spot\\2b41bbcb-2c9b-462f-8f87-474547ef618c___Matt.S_CG 0789.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\peach-leaf-11810082.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\f5762b9d-f349-4adb-afb2-b6abb81b466c___YLCV_NREC 2985.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\peach-leaf-isolated-white-background-39426456.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\1dbfc9d3-f568-4e19-a83c-8fa408cfea3a___RS_HL 5909.JPG",
+            "distance": 1
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\peach-leaf-white-background-40292976.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\4e81dc73-7a2b-4398-8cb5-df2068ed6a57___RS_HL 2424.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\peach-with-leaf-isolated-on-white-picture-id466696757.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\1dbfc9d3-f568-4e19-a83c-8fa408cfea3a___RS_HL 5909.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\peach-with-leaf-picture-id124561113.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\2ba31dd4-36d6-4cda-b2e6-c1f53a174d4d___RS_HL 6305.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\stock-photo-fresh-peach-fruits-with-green-leaves-isolated-on-white-background-59305621.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\0daaeb93-868a-4649-be74-19aa2b231f90___FAM_B.Rot 0739.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\stock-photo-peach-fresh-peach-with-green-leaf-isolated-on-white-background-548680618.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 1
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\stock-photo-peach-fruit-isolated-on-white-332799767.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\ce675478-f624-4536-b4ba-b0c43d134ae8___JR_FrgE.S 8595.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\stock-photo-peach-fruits-with-leaf-isolated-on-white-background-639972919.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\4cc430bb-9f3d-4dfc-86c0-0dfdfd71ebb3___RS_HL 6147.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\stock-photo-peach-wet-fruit-with-leaf-isolated-on-white-248733745.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\7e008f42-c268-4ca8-9acc-4682019ba060___JR_FrgE.S 8600.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\stock-photo-peach-with-leaf-699537772.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\94d6b99f-2ac4-4a88-823f-3c607358d057___FREC_C.Rust 9826.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\stock-photo-peach-with-leaf-isolated-on-white-168119267.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\23a80c76-8642-4e07-b157-b73eff76c44e___RS_HL 5906.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\stock-photo-peach-with-leaf-isolated-on-white-with-clipping-path-494602609.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\767f9252-73cd-469f-9270-54b0a35b8bc9___RS_HL 0481.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Peach leaf\\two-peach-leaves-isolated-on-white-picture-id519433636.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\6eac2d81-1878-4cd5-8602-40b02ff39cca___RS_HL 0597.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\1421_0.jpeg_itok=FMtmgePj.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\ca07e05a-e6a2-4651-b4fd-e54f0d1c58b7___JR_FrgE.S 2840.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\3785483636_d888419c98_o.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Blueberry___healthy\\68337523-c3f7-41d6-96bd-9528efb66af4___RS_HL 5349.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\alternaria%20%2824%29.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\ac2aa4aa-aeb6-4236-b172-f95dd60478d4___UF.Citrus_HLB_Lab 1560.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\blighted-potatoe-leave.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Late_blight\\2aec9930-0331-4e04-8bc0-5c00f373fbf3___GHLB2 Leaf 8993.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\IMG_0014.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\df06401f-3613-4b90-83b2-a3a9cb9ee89a___RS_HL 2248.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\irish-blight-symptoms-on-potato-leaves-atmf8b.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\baf96695-955b-4e24-8b10-c0d544a5d91a___RS_HL 7248.JPG",
+            "distance": 2
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\PHYTIN23.img.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Orange___Haunglongbing_(Citrus_greening)\\184d36c5-c652-4c52-a873-bdcf813532b7___UF.Citrus_HLB_Lab 1613.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\potato-blight-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\2260f331-0610-4dd8-9d8e-270115aba39b___RS_HL 6033.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf early blight\\Potato-blight-on-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\9d99b179-e6f1-4178-b64c-b653ad229fe9___UF.Citrus_HLB_Lab 0862.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf late blight\\1421_0.jpeg_itok=FMtmgePj.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\ca07e05a-e6a2-4651-b4fd-e54f0d1c58b7___JR_FrgE.S 2840.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf late blight\\20090710-lateblight.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\1d7c71d2-fac0-4ee6-8def-765282cb744c___RS_HL 5758.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf late blight\\irish-blight-symptoms-on-potato-leaves-atmf8b.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\baf96695-955b-4e24-8b10-c0d544a5d91a___RS_HL 7248.JPG",
+            "distance": 2
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Potato leaf late blight\\potato_late-blight_07_zoom.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\febc9e73-4596-4c0f-a193-44325d50c9d9___UF.Citrus_HLB_Lab 1491.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\2905.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___healthy\\b02424c2-23b8-49f2-bf9d-6ebb2589457a___JR_HL 9606.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\53840458-raspberry-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\cd55e02a-ff33-4c6f-90b8-fa799f25c7e2___FAM_B.Rot 0342.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\a61a6-raspberry_leaf_tea_pregnancy.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\07f63d50-9030-4ae9-91a8-19e1120eb2ab___FREC_Pwd.M 0432.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\Black%20raspberry%20late%20leaf%20rust%2008F.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Corn_(maize)___Northern_Leaf_Blight\\203e38d5-5a1b-463a-85b8-cba4aa1da1b6___RS_NLB 0806.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\DC77r.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\85f1b51d-ad5e-4ec2-a46b-2a9dade22e2a___FREC_C.Rust 9971.JPG",
+            "distance": 2
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\depositphotos_1323264-Raspberry-leaf-on-white.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Apple_scab\\24d43ad3-24e6-4236-8ef7-59b268520ca3___FREC_Scab 3533.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\depositphotos_1323551-stock-photo-raspberry-leaves.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Tomato___Target_Spot\\44a9131e-6f2a-408d-ab7e-ccd0a935cdcc___Com.G_TgS_FL 9934.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\depositphotos_2795312-stock-photo-green-raspberry-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Esca_(Black_Measles)\\3374a5c7-85b1-44a7-92a5-acf497aa3803___FAM_B.Msls 4347.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\feuille-de-framboisier.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___healthy\\9d9363f1-b9cc-4c44-8225-aa6734763c3c___JR_HL 9579.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\imgp9968.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\fee69dd9-eeb1-4cf2-b249-17482605f1f7___FREC_Pwd.M 4689.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\product_red-raspberry-leaf-512x384.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\0eeeccc7-f3fb-4b7a-90ec-750fbf10f7e6___RS_HL 6249.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\raspberry-leaf-26572588.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\fa20564c-09ba-49f4-9840-91c18c579b5e___RS_HL 0747.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\raspberry-leaf-isolated-white-18415125.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\cbb11fd2-ac7a-4e0b-8624-6cbd8aa9b7d4___RS_HL 2441.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\Raspberry-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\2076cebe-cecb-463f-9a0a-a20c4e53e5f3___RS_HL 5900.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\raspberry-leaves-isolated-28028038.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\4e6311ab-8927-4147-9857-a669f2268cb1___JR_FrgE.S 8726.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\red-raspberry.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\130aa260-b22a-4259-b63d-fb0a1cd4bd40___RS_HL 2643.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\ripe-raspberry-leaf-white-background-30978897.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\8fba2297-e4e5-4fab-b41d-d5cb537dc840___RS_HL 6220.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Raspberry leaf\\rubus-idaeus-strigosus-le-ahaines-a.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\2ef992c3-c499-43a5-8621-bf37c4bfa017___RS_HL 0662.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Soyabean leaf\\487977347.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___healthy\\59bc56e1-31cb-410e-a8bb-4afafb0fac7d___R.S_HL 0599 copy 2.jpg",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Soyabean leaf\\fresh-soy-leaves-white-46020567.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Grape___Esca_(Black_Measles)\\4d6eb77b-13c3-4659-b241-ca60be843936___FAM_B.Msls 4177.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Soyabean leaf\\leaf-raspberry-isolated-on-a-white-stock-photography-image-10106222-1625198.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\07e2439d-95a0-4fc1-b1b4-f256e3bda117___RS_HL 0741.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Soyabean leaf\\soy-964327_960_720.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\9360a196-fc3f-495e-ab9b-1803bcd87921___FREC_C.Rust 3818.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Soyabean leaf\\Soybean%20edamame%20leaf.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Pepper,_bell___healthy\\b72ec90d-3d41-4fac-a96e-5e532de87d9c___JR_HL 8120.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Soyabean leaf\\stock-photo-green-soy-pods-with-leaves-and-seeds-isolated-on-white-backgraund-310996586.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\1d785109-356a-4728-abb0-e331de179926___RS_HL 2449.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Soyabean leaf\\stock-photo-green-soy-pods-with-leaves-isolated-on-white-backgraund-310996559.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\d172c762-1d64-4974-a866-34b3570f8ccb___YLCV_NREC 0288.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Soyabean leaf\\stock-photo-green-soybeans-leaf-on-white-background-450572512.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Esca_(Black_Measles)\\6b16600f-d675-4639-a387-24b38714b9dd___FAM_B.Msls 1208.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Squash Powdery mildew leaf\\16848460256_9787d1c251_z.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Tomato_mosaic_virus\\b3937c46-37f8-4216-b0cc-db591b1c3514___PSU_CG 2186.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Squash Powdery mildew leaf\\4-lagenaria_pdic.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\8bdbda91-9a06-49f3-8629-57c5a62d76b9___UF.Citrus_HLB_Lab 0389.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Squash Powdery mildew leaf\\mildewonbigleafmapleslowres.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\0ee899f3-b576-4193-bdfa-78e81a3d292a___UF.Citrus_HLB_Lab 0479.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Squash Powdery mildew leaf\\P1080620.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Septoria_leaf_spot\\002533c1-722b-44e5-9d2e-91f7747b2543___Keller.St_CG 1831.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Squash Powdery mildew leaf\\Powdery+Milew+Squash+003.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Peach___Bacterial_spot\\af827dc5-6b32-4d23-85ba-466ad459d933___Rutg._Bact.S 1202.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\0008003-strawberry-leaf-veiner-large.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\1d98a80e-f33b-44e5-99de-89fb990211f5___RS_HL 7834.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\4719232-strawberry-with-green-leaves-and-flower-isolated-on-white-background.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\5ad5bc46-fa36-4be6-b3ca-e9b435344391___RS_HL 0444.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\7065201-strawberry-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\76582228-6a16-4974-9c2c-8216a3aff5cc___RS_HL 0674.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\depositphotos_6570354-Strawberry-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Esca_(Black_Measles)\\5b00f3c5-f8dc-42a3-a692-dc3da81c7525___FAM_B.Msls 0833.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\depositphotos_6570375-stock-photo-strawberry-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Raspberry___healthy\\111f7fd9-96ac-4d8f-8dcc-5c1e6ba6f66d___Mary_HL 9283.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\depositphotos_6570387-stock-photo-strawberry-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Soybean___healthy\\1f15bd54-6576-4521-98f6-a12b8bd1c4e6___RS_HL 4585.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\depositphotos_8078382-stock-photo-strawberry-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Esca_(Black_Measles)\\3374a5c7-85b1-44a7-92a5-acf497aa3803___FAM_B.Msls 4347.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\green-strawberry-leaf-isolated-on-white-picture-id654400974_k=6&m=654400974&s=612x612&w=0&h=x97U-8miyZxfXvAUVMbPGGj6_Lt-p35dVXiu1zuBt-Q=.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Bacterial_spot\\03aa14e9-9ee4-4ba2-819d-effb3d1ba398___GCREC_Bact.Sp 5801.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\green-strawberry-leaf-isolated-white-single-background-78801845.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Esca_(Black_Measles)\\308affeb-3413-4002-ae48-d76f67c762e6___FAM_B.Msls 0879.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\leaf-wild-strawberry-plant-25253212.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\7a4ee5b1-1dff-4719-a2be-e5b1674ac63d___RS_HL 6162.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\single-green-strawberry-leaf-isolated-white-12750533.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Black_rot\\760ef647-ba10-4477-a388-105182a0c0e2___JR_FrgE.S 2895.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\stock-photo-leaf-strawberry-leaf-on-the-white-background-153348767.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\017fd21b-142f-4988-849a-5fd316ea9a1b___RS_HL 6279.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\stock-photo-strawberry-leaf-isolated-on-the-white-background-255533380.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\7ad894ca-3f99-48ea-9470-fb98a41d8b67___FAM_B.Rot 0327.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\stock-photo-strawberry-leaf-isolated-on-white-background-572055775.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\3c412dc8-dbe2-43db-92ba-28ce72f835f6___FREC_C.Rust 9930.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Strawberry leaf\\strawberry-leaves-isolated-white-34722259.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___healthy\\050b598c-9105-4838-8996-101568d6941e___JR_HL 9732.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Early blight leaf\\039b47d574bc4bb8a14259a1cd96a741.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Peach___Bacterial_spot\\5a422352-eb16-4889-8bb0-06fea03d7b94___Rutg._Bact.S 1090.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Early blight leaf\\august-11-early-leaf-blight-single-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\d23782f5-02a6-4ec9-ad3b-a926e274b4bd___RS_HL 0509.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Early blight leaf\\bugs-and-blight-061.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Common_rust_\\RS_Rust 1661.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Early blight leaf\\early-blight-or-target-spot-alternaria-solani-lesions-on-a-tomato-BH3TH0.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\72ae3246-aaf7-4857-ba8a-534b0ce773cc___UF.Citrus_HLB_Lab 9776.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Early blight leaf\\Tomato-blight-large.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\074ace28-3f10-4175-be54-20580b9b4fe3___UF.Citrus_HLB_Lab 0412.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\1688.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Late_blight\\80310e71-b197-444f-a31f-5f2e431c68bb___GHLB2 Leaf 8897.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\17371378-tomato-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\614f453c-b6e7-4a82-8e96-03ea3a976080___RS_HL 2451.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\fpls-08-01602-g001.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\d6bdfaa9-61c1-4bc6-9a02-32e73daa1fcf___CREC_HLB 5564.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\IMG_3011.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\11d570e7-a7d3-4f03-bb46-6b83b97faf43___FREC_Pwd.M 4496.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\img_6635.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___healthy\\92487305-9d20-46f4-addb-4f50b77e08b8___R.S_HL 8178 copy.jpg",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\main-qimg-d9c2a93f60568485c989670d9bbf703b.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Early_blight\\62ce29f9-81ea-4616-8562-22a5830b3286___RS_Erly.B 7436.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\single-a-green-leaf-of-tomato-picture-id496662675_k=6&m=496662675&s=612x612&w=0&h=6zKfv022H_9cLQSIR_kpcOAlTeg1eIVtLBbc80PQA7Y=.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\59708206-5175-435a-acce-5137fe7291c1___RS_HL 2412.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\tomato-leaf-6291945.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Soybean___healthy\\3537b149-69be-4099-ba8b-8a758d53a13c___RS_HL 5190.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\tomato-leaf-6424287.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___Cedar_apple_rust\\7ba80ce1-562a-404b-a8e9-273cd917081a___FREC_C.Rust 9833.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf\\tomato-leaf.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\1d4093ae-be11-4216-ab84-7958fa53b830___RS_HL 0327.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf bacterial spot\\%2320+Bacterial+Spot+and+Speck.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Tomato___Septoria_leaf_spot\\fb6e1087-a258-49c0-bebf-7785bb51e93e___Keller.St_CG 1836.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf bacterial spot\\BacterialSpot07.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Strawberry___Leaf_scorch\\be4670f5-bbdf-465b-ae88-9b7bb30355f1___RS_L.Scorch 0132.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf bacterial spot\\latest_cb=20100808132744.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___healthy\\57540d89-7300-46fa-bd28-1aa3733e0757___Mt.N.V_HL 9039.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf bacterial spot\\Leaf-Spot-300x253.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Squash___Powdery_mildew\\27ba4c19-a314-4dac-a280-de55cd88c24b___MD_Powd.M 0685.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf bacterial spot\\Pest2371.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\a852e30f-0210-4244-a905-c97129956caa___UF.Citrus_HLB_Lab 0510.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf late blight\\600.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Peach___healthy\\74fb7a01-8e8d-4b5e-99a0-22b9a2bdf837___Rutg._HL 3591.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf late blight\\TomatoLateBlightTop.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___healthy\\0a273dc4-db45-4936-aee3-59919e1df44f___JR_HL 9805.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf mosaic virus\\5Tomato+Mosaic+Virus.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Leaf_Mold\\e6e60f43-eff7-4f87-8aef-ab1ddcc6526a___Crnl_L.Mold 6942.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf mosaic virus\\ab40cce958c60d8b6e0ec2e4fdb8f526.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\645cfe87-d2aa-48c5-a028-4a683825e5e6___FREC_Pwd.M 0556.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf mosaic virus\\tmv-tomato-34.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Peach___Bacterial_spot\\2c01a56b-08a7-4a8c-ae57-1569d1c26cfb___Rutg._Bact.S 1885.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\28619919393_7ef44acccc_b.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\9d98700c-5613-4156-95db-e09fbb00cb04___RS_HL 8007.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\8e60bae9f613f360403943f108a03083.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___healthy\\d85d07c3-0a4e-4f50-836e-8c884cd58c75___R.S_HL 8064 copy.jpg",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\IMG_2684.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\ecbbe22b-5abc-47cf-ab79-f10f900e4b76___RS_HL 4918.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\IMG_2686.JPG.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Late_blight\\aa48f118-9636-4320-99d5-a2a668038683___GHLB2 Leaf 8601.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\role-of-whitefly-in-plant-virus-transmission-by-pmanikandan-13-638.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\43998835-9608-4f1b-bbe8-d63cfa815390___FAM_B.Rot 0383.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\Tomato2.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\645cfe87-d2aa-48c5-a028-4a683825e5e6___FREC_Pwd.M 0556.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\tylcv-seminar-1-638.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___healthy\\eb0b95d9-4012-494c-85b6-48f7e250c958___GH_HL Leaf 404.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\TYLCV1.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Blueberry___healthy\\1a779cff-baa3-4209-afc9-be30705607a5___RS_HL 4886.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato leaf yellow virus\\virus1.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___Northern_Leaf_Blight\\a523ac3f-ae53-4da7-a3e1-7cce38714f75___RS_NLB 3812.JPG",
+            "distance": 1
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato mold leaf\\119B_Tom_Mold.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\aa2deb62-4250-4a7d-957f-ec15e090780c___FREC_Pwd.M 4661.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato mold leaf\\50%20Leafmold%20Top.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\fac07867-acdd-4a19-8be5-987958575af0___RS_HL 5972.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato mold leaf\\black_leaf_mold_in_zina_tina.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Corn_(maize)___healthy\\94ca39a0-d4df-44c6-b5cc-a38a754506e5___R.S_HL 0601 copy 3.jpg",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato mold leaf\\dscf2712.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\8ea99e86-9c49-4461-8648-71eac9ffcd11___UF.Citrus_HLB_Lab 9861.JPG",
+            "distance": 2
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato mold leaf\\image233.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Apple___healthy\\230a4c38-8e59-4c1d-bda8-ee3401e6507b___RS_HL 7945.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato mold leaf\\Leaf+Mold+lower+leaf+surface+spores+%28conidia%29.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\ed597021-7eeb-4a4f-9328-c99f7c21e9f0___FAM_B.Rot 3426.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato mold leaf\\tomato.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\1e5a88c6-d50c-4e12-8e9a-93c69595143e___FREC_Pwd.M 4858.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\2014-08-27%2B-%2BCloser%2BView%2Bof%2BSeptoria%2BLeaf%2BSpot.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\3740fc17-4596-4f76-97e7-031ba76c0a3b___UF.GRC_YLCV_Lab 02761.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\2STEM.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\67870b19-6870-4d44-b90f-519c309976f6___CREC_HLB 7286.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\3893.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\5d4a169e-4a5a-41d4-84a6-96ffc5d04610___UF.Citrus_HLB_Lab 0521.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\6242739939180544.jpeg.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Squash___Powdery_mildew\\afe398fc-d27c-4f1c-b1ec-12c5ef23eea5___MD_Powd.M 0844.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\EPP-7625Fig-5-143x300.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\PlantVillage\\val\\Tomato___Tomato_Yellow_Leaf_Curl_Virus\\d7cf301b-b54c-4a3f-93e0-62b00b4021d8___YLCV_GCREC 5532.JPG",
+            "distance": 3
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\sept4disease-019.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___healthy\\c3c041f1-dac2-4110-ae56-1818774b4603___JR_HL 4208.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\septoria-leaf-spot-treatment-leaf-spot-septoria-leaf-spot-soil-treatment-septoria-leaf-spot-tomato-organic-treatment.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Cherry_(including_sour)___Powdery_mildew\\226bc7bb-e0ba-4c98-b7f6-cef16129a3d8___FREC_Pwd.M 4883.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\septorialeafspot2.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Tomato___Late_blight\\a9d292cb-2aaf-44cd-a1ef-bec9b05308b9___RS_Late.B 7005.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\septorialycopersici_small.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Grape___Black_rot\\6dfbc2f4-6242-47a8-83c4-6197adb8463f___FAM_B.Rot 5044.JPG",
+            "distance": 4
+        },
+        {
+            "plantdoc_file": "data/plantdoc_raw\\Tomato Septoria leaf spot\\slide21-n.jpg",
+            "plantvillage_file": "data/plantvillage_raw\\Orange___Haunglongbing_(Citrus_greening)\\0342765a-469b-4287-bdac-2c48875cc7f5___CREC_HLB 7706.JPG",
+            "distance": 3
+        }
+    ],
+    "total_flagged_plantdoc": 277
+}
