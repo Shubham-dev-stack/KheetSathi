@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-06 14:54:52",
+  "timestamp": "2026-09-06 15:08:32",
   "model_file": "model/model.onnx",
   "model_size_mb": 8.8,
   "plantvillage_evaluation": {
@@ -10,7 +10,7 @@
     "macro_precision": 94.01,
     "macro_recall": 93.37,
     "macro_f1": 93.36,
-    "average_latency_ms": 15.95,
+    "average_latency_ms": 22.36,
     "per_crop_accuracy": {
       "Apple": {
         "accuracy": 96.0,
