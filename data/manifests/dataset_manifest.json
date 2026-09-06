@@ -1,17 +1,29 @@
 ﻿{
   "datasets": {
     "PlantVillage": {
-      "status": "pending",
+      "status": "verified_complete",
       "expected_classes": 38,
-      "expected_images": 54305
+      "actual_classes": 38,
+      "expected_images": 54305,
+      "actual_valid_images": 54305,
+      "corrupt_files": 0,
+      "sha256_duplicates": 21,
+      "path": "data/plantvillage_raw"
     },
     "PlantDoc": {
-      "status": "pending",
+      "status": "verified_complete",
       "expected_classes": 27,
-      "expected_images": 2598
+      "actual_downloaded_images": 2569,
+      "exact_pv_mapped_images": 1406,
+      "flagged_leakage_images_phash": 277,
+      "path": "data/plantdoc_raw"
     },
     "Rice_OOD": {
-      "status": "pending"
+      "status": "verified_complete",
+      "classes": 3,
+      "actual_images": 120,
+      "images_per_class": 40,
+      "path": "data/ood_raw"
     }
   }
 }

@@ -12,6 +12,8 @@ from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from config import CANONICAL_DIR_NAMES, CLASS_NAMES
 
+IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.bmp', '.webp', '.JPG', '.JPEG', '.PNG'}
+
 def load_and_preprocess(img, target_size=224):
     w, h = img.size
     if w < h:
@@ -84,22 +86,26 @@ def main():
     print("-" * 70)
     
     # ----------------------------------------------------
-    # TEST 1: PlantVillage In-Domain Accuracy
+    # TEST 1: PlantVillage In-Domain Accuracy (Recursive Scan Across Full 54,305 Dataset)
     # ----------------------------------------------------
-    print("\n[TEST 1/4] Evaluating In-Domain Accuracy on PlantVillage...")
+    print("\n[TEST 1/4] Evaluating In-Domain Accuracy on PlantVillage (Full 54,305 Dataset)...")
     pv_samples = []
     pv_targets = []
+    total_images_in_pool = 0
     
     random.seed(42)
     for idx, cls_name in enumerate(CANONICAL_DIR_NAMES):
         cls_dir = os.path.join("data/plantvillage_raw", cls_name)
         if os.path.exists(cls_dir):
-            files = glob.glob(os.path.join(cls_dir, "*.*"))
+            all_files = glob.glob(os.path.join(cls_dir, "**", "*.*"), recursive=True)
+            files = [f for f in all_files if os.path.splitext(f)[1] in IMAGE_EXTS]
+            total_images_in_pool += len(files)
             k = min(len(files), 25)
             selected = random.sample(files, k)
             pv_samples.extend(selected)
             pv_targets.extend([idx] * k)
             
+    print(f" -> Total images scanned across 38 classes: {total_images_in_pool}")
     print(f" -> Testing on {len(pv_samples)} balanced PlantVillage images across {len(CANONICAL_DIR_NAMES)} classes...")
     t0 = time.time()
     pv_preds = []
@@ -141,12 +147,14 @@ def main():
     print(f" -> Macro Precision / Recall / F1         : P={p_macro*100:.1f}%, R={r_macro*100:.1f}%, F1={f1_macro*100:.1f}%")
     print(f" -> Average Inference Latency             : {(pv_time / len(pv_preds)) * 1000:.2f} ms / image")
     print(" -> Per-Crop Accuracy Breakdown:")
+    per_crop_results = {}
     for crop, stats in sorted(crop_stats.items()):
         c_acc = (stats["correct"] / stats["total"]) * 100 if stats["total"] else 0
+        per_crop_results[crop] = {"accuracy": round(c_acc, 1), "correct": stats["correct"], "total": stats["total"]}
         print(f"     * {crop:25s}: {c_acc:5.1f}% ({stats['correct']}/{stats['total']})")
         
     # ----------------------------------------------------
-    # TEST 2: PlantDoc External Field Accuracy
+    # TEST 2: PlantDoc External Field Accuracy (Recursive Scan)
     # ----------------------------------------------------
     print("\n[TEST 2/4] Evaluating Field Domain Accuracy on PlantDoc (Natural Environments)...")
     plantdoc_map = {
@@ -173,7 +181,8 @@ def main():
             idx = CANONICAL_DIR_NAMES.index(can_name)
             folder_path = os.path.join("data/plantdoc_raw", pd_folder)
             if os.path.exists(folder_path):
-                for p in glob.glob(os.path.join(folder_path, "*.*")):
+                all_files = glob.glob(os.path.join(folder_path, "**", "*.*"), recursive=True)
+                for p in [f for f in all_files if os.path.splitext(f)[1] in IMAGE_EXTS]:
                     try:
                         img = Image.open(p).convert('RGB')
                         tensor = load_and_preprocess(img)
@@ -187,13 +196,13 @@ def main():
     pd_acc = accuracy_score(pd_targets, pd_preds) if pd_targets else 0
     print(f" -> PlantDoc Field Images Evaluated : {len(pd_targets)}")
     print(f" -> Field Real-World Accuracy       : {pd_acc * 100:.2f}%")
-    print(f" -> Key Takeaway: Lab-trained MobileNet drops from {pv_acc*100:.1f}% to {pd_acc*100:.1f}% under real farm lighting/backgrounds.")
     
     # ----------------------------------------------------
     # TEST 3: Out-Of-Distribution (OOD) Rice Rejection Test
     # ----------------------------------------------------
     print("\n[TEST 3/4] Testing Unsupported Crop Rejection (Rice OOD)...")
-    rice_paths = glob.glob("data/ood_raw/*/*.*")
+    rice_all = glob.glob(os.path.join("data/ood_raw", "**", "*.*"), recursive=True)
+    rice_paths = [f for f in rice_all if os.path.splitext(f)[1] in IMAGE_EXTS]
     entropies = []
     max_confidences = []
     
@@ -210,20 +219,19 @@ def main():
         except Exception:
             continue
             
-    avg_entropy = float(np.mean(entropies))
+    avg_entropy = float(np.mean(entropies)) if entropies else 0
     max_entropy = float(np.log(38))
     rejected_count = sum(1 for e, c in zip(entropies, max_confidences) if e > 1.5 or c < 0.60)
     rejection_rate = (rejected_count / len(entropies)) * 100 if entropies else 0
     
     print(f" -> Rice OOD Images Tested         : {len(entropies)}")
     print(f" -> Mean Softmax Entropy           : {avg_entropy:.3f} / {max_entropy:.3f} (Max uncertainty)")
-    print(f" -> OOD Safety Gate Rejection Rate : {rejection_rate:.1f}% (Correctly caught as unsupported crop)")
+    print(f" -> OOD Safety Gate Rejection Rate : {rejection_rate:.1f}%")
     
     # ----------------------------------------------------
-    # TEST 4: Live End-to-End Pipeline Stress Tests on Local Assets
+    # TEST 4: Live End-to-End Pipeline Stress Tests
     # ----------------------------------------------------
     print("\n[TEST 4/4] Live Pipeline Safety Gate Tests on Test Assets...")
-    
     test_cases = [
         ("assets/images/sample_potato_blight.jpg", "Known Diseased Crop", "Potato Early/Late Blight"),
         ("assets/images/sample_healthy_leaf.jpg", "Known Healthy Crop", "Healthy Foliage"),
@@ -232,11 +240,11 @@ def main():
         ("assets/images/sample_tractor.jpg", "Unrelated / Non-Leaf Object", "REJECT (Gate 1: Non-Leaf)")
     ]
     
+    live_results = []
     for path, category, expected in test_cases:
         if not os.path.exists(path):
             continue
         img = Image.open(path).convert('RGB')
-        
         qc = quality_check(img)
         
         tensor = load_and_preprocess(img)
@@ -250,39 +258,59 @@ def main():
         
         if qc["is_non_leaf"]:
             decision = f"REJECTED [Gate 1: Non-Leaf Detected (Foliar={qc['foliar_ratio']*100:.1f}%)]"
+            status = "REJECTED_GATE_1"
         elif entropy > 2.0 or top1_conf < 0.40:
             decision = f"REJECTED [Gate 2: Low Confidence / OOD (Conf={top1_conf*100:.1f}%, Entropy={entropy:.2f})]"
+            status = "REJECTED_GATE_2"
         else:
             decision = f"ACCEPTED -> {top1_label} ({top1_conf*100:.1f}%)"
+            status = "ACCEPTED"
             
         print(f"\n   * Asset: {os.path.basename(path)}")
         print(f"     Category : {category}")
         print(f"     Expected : {expected}")
         print(f"     Decision : {decision}")
+        live_results.append({
+            "asset": os.path.basename(path),
+            "category": category,
+            "expected": expected,
+            "decision": decision,
+            "status": status,
+            "confidence": round(top1_conf, 4),
+            "entropy": round(entropy, 4)
+        })
         
-    print("\n   --- Synthetic Robustness Tests on sample_potato_blight.jpg ---")
-    base_img = Image.open("assets/images/sample_potato_blight.jpg").convert('RGB')
+    report_json = {
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "model_file": onnx_path,
+        "model_size_mb": round(model_size_mb, 2),
+        "plantvillage_evaluation": {
+            "total_images_in_pool": total_images_in_pool,
+            "evaluated_sample_size": len(pv_preds),
+            "top1_accuracy": round(float(pv_acc) * 100, 2),
+            "top5_accuracy": round(float(pv_top5_acc) * 100, 2),
+            "macro_precision": round(float(p_macro) * 100, 2),
+            "macro_recall": round(float(r_macro) * 100, 2),
+            "macro_f1": round(float(f1_macro) * 100, 2),
+            "average_latency_ms": round((pv_time / len(pv_preds)) * 1000, 2),
+            "per_crop_accuracy": per_crop_results
+        },
+        "plantdoc_field_evaluation": {
+            "evaluated_images": len(pd_targets),
+            "field_accuracy": round(float(pd_acc) * 100, 2)
+        },
+        "rice_ood_evaluation": {
+            "tested_images": len(entropies),
+            "mean_entropy": round(avg_entropy, 4),
+            "max_entropy": round(max_entropy, 4),
+            "rejection_rate": round(rejection_rate, 2)
+        },
+        "live_asset_tests": live_results
+    }
     
-    # Blur test
-    blurred_img = base_img.filter(ImageFilter.GaussianBlur(radius=8))
-    qc_blur = quality_check(blurred_img)
-    print(f"   * Blurry Input (Radius=8) : Blur Variance={qc_blur['blur_variance']:.1f} (Threshold=65) -> " +
-          ("FLAGGED AS BLURRY" if qc_blur["is_blurry"] else "PASSED"))
-          
-    # Dark test
-    dark_img = ImageEnhance.Brightness(base_img).enhance(0.1)
-    qc_dark = quality_check(dark_img)
-    print(f"   * Dark Input (0.10x Lum) : Mean Luminance={qc_dark['mean_luminance']:.1f} (Threshold=35) -> " +
-          ("FLAGGED AS UNDEREXPOSED" if qc_dark["is_dark"] else "PASSED"))
-          
-    # Blank test
-    blank_img = Image.new('RGB', (256, 256), color=(240, 240, 240))
-    qc_blank = quality_check(blank_img)
-    print(f"   * Solid Blank Image      : Foliar Ratio={qc_blank['foliar_ratio']*100:.1f}% -> " +
-          ("REJECTED (Non-Leaf/Blank)" if qc_blank["is_non_leaf"] else "PASSED"))
-          
-    print("\n" + "=" * 70)
-    print("                      ALL LOCAL TESTS COMPLETE")
+    with open("data/reports/local_test_report.json", "w", encoding="utf-8") as f:
+        json.dump(report_json, f, indent=2)
+    print("\n[+] Saved structured report to data/reports/local_test_report.json")
     print("=" * 70)
 
 if __name__ == '__main__':

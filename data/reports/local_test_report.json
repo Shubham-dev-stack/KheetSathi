@@ -1,0 +1,144 @@
+{
+  "timestamp": "2026-09-06 14:54:52",
+  "model_file": "model/model.onnx",
+  "model_size_mb": 8.8,
+  "plantvillage_evaluation": {
+    "total_images_in_pool": 54305,
+    "evaluated_sample_size": 950,
+    "top1_accuracy": 93.37,
+    "top5_accuracy": 99.68,
+    "macro_precision": 94.01,
+    "macro_recall": 93.37,
+    "macro_f1": 93.36,
+    "average_latency_ms": 15.95,
+    "per_crop_accuracy": {
+      "Apple": {
+        "accuracy": 96.0,
+        "correct": 96,
+        "total": 100
+      },
+      "Blueberry": {
+        "accuracy": 100.0,
+        "correct": 25,
+        "total": 25
+      },
+      "Cherry_(including_sour)": {
+        "accuracy": 94.0,
+        "correct": 47,
+        "total": 50
+      },
+      "Corn_(maize)": {
+        "accuracy": 94.0,
+        "correct": 94,
+        "total": 100
+      },
+      "Grape": {
+        "accuracy": 92.0,
+        "correct": 92,
+        "total": 100
+      },
+      "Orange": {
+        "accuracy": 100.0,
+        "correct": 25,
+        "total": 25
+      },
+      "Peach": {
+        "accuracy": 96.0,
+        "correct": 48,
+        "total": 50
+      },
+      "Pepper,_bell": {
+        "accuracy": 98.0,
+        "correct": 49,
+        "total": 50
+      },
+      "Potato": {
+        "accuracy": 84.0,
+        "correct": 63,
+        "total": 75
+      },
+      "Raspberry": {
+        "accuracy": 92.0,
+        "correct": 23,
+        "total": 25
+      },
+      "Soybean": {
+        "accuracy": 100.0,
+        "correct": 25,
+        "total": 25
+      },
+      "Squash": {
+        "accuracy": 100.0,
+        "correct": 25,
+        "total": 25
+      },
+      "Strawberry": {
+        "accuracy": 98.0,
+        "correct": 49,
+        "total": 50
+      },
+      "Tomato": {
+        "accuracy": 90.4,
+        "correct": 226,
+        "total": 250
+      }
+    }
+  },
+  "plantdoc_field_evaluation": {
+    "evaluated_images": 1404,
+    "field_accuracy": 20.01
+  },
+  "rice_ood_evaluation": {
+    "tested_images": 120,
+    "mean_entropy": 1.6275,
+    "max_entropy": 3.6376,
+    "rejection_rate": 58.33
+  },
+  "live_asset_tests": [
+    {
+      "asset": "sample_potato_blight.jpg",
+      "category": "Known Diseased Crop",
+      "expected": "Potato Early/Late Blight",
+      "decision": "REJECTED [Gate 2: Low Confidence / OOD (Conf=18.5%, Entropy=2.96)]",
+      "status": "REJECTED_GATE_2",
+      "confidence": 0.1852,
+      "entropy": 2.9606
+    },
+    {
+      "asset": "sample_healthy_leaf.jpg",
+      "category": "Known Healthy Crop",
+      "expected": "Healthy Foliage",
+      "decision": "ACCEPTED -> Healthy Strawberry Plant (95.7%)",
+      "status": "ACCEPTED",
+      "confidence": 0.957,
+      "entropy": 0.2554
+    },
+    {
+      "asset": "sample_tomato_curl.jpg",
+      "category": "Known Virus Crop",
+      "expected": "Tomato Yellow Leaf Curl",
+      "decision": "ACCEPTED -> Tomato Mosaic Virus (68.5%)",
+      "status": "ACCEPTED",
+      "confidence": 0.6845,
+      "entropy": 1.3491
+    },
+    {
+      "asset": "sample_rice_blight.jpg",
+      "category": "Unsupported Crop (Rice)",
+      "expected": "REJECT (Gate 2: Unsupported Crop)",
+      "decision": "REJECTED [Gate 2: Low Confidence / OOD (Conf=31.3%, Entropy=2.59)]",
+      "status": "REJECTED_GATE_2",
+      "confidence": 0.3125,
+      "entropy": 2.5855
+    },
+    {
+      "asset": "sample_tractor.jpg",
+      "category": "Unrelated / Non-Leaf Object",
+      "expected": "REJECT (Gate 1: Non-Leaf)",
+      "decision": "REJECTED [Gate 2: Low Confidence / OOD (Conf=11.3%, Entropy=3.43)]",
+      "status": "REJECTED_GATE_2",
+      "confidence": 0.1129,
+      "entropy": 3.4314
+    }
+  ]
+}
