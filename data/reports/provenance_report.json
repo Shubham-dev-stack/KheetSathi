@@ -1,28 +1,38 @@
 ﻿{
   "PlantVillage": {
-    "source_url": "https://data.mendeley.com/datasets/tywbtsjrjv/1",
-    "version": "1.0 (Hughes & Salathé, 2015)",
+    "source": "Kaggle (mohitsingh1804/plantvillage mirror of Mendeley tywbtsjrjv/1)",
+    "version": "Canonical 1.0 (Hughes & Salathe, 2015)",
     "license": "CC0 1.0 Universal",
+    "classes": 38,
     "reported_image_count": 54303,
-    "actual_downloaded_image_count": null,
-    "status": "pending_download",
-    "issue": "Requires Kaggle CLI or Mendeley API token for reproducible CLI download."
+    "actual_downloaded_image_count": 54305,
+    "corrupt_files": 0,
+    "sha256_duplicates": 21,
+    "status": "verified_complete",
+    "notes": "Original archive contained pre-split train (43,444) and val (10,861) subdirectories. Unified into canonical 38 class folders with 0 corrupt images."
   },
   "PlantDoc": {
     "source_url": "https://github.com/pratikkayal/PlantDoc-Dataset",
-    "version": "GitHub master branch",
+    "version": "GitHub master branch (commit 983ba28)",
     "license": "Apache 2.0 / CC-BY (Open for Research)",
     "reported_image_count": 2598,
-    "actual_downloaded_image_count": "calculating...",
-    "status": "cloning"
+    "actual_downloaded_image_count": 2569,
+    "exact_pv_mapped_images": 1406,
+    "flagged_leakage_images_phash": 277,
+    "status": "verified_complete",
+    "notes": "Extracted with NTFS long-path and character sanitization. 277 perceptual duplicates flagged and excluded from external test set."
   },
   "Rice_OOD": {
-    "source_url": "https://archive.ics.uci.edu/ml/datasets/Rice+Leaf+Diseases (Prajapati)",
+    "source_url": "https://www.kaggle.com/datasets/vbookshelf/rice-leaf-diseases",
+    "origin": "UCI Machine Learning Repository (Prajapati et al.)",
     "version": "V1",
     "license": "CC BY 4.0",
+    "classes": 3,
+    "class_names": ["Bacterial leaf blight", "Brown spot", "Leaf smut"],
     "reported_image_count": 120,
-    "actual_downloaded_image_count": null,
-    "status": "pending_download",
-    "issue": "Direct zip link on UCI returns 404. Mendeley version requires API token."
+    "actual_downloaded_image_count": 120,
+    "images_per_class": 40,
+    "status": "verified_complete",
+    "role": "Isolated out-of-distribution evaluation for KheetSathi Gate 2 safety verification."
   }
 }

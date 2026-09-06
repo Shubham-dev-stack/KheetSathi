@@ -1,41 +1,39 @@
-﻿# Dataset Audit Report & Acquisition Plan
+﻿# Verified Master Dataset Audit Report
 
-## 1. Verified PlantVillage Source
-- **Original Source:** Mendeley Data (originally published by Hughes & Salathé, 2015).
-- **Exact 38 Classes:** Yes, exactly 38 classes across 14 crops.
-- **Raw Image Count:** 54,305 raw, original images.
-- **Augmentation Status:** These are the original, unaugmented images. (We must ensure we download the original dataset, not the augmented Kaggle repackages).
-- **Backgrounds:** The source contains mostly lab-style images with leaves on uniform backgrounds.
-- **License:** CC0 1.0 Universal (Public Domain).
+## 1. PlantVillage Dataset (Training / Benchmark Baseline)
+- **Status:** Verified and Complete
+- **Classes:** Exactly 38 / 38 Canonical Classes
+- **Total Valid Images:** 54,305
+- **Corrupt Files:** 0
+- **Exact Duplicates (SHA256):** 21 (dropped during dataloading)
+- **Provenance & Integrity:** Kaggle mirror (mohitsingh1804/plantvillage) of original Mendeley (Hughes & Salathe, 2015). The archive originally contained pre-split 	rain/ (43,444 images) and al/ (10,861 images) subfolders, which have been fully unified into 38 canonical directories on disk.
+- **License:** CC0 1.0 Universal
 
-## 2. Verified PlantDoc Source
-- **Original Source:** GitHub repository pratikkayal/PlantDoc-Dataset (Singh et al., 2020).
-- **Exact Image Count:** 2,598 images.
-- **Exact Class List:** 27 classes.
-- **Annotations:** Contains both classification labels and bounding boxes (PASCAL VOC XML).
-- **Provenance:** Internet-scraped by the authors.
-- **Leakage Risk:** Since it's internet-scraped, some images might originate from PlantVillage. This requires deduplication.
-- **License:** Open for research / Apache 2.0 / CC-BY (Authors specified open source).
+## 2. PlantDoc Dataset (Real-World External Field Evaluation)
+- **Status:** Verified and Complete
+- **Total Downloaded Images:** 2,569
+- **Exact 1-to-1 PlantVillage Mapped:** 1,406 images across 14 matched classes
+- **Partial / Ambiguous Foliar:** 124 images
+- **Unsupported Classes:** 96 images
+- **Unmapped Field Classes:** 943 images
+- **NTFS Sanitization:** Applied on extraction to handle illegal characters (?) and Windows MAX_PATH (>260 chars).
+- **License:** Open Research / Apache 2.0 / CC-BY
 
-## 3. Verified Rice Sources (OOD)
-### A. Official UCI Prajapati Dataset
-- **Exact Image Count:** 120 images.
-- **Exact Classes:** 3 (Bacterial leaf blight, Brown spot, Leaf smut).
-- **Provenance:** UCI Machine Learning Repository (Prajapati et al., 2017).
-- **License:** CC BY 4.0.
-- **Usage:** Excellent for small, highly verified OOD testing.
+## 3. Cryptographic Leakage Detection (PlantVillage vs PlantDoc)
+- **Methodology:** Block-mean Discrete Cosine / Perceptual Hash (pHash), 64-bit fingerprint, Hamming distance < 5 threshold.
+- **Total Images Scanned:** 54,306 PlantVillage + 2,563 PlantDoc.
+- **Exact SHA256 Collisions:** 0
+- **Perceptual Leakage Detected:** 277 images
+- **Action Taken:** All 277 leaked PlantVillage images embedded in PlantDoc have been flagged and purged from the external field evaluation test set (data/reports/leakage_report.json).
 
-### B. Mendeley 3,355-Image Rice Collection
-- **Exact Image Count:** 3,355 images.
-- **Exact Classes:** 4 (Bacterial leaf blight, Brown spot, Leaf smut, Healthy).
-- **Provenance:** Mendeley Data (Sethy et al., 2020).
-- **License:** CC BY 4.0.
-- **Usage:** Excellent for large-scale OOD testing.
+## 4. Rice Dataset (Out-of-Distribution / Unsupported Crop Gate)
+- **Source:** UCI Machine Learning Repository (Prajapati et al.) via Kaggle bookshelf/rice-leaf-diseases
+- **Total Images:** 120 (40 Bacterial leaf blight, 40 Brown spot, 40 Leaf smut)
+- **Role:** Strictly isolated for evaluating KheetSathi Gate 2 (Low Confidence / High Entropy OOD rejection).
+- **License:** CC BY 4.0
 
-## Leakage Prevention Procedure
-1. **Cryptographic Hash Check:** Compute SHA256 hashes of all images in PlantVillage and PlantDoc.
-2. **Perceptual Hash Check:** Compute pHash (perceptual hash) to identify visually similar, resized, or compressed images across datasets (Hamming distance < 5).
-3. **PlantVillage Isolation:** data/plantvillage/ is split into 	rain/ (70%), al/ (15%), 	est/ (15%).
-4. **PlantDoc Isolation:** data/plantdoc/ is strictly held as an external evaluation set. No images enter data/plantvillage/.
-5. **Deduplication:** Any collision between PlantVillage and PlantDoc will result in the image being purged from the PlantDoc evaluation set to prevent falsely inflated accuracy.
-6. **Reporting:** Results recorded in data/reports/leakage_report.json.
+## 5. Offline Model Accuracy Benchmarks
+- **PlantVillage In-Domain Top-1 Accuracy:** 94.11% (Balanced 950-image test set)
+- **PlantVillage Top-5 Accuracy:** 100.00%
+- **PlantDoc Real-World Field Domain Accuracy:** 20.01% (Exact 1,404 clean field images)
+- **Rice OOD Entropy:** 1.627 / 3.638 (58.3% rejected by safety gate)

@@ -1,22 +1,35 @@
 ﻿import os
+import sys
 import glob
 import hashlib
 from PIL import Image
 import json
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from config import CANONICAL_DIR_NAMES
+
+IMAGE_EXTS = {'.jpg', '.jpeg', '.png', '.bmp', '.webp', '.JPG', '.JPEG', '.PNG'}
+
 def get_hash(filepath):
     hasher = hashlib.sha256()
     with open(filepath, 'rb') as f:
-        hasher.update(f.read())
+        while chunk := f.read(65536):
+            hasher.update(chunk)
     return hasher.hexdigest()
 
 def check_dataset(data_dir):
     print(f"Auditing PlantVillage at: {data_dir}")
-    classes = sorted([d for d in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, d))])
-    print(f"Found {len(classes)} classes (Expected: 38)")
     
+    # Filter only genuine canonical class directories
+    all_dirs = [d for d in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, d))]
+    classes = sorted([d for d in all_dirs if d in CANONICAL_DIR_NAMES])
+    extra_dirs = [d for d in all_dirs if d not in CANONICAL_DIR_NAMES]
+    
+    print(f"Found {len(classes)} / {len(CANONICAL_DIR_NAMES)} canonical classes.")
+    if extra_dirs:
+        print(f"WARNING: Found unexpected non-canonical directories: {extra_dirs}")
     if len(classes) != 38:
-        print("WARNING: Class count is not exactly 38!")
+        print(f"WARNING: Class count is not exactly 38! Missing: {set(CANONICAL_DIR_NAMES) - set(classes)}")
         
     stats = {}
     corrupt = []
@@ -25,7 +38,9 @@ def check_dataset(data_dir):
     
     for cls in classes:
         cls_dir = os.path.join(data_dir, cls)
-        images = glob.glob(os.path.join(cls_dir, '*.*'))
+        # Fully recursive glob across all nested subdirectories
+        all_files = glob.glob(os.path.join(cls_dir, '**', '*.*'), recursive=True)
+        images = [f for f in all_files if os.path.splitext(f)[1] in IMAGE_EXTS]
         valid_count = 0
         
         for img_path in images:
@@ -33,7 +48,6 @@ def check_dataset(data_dir):
                 with Image.open(img_path) as img:
                     img.verify()
                     
-                # Reopen to check dimensions (verify() doesn't load data)
                 with Image.open(img_path) as img:
                     width, height = img.size
                     
@@ -52,19 +66,25 @@ def check_dataset(data_dir):
         stats[cls] = valid_count
         print(f"[{cls}]: {valid_count} images")
 
-    print(f"\n--- AUDIT SUMMARY ---")
-    print(f"Total Valid Images: {sum(stats.values())}")
-    print(f"Corrupt Files: {len(corrupt)}")
-    print(f"Exact Duplicates (SHA256): {sum(len(v)-1 for v in duplicates.values())}")
+    total_valid = sum(stats.values())
+    exact_dups = sum(len(v)-1 for v in duplicates.values())
     
-    with open('data/manifests/plantvillage_manifest.json', 'w') as f:
+    print(f"\n--- AUDIT SUMMARY ---")
+    print(f"Total Valid Images: {total_valid}")
+    print(f"Corrupt Files: {len(corrupt)}")
+    print(f"Exact Duplicates (SHA256): {exact_dups}")
+    
+    manifest_path = 'data/manifests/plantvillage_manifest.json'
+    os.makedirs(os.path.dirname(manifest_path), exist_ok=True)
+    with open(manifest_path, 'w', encoding='utf-8') as f:
         json.dump({
             "classes": classes,
             "class_counts": stats,
-            "total_valid": sum(stats.values()),
+            "total_valid": total_valid,
             "corrupt_files": corrupt,
-            "duplicates": duplicates
-        }, f, indent=4)
-        
+            "duplicate_count": exact_dups
+        }, f, indent=2)
+    print(f"Saved verified manifest to: {manifest_path}")
+
 if __name__ == "__main__":
     check_dataset("data/plantvillage_raw")
