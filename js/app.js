@@ -13,6 +13,9 @@ class KheetSathiApp {
     this.demoDrawerOpen = true;
     this.isSpeaking = false;
     this.currentHistoryFilter = 'all';
+    this.isRoiActive = false;
+    this.roiCoords = { x: 0.15, y: 0.15, w: 0.7, h: 0.7 };
+    this.originalImageDataUrl = null;
 
     this.init();
   }
@@ -898,6 +901,22 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
   }
 
   processImageForPreview(dataUrl, presetData) {
+    this.originalImageDataUrl = dataUrl;
+    this.currentImageDataUrl = dataUrl;
+    this.isRoiActive = false;
+    this.roiCoords = { x: 0.15, y: 0.15, w: 0.7, h: 0.7 };
+
+    // Reset ROI controls UI
+    const btnFull = document.getElementById('btn-roi-full');
+    const btnFocus = document.getElementById('btn-roi-focus');
+    const roiBox = document.getElementById('roi-bounding-box');
+    if (btnFull) btnFull.classList.add('active');
+    if (btnFocus) btnFocus.classList.remove('active');
+    if (roiBox) {
+      roiBox.style.display = 'none';
+      this.updateRoiBoxStyle();
+    }
+
     const previewImg = document.getElementById('preview-image-element');
     const analyzingImg = document.getElementById('analyzing-image-element');
     previewImg.src = dataUrl;
@@ -967,9 +986,20 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     }, 800);
 
     try {
-      // 1. Run REAL on-device ML model diagnosis
-      const imageSource = this.currentImageDataUrl || (DEMO_PRESETS && DEMO_PRESETS[0] ? DEMO_PRESETS[0].thumbnail : './assets/images/sample_potato_blight.jpg');
+      // 1. If Leaf ROI mode is active, crop the symptom region
+      let imageSource = this.currentImageDataUrl || (DEMO_PRESETS && DEMO_PRESETS[0] ? DEMO_PRESETS[0].thumbnail : './assets/images/sample_potato_blight.jpg');
 
+      if (this.isRoiActive && this.originalImageDataUrl) {
+        try {
+          const croppedSource = await this.getCroppedImageDataUrl(this.originalImageDataUrl, this.roiCoords);
+          imageSource = croppedSource;
+          this.currentImageDataUrl = croppedSource;
+        } catch (cropErr) {
+          console.warn('[KheetSathi] ROI crop fallback to full image:', cropErr);
+        }
+      }
+
+      // 2. Run REAL on-device ML model diagnosis
       const result = await MLEngine.runDiagnosis({
         imageSource: imageSource,
         selectedCrop: this.selectedCrop,
@@ -1224,6 +1254,126 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
     // Help Start
     document.getElementById('btn-help-start-scan')?.addEventListener('click', () => this.navigateTo('view-crop-select'));
+
+    // Leaf ROI Interactive Bounding Box
+    this.initRoiControls();
+  }
+
+  // =========================================================================
+  // Leaf ROI (Region of Interest) Crop Methods
+  // =========================================================================
+
+  initRoiControls() {
+    const btnFull = document.getElementById('btn-roi-full');
+    const btnFocus = document.getElementById('btn-roi-focus');
+    const roiBox = document.getElementById('roi-bounding-box');
+    const container = document.getElementById('preview-showcase-container');
+
+    btnFull?.addEventListener('click', () => {
+      this.isRoiActive = false;
+      btnFull.classList.add('active');
+      btnFocus.classList.remove('active');
+      if (roiBox) roiBox.style.display = 'none';
+    });
+
+    btnFocus?.addEventListener('click', () => {
+      this.isRoiActive = true;
+      btnFocus.classList.add('active');
+      btnFull.classList.remove('active');
+      if (roiBox) {
+        roiBox.style.display = 'block';
+        this.updateRoiBoxStyle();
+      }
+    });
+
+    if (!roiBox || !container) return;
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let startRoiX = 0;
+    let startRoiY = 0;
+
+    const onPointerDown = (e) => {
+      isDragging = true;
+      startX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+      startY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+      startRoiX = this.roiCoords.x;
+      startRoiY = this.roiCoords.y;
+      if (e.pointerId && roiBox.setPointerCapture) {
+        try { roiBox.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      e.preventDefault();
+    };
+
+    const onPointerMove = (e) => {
+      if (!isDragging) return;
+      const clientX = e.clientX !== undefined ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+      const clientY = e.clientY !== undefined ? e.clientY : (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+      const rect = container.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+
+      const dx = (clientX - startX) / rect.width;
+      const dy = (clientY - startY) / rect.height;
+
+      const maxX = 1 - this.roiCoords.w;
+      const maxY = 1 - this.roiCoords.h;
+
+      this.roiCoords.x = Math.max(0, Math.min(maxX, startRoiX + dx));
+      this.roiCoords.y = Math.max(0, Math.min(maxY, startRoiY + dy));
+      this.updateRoiBoxStyle();
+    };
+
+    const onPointerUp = (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      if (e.pointerId && roiBox.releasePointerCapture) {
+        try { roiBox.releasePointerCapture(e.pointerId); } catch (_) {}
+      }
+    };
+
+    roiBox.addEventListener('pointerdown', onPointerDown);
+    window.addEventListener('pointermove', onPointerMove);
+    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointercancel', onPointerUp);
+  }
+
+  updateRoiBoxStyle() {
+    const roiBox = document.getElementById('roi-bounding-box');
+    if (!roiBox) return;
+    roiBox.style.left = `${(this.roiCoords.x * 100).toFixed(2)}%`;
+    roiBox.style.top = `${(this.roiCoords.y * 100).toFixed(2)}%`;
+    roiBox.style.width = `${(this.roiCoords.w * 100).toFixed(2)}%`;
+    roiBox.style.height = `${(this.roiCoords.h * 100).toFixed(2)}%`;
+  }
+
+  getCroppedImageDataUrl(srcUrl, roi) {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        try {
+          const naturalW = img.naturalWidth || 224;
+          const naturalH = img.naturalHeight || 224;
+          const sx = Math.max(0, Math.floor(roi.x * naturalW));
+          const sy = Math.max(0, Math.floor(roi.y * naturalH));
+          const sw = Math.min(naturalW - sx, Math.max(32, Math.floor(roi.w * naturalW)));
+          const sh = Math.min(naturalH - sy, Math.max(32, Math.floor(roi.h * naturalH)));
+
+          const canvas = document.createElement('canvas');
+          canvas.width = sw;
+          canvas.height = sh;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+          resolve(canvas.toDataURL('image/jpeg', 0.92));
+        } catch (err) {
+          console.warn('[KheetSathi] ROI crop fallback to original image:', err);
+          resolve(srcUrl);
+        }
+      };
+      img.onerror = () => resolve(srcUrl);
+      img.src = srcUrl;
+    });
   }
 }
 

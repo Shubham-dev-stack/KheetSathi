@@ -55,7 +55,7 @@ const I18N_DICTIONARY = {
     trend_improving: "सुधार की ओर (Improving)",
     timeline_trend_stable: "स्थिर स्थिति (Stable)",
     timeline_trend_attention: "ध्यान देने योग्य (Needs Attention)",
-    prototype_trend_note: "प्रोटोटाइप रुझान — दर्ज किए गए लक्षणों पर आधारित",
+    prototype_trend_note: "स्वास्थ्य रुझान — दर्ज किए गए ऑन-डिवाइस स्कैन इतिहास पर आधारित",
     btn_compare_scans_timeline: "पुरानी व नई जांच की तुलना करें",
     
     // FEATURE B: Compare Two Scans
@@ -69,7 +69,7 @@ const I18N_DICTIONARY = {
     scan_latest: "हाल की जांच",
     compare_summary_title: "देखा गया बदलाव (Observed Change)",
     compare_empty_msg: "तुलना करने के लिए कम से कम 2 स्कैन का होना आवश्यक है।",
-    prototype_compare_note: "प्रोटोटाइप तुलना — दर्ज किए गए लक्षणों पर आधारित",
+    prototype_compare_note: "तुलना — दर्ज किए गए ऑन-डिवाइस निदान डेटा पर आधारित",
     
     // Crop Selection
     crop_select_title: "आपकी फसल कौन-सी है?",
@@ -92,12 +92,16 @@ const I18N_DICTIONARY = {
     quality_glare: "अत्यधिक चमक या धूप का परावर्तन है",
     btn_analyze: "जांच शुरू करें",
     btn_retake: "दोबारा फोटो लें",
+    roi_hint: "पत्ती या रोग के धब्बे पर बॉक्स सेट करें",
+    roi_full: "पूरी फोटो",
+    roi_focus: "फोकस (ROI)",
+    roi_tag: "रोग लक्षण (ROI)",
     
     // Analyzing Loading State
     analyzing_title: "पत्ती का विश्लेषण हो रहा है...",
     analyzing_step1: "फोटो देख रहे हैं और धब्बों की पहचान कर रहे हैं...",
     analyzing_step2: "रोग डेटाबेस से मिलान हो रहा है...",
-    analyzing_subtext: "प्रोटोटाइप — सिम्युलेटेड AI विश्लेषण",
+    analyzing_subtext: "ऑन-डिवाइस Edge AI विश्लेषण (WASM)",
     
     // Diagnostic Result
     condition_eyebrow: "संभावित समस्या",
@@ -247,7 +251,7 @@ const I18N_DICTIONARY = {
     trend_improving: "Improving Trend",
     timeline_trend_stable: "Stable Condition",
     timeline_trend_attention: "Needs Attention",
-    prototype_trend_note: "Prototype trend — based on recorded prototype diagnostic metadata",
+    prototype_trend_note: "Health trend — based on recorded on-device scan history",
     btn_compare_scans_timeline: "Compare Earlier vs Latest Scan",
     
     // FEATURE B: Compare Two Scans
@@ -261,7 +265,7 @@ const I18N_DICTIONARY = {
     scan_latest: "Latest Scan",
     compare_summary_title: "Observed Change Analysis",
     compare_empty_msg: "At least 2 recorded scans required for side-by-side comparison.",
-    prototype_compare_note: "Prototype comparison — based on recorded prototype diagnostic metadata",
+    prototype_compare_note: "Comparison — based on recorded on-device diagnostic metadata",
     
     // Crop Selection
     crop_select_title: "Select Your Crop",
@@ -284,12 +288,16 @@ const I18N_DICTIONARY = {
     quality_glare: "Harsh glare or reflection detected",
     btn_analyze: "Start Diagnosis",
     btn_retake: "Retake Photo",
+    roi_hint: "Adjust box to focus on leaf/lesion",
+    roi_full: "Full Photo",
+    roi_focus: "Focus (ROI)",
+    roi_tag: "Lesion ROI",
     
     // Analyzing Loading State
     analyzing_title: "Analyzing Leaf Symptoms...",
     analyzing_step1: "Examining leaf photo and lesion textures...",
     analyzing_step2: "Matching botanical disease catalog...",
-    analyzing_subtext: "Prototype — Simulated AI Diagnostic Pipeline",
+    analyzing_subtext: "On-Device Edge AI Inference (WASM)",
     
     // Diagnostic Result
     condition_eyebrow: "Possible Condition",

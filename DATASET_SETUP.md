@@ -2,21 +2,24 @@
 
 This guide describes how to acquire, place, verify, and prepare the **PlantVillage 38-class dataset** for fine-tuning the KheetSathi on-device crop disease model.
 
-> [!IMPORTANT]
-> **TRAINING HAS NOT BEEN PERFORMED.**
+> [!NOTE]
+> **DATASET STATUS: AUDITED, PLACED & BENCHMARKED**
 >
-> The local repository contains only client-side application assets and demonstration samples ($N=11$). The 54,000+ image PlantVillage dataset is not bundled in git. No training will take place until you acquire and place the real dataset and explicitly execute the training script.
+> The local repository contains the fully unified **PlantVillage dataset (54,305 valid images across 38 canonical classes)**, **PlantDoc field dataset (2,569 images)**, and **Rice OOD test set (120 images)**. The trained MobileNetV2 ONNX model (`model/model.onnx`, INT8 `model/model_quantized.onnx`) is fully integrated for on-device inference.
 
 ---
 
-## 1. Where the Dataset Should Be Placed
+## 1. Where the Dataset Is Located
 
-By default, all scripts (`check_dataset.py`, `train.py`, `evaluate.py`) search for the dataset in:
+By default, local training and verification scripts inspect:
 ```
-c:\Users\dell\OneDrive\Desktop\KheetSathi\data\plantvillage\
+data/plantvillage_raw/     # 54,305 verified PlantVillage images (38 classes)
+data/plantdoc_raw/         # 2,569 PlantDoc field benchmark images
+data/ood_raw/              # 120 Rice Out-Of-Distribution test images
+data/reports/              # Cryptographic pHash leakage audit and manifests
 ```
 
-*(You can also store the dataset in an alternative folder and pass `--data-dir <path>` to any script).*
+*(You can also pass `--data-dir <path>` to any script to evaluate on custom subsets).*
 
 ---
 
@@ -152,27 +155,26 @@ To verify that there is no data leakage across training and evaluation:
 
 ## 7. Step-by-Step Operator Instructions
 
-### Step 1: Verify Dataset Integrity
-Once you have placed the dataset into `data/plantvillage`, run:
+### Step 1: Verify Dataset Integrity & Manifests
 ```bash
-python training/check_dataset.py --data-dir data/plantvillage --verbose
+python training/check_dataset.py --data-dir data/plantvillage_raw --verbose
 ```
-The script will audit all 38 classes, scan every image for corruption, compute class imbalance statistics, and confirm whether the dataset is ready.
+The script audits all 38 classes, scans every image for corruption, computes class distribution statistics, and saves `data/reports/plantvillage_manifest.json` (54,305 valid images).
 
-### Step 2: Start Fine-Tuning
+### Step 2: Run Local Benchmark & Multi-Crop Accuracy
 ```bash
-python training/train.py --data-dir data/plantvillage --epochs 30 --batch-size 32 --lr 1e-4
+python training/test_local_accuracy.py --onnx-path model/model.onnx --data-dir data/plantvillage_raw --sample-size 950
 ```
-Checkpoints will be saved to `training/checkpoints/best_model.pth`.
+Measures Top-1 and Top-5 accuracy, inference latency, entropy distribution, and confusion statistics across all crops.
 
-### Step 3: Run Full Evaluation
+### Step 3: Run In-Field & Out-Of-Distribution Robustness Test
 ```bash
-python training/evaluate.py --data-dir data/plantvillage --checkpoint training/checkpoints/best_model.pth
+python training/evaluate_onnx_baseline.py
 ```
-Generates complete Top-1/Top-5 accuracy, Macro F1, Precision, Recall, and full 38×38 confusion matrix in `training/evaluation_report.json`.
+Evaluates cross-domain generalization against PlantDoc (`data/plantdoc_raw`) and OOD rejection against Rice (`data/ood_raw`).
 
-### Step 4: Export to ONNX for KheetSathi Web
+### Step 4: Export & Quantize ONNX
 ```bash
 python training/export_onnx.py --checkpoint training/checkpoints/best_model.pth --output-onnx model/model.onnx
 ```
-Validates mathematical parity ($< 10^{-4}$) with ONNX Runtime WASM before updating the web model.
+Exports model to ONNX format and generates INT8 quantized binary (`model/model_quantized.onnx`) for optimized edge performance.

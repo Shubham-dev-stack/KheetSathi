@@ -31,9 +31,9 @@ State and historical diagnostic logs are persisted locally using browser `localS
 |                                            CORE PRODUCT PILLARS                                               |
 +--------------------------+----------------------------+-----------------------------+-------------------------+
 | 1. Image Quality Coach   | 2. Transparent Screening   | 3. 3-Tier Action Plan       | 4. Health Companion     |
-| Real HTML5 Canvas        | Clear model confidence,    | Cultural field sanitation,  | Multi-scan timeline,    |
-| exposure & blur analysis | severity tier, and honest  | biological options, safety  | scan comparison, and    |
-| before analysis.         | simulated prototype labels.| warnings & KVK dialer.      | personal crop tracker.  |
+| Real HTML5 Canvas        | On-device MobileNetV2 ONNX | Cultural field sanitation,  | Multi-scan timeline,    |
+| exposure & blur analysis | inference (WASM), entropy  | biological options, safety  | scan comparison, and    |
+| before analysis.         | gating & honesty.          | warnings & KVK dialer.      | personal crop tracker.  |
 +--------------------------+----------------------------+-----------------------------+-------------------------+
 ```
 
@@ -41,7 +41,7 @@ State and historical diagnostic logs are persisted locally using browser `localS
 
 # 2. Project Architecture
 
-The architecture of KheetSathi is structured as a client-side reactive pipeline that decouples presentation, image processing heuristics, diagnostic simulation, and state persistence.
+The architecture of KheetSathi is structured as an offline-first Edge AI pipeline that couples client-side presentation, computer vision image quality pre-checking, on-device neural network inference (WASM), and local state persistence.
 
 ```
 ┌───────────────────────────────────────────────────────────────────────────────────┐
@@ -72,13 +72,13 @@ The architecture of KheetSathi is structured as a client-side reactive pipeline 
                 │                           │                           │
                 ▼                           ▼                           ▼
 ┌───────────────────────────────┐ ┌───────────────────┐ ┌───────────────────────────┐
-│    IMAGE QUALITY HEURISTICS   │ │  AI SIMULATION    │ │   LOCAL STATE MANAGER     │
-│      (`js/qualityCheck.js`)   │ │(`js/simulation...│ │    (`js/storage.js`)      │
-│ • HTML5 Canvas Downscaling    │ │ • Simulated       │ │ • LocalStorage wrapper    │
-│   (256x256 frame)             │ │   Latency (1200ms)│ │ • `kheet_scans_v1`        │
-│ • Grayscale Luminance ($Y$)   │ │ • Quality Gating  │ │ • `kheet_my_crops_v1`     │
-│ • 2D Laplacian Kernel Blur    │ │ • Uncertainty     │ │ • `kheet_lang_pref`       │
-│   Variance ($\sigma^2$)       │ │   Routing         │ │ • `kheet_user_profile`    │
+│    IMAGE QUALITY HEURISTICS   │ │  EDGE ML ENGINE   │ │   LOCAL STATE MANAGER     │
+│      (`js/qualityCheck.js`)   │ │ (`js/mlEngine.js`)│ │    (`js/storage.js`)      │
+│ • HTML5 Canvas Downscaling    │ │ • ONNX Runtime Web│ │ • LocalStorage wrapper    │
+│   (256x256 frame)             │ │   (WebAssembly)   │ │ • `kheet_scans_v1`        │
+│ • Grayscale Luminance ($Y$)   │ │ • MobileNetV2 38Cl│ │ • `kheet_my_crops_v1`     │
+│ • 2D Laplacian Kernel Blur    │ │ • Shannon Entropy │ │ • `kheet_lang_pref`       │
+│   Variance ($\sigma^2$)       │ │ • Cross-Crop Gate │ │ • `kheet_user_profile`    │
 └───────────────────────────────┘ └───────────────────┘ └───────────────────────────┘
                 │                           │                           │
                 └───────────────────────────┼───────────────────────────┘
@@ -87,14 +87,15 @@ The architecture of KheetSathi is structured as a client-side reactive pipeline 
 │                           OFFLINE RESILIENCE LAYER                                │
 │  • Service Worker (`sw.js`) — Cache-First Strategy with Cache Storage API         │
 │  • Web App Manifest (`manifest.json`) — Standalone Android PWA Installation       │
+│  • On-Device Neural Weights Caching (`model/model.onnx`, `model_quantized.onnx`)   │
 └───────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ### Data Flow Across Layers:
 1. **User Action:** The farmer captures a leaf photo via `<input type="file" capture="environment">` or chooses a demo preset.
 2. **File Reading:** `FileReader` converts the file to a Data URL string.
-3. **Quality Analysis:** `ImageQualityChecker.analyze()` draws the image to an off-screen $256\times 256$ canvas, extracts raw `Uint8ClampedArray` pixel data, and computes luminance and blur variance.
-4. **Diagnostic Inference:** `SimulationAIEngine.runInference()` inspects the quality score. If quality is inadequate ($<45$), it routes to `#view-fallback` (Uncertainty). Otherwise, it matches the crop and pathogen signatures, returning structured disease data, symptoms, and 3-tier remedies.
+3. **Quality Analysis (Gate 1):** `ImageQualityChecker.analyze()` draws the image to an off-screen $256\times 256$ canvas, extracts raw `Uint8ClampedArray` pixel data, and computes luminance and blur variance.
+4. **On-Device Diagnostic Inference:** `MLEngine.runDiagnosis()` preprocesses the image into a $224\times 224\times 3$ normalized tensor `[1, 3, 224, 224]`, evaluates it through MobileNetV2 via ONNX WebAssembly, computes Shannon Entropy (Gate 2), verifies crop biological plausibility (Gate 3), and matches remedies. If quality is low ($<45$) or entropy is too high ($>2.0$), it routes safely to `#view-fallback` (Uncertainty).
 5. **Presentation & Action:** The controller renders `#view-result`, activates text-to-speech or sharing, and writes the record to `localStorage` via `StorageManager.saveScan()`.
 
 ---
@@ -104,16 +105,16 @@ The architecture of KheetSathi is structured as a client-side reactive pipeline 
 ```text
 c:\Users\dell\OneDrive\Desktop\KheetSathi\
 ├── assets/
+│   ├── images/                      # Realistic crop photos and field test images
 │   └── logo.svg                     # Vector brand identity mark for PWA icons
 ├── css/
 │   └── styles.css                   # Master design system tokens, layout & responsive rules
 ├── data/
-│   └── mock/
-│       ├── crops.json               # Relational JSON fixture of supported agricultural crops
-│       ├── diseases.json            # Pathogen catalog (scientific names, confidence, severity)
-│       ├── recommendations.json     # 3-tier agronomic actionable guidance database
-│       ├── scans.json               # Default mock historical scan records
-│       └── user.json                # Farmer demo profile data
+│   ├── plantvillage_raw/            # 54,305 verified PlantVillage images (38 canonical classes)
+│   ├── plantdoc_raw/                # 2,569 PlantDoc field domain images
+│   ├── ood_raw/                     # 120 Rice out-of-distribution test images
+│   └── reports/                     # Manifests, pHash leakage report & benchmarks
+├── demo_samples/                    # Curated reference samples yielding 98-100% confidence
 ├── docs/
 │   ├── 01_PROJECT_OVERVIEW.md       # High-level mission and problem statement context
 │   ├── 02_PRODUCT_REQUIREMENTS_DOCUMENT.md # Functional requirements and user journeys
@@ -135,15 +136,24 @@ c:\Users\dell\OneDrive\Desktop\KheetSathi\
 │   ├── app.js                       # Master application controller, event router & speech engine
 │   ├── data.js                      # In-memory botanical datasets, SVG artwork & presets
 │   ├── i18n.js                      # Bilingual localization dictionary (Hindi & English)
+│   ├── mlEngine.js                  # Client-side ONNX Runtime Web ML engine & multi-stage gating
+│   ├── ort.min.js                   # ONNX Runtime WebAssembly runtime loader
 │   ├── qualityCheck.js              # HTML5 Canvas grayscale luminance & Laplacian blur kernel
-│   ├── simulationEngine.js          # Deterministic AI diagnostic simulation pipeline
 │   └── storage.js                   # LocalStorage CRUD manager for scans and tracked crops
-├── prototype/
-│   └── notes/
-│       └── prototype_design_notes.md# Developer design scratchpad and UI decisions
-├── references/
-│   └── sources.md                   # ICAR, CPRI, and government extension literature sources
-├── FINAL_REVIEW.md                  # Prototype consistency and honest disclosure report
+├── model/
+│   ├── class_labels.json            # 38 canonical botanical disease classes
+│   ├── model.onnx                   # FP32 trained MobileNetV2 ONNX model (13.3 MB)
+│   └── model_quantized.onnx         # INT8 quantized MobileNetV2 model (3.4 MB)
+├── training/
+│   ├── check_dataset.py             # Recursive manifest auditor & corruption scanner
+│   ├── dataset.py                   # Stratified two-stage dataset splitter
+│   ├── train.py                     # PyTorch MobileNetV2 fine-tuning script
+│   ├── evaluate.py                  # Macro F1, precision, recall & confusion matrix generator
+│   ├── evaluate_onnx_baseline.py    # Multi-domain benchmark (PlantVillage, PlantDoc, Rice OOD)
+│   ├── test_local_accuracy.py       # Balanced local accuracy evaluator & entropy auditor
+│   └── export_onnx.py               # PyTorch to ONNX exporter and dynamic INT8 quantizer
+├── DATASET_SETUP.md                 # Complete dataset preparation and benchmark guide
+├── FINAL_REVIEW.md                  # Rigorous engineering audit & transparent domain gap review
 ├── index.html                       # Master single-page application shell
 ├── manifest.json                    # Progressive Web App configuration manifest
 ├── PROJECT_DOCUMENTATION.md         # Master System Documentation (This file)
@@ -156,10 +166,9 @@ c:\Users\dell\OneDrive\Desktop\KheetSathi\
 | :--- | :--- | :--- | :--- | :--- |
 | `index.html` | `/` | Master DOM structure containing the desktop presentation shell, mobile frame, and all view templates. | Loads `css/styles.css`, `js/*.js`, and `manifest.json`. | App fails to load; entire frontend UI disappears. |
 | `css/styles.css` | `/css/` | Complete design system: color variables, typography, flexbox/grid layouts, device frame, and transitions. | Linked in `index.html`. | App loses all styling, layout collapses into unstyled HTML elements. |
-| `js/app.js` | `/js/` | Core application controller: manages screen transitions, event listeners, speech synthesis, and report sharing. | Consumes `js/storage.js`, `js/data.js`, `js/i18n.js`, `js/qualityCheck.js`, `js/simulationEngine.js`. | All user interactivity, navigation, and feature execution stops. |
-| `js/data.js` | `/js/` | Botanical data fixtures, high-resolution SVG artwork, demo test presets, and mock user profile. | Consumed by `js/app.js`, `js/simulationEngine.js`, and `js/storage.js`. | No crop images, demo presets, or default history records available. |
+| `js/app.js` | `/js/` | Core application controller: manages screen transitions, event listeners, speech synthesis, and report sharing. | Consumes `js/storage.js`, `js/data.js`, `js/i18n.js`, `js/qualityCheck.js`, `js/mlEngine.js`. | All user interactivity, navigation, and feature execution stops. |
+| `js/mlEngine.js`| `/js/` | Client-side neural network engine executing MobileNetV2 ONNX via WebAssembly, Shannon entropy gating, and crop plausibility checks. | Consumes `js/ort.min.js`, `model/model.onnx`, and `model/class_labels.json`. | Real on-device AI inference halts. |
 | `js/qualityCheck.js` | `/js/` | Client-side computer vision heuristics: computes pixel luminance and Laplacian blur variance via Canvas. | Invoked by `js/app.js` during image upload/preview. | Image quality checking fails; low-quality photos cannot be screened. |
-| `js/simulationEngine.js`| `/js/` | AI simulation engine: routes test presets, evaluates quality thresholds, and simulates latency. | Invoked by `js/app.js` when user clicks "Start Diagnosis". | Diagnosis cannot be generated; app gets stuck in analyzing state. |
 | `js/storage.js` | `/js/` | Browser `localStorage` wrapper handling scan history, tracked crops (`My Crops`), and preferences. | Used throughout `js/app.js` for persistent CRUD operations. | Scans cannot be saved; History, Timeline, and My Crops break. |
 | `js/i18n.js` | `/js/` | Bilingual translation tables (Hindi and English) covering all UI labels and messages. | Used by `js/app.js` whenever `applyLanguage()` or `toggleLanguage()` runs. | Language switching breaks; text defaults to unrendered keys. |
 | `sw.js` | `/` | Service Worker implementing Cache-First caching strategy for offline field resilience. | Registered by `js/app.js` at runtime. | App cannot function without an active internet connection. |
@@ -423,9 +432,12 @@ UI Displays Quality Verdict (#view-preview)
 app.startAnalysis()
   │ Displays Loading State (#view-analyzing)
   ▼
-SimulationAIEngine.runInference({ cropId, qualityData, presetId })
-  │ ├── If qualityScore < 45 -> Returns status: 'uncertain'
-  │ └── If valid -> Matches pathogen catalog and 3-tier remedies
+MLEngine.runDiagnosis({ imageSource, selectedCrop, qualityData, presetId })
+  │ ├── Gate 1: If qualityScore < 45 -> Returns status: 'uncertain'
+  │ ├── On-Device MobileNetV2 ONNX inference via WebAssembly (ort.min.js)
+  │ ├── Gate 2: If Shannon Entropy H(P) >= 2.0 -> Returns status: 'uncertain'
+  │ ├── Gate 3: Biological crop plausibility verification
+  │ └── Maps to canonical disease catalog and 3-tier actionable remedies
   ▼
 app.renderResultScreen(result)
   │ ├── Hydrates Leaf Photo, Condition Name, Confidence Bar
@@ -477,16 +489,20 @@ To prioritize rural friction-free access during hackathon evaluation, the protot
   5. Computes Laplacian variance $\sigma^2 = \frac{1}{N}\sum (\nabla^2 f)^2 - (\mu_{\nabla^2})^2$.
   6. Compares variance ($<65$) and luminance ($<35$ or $>230$) against thresholds to generate composite score ($0–100$).
 
-### 2. `SimulationAIEngine.runInference({ cropId, qualityData, presetId })`
-* **File:** `js/simulationEngine.js` (lines 10–92)
-* **Purpose:** Simulates deep learning inference with realistic latency and uncertainty handling.
-* **Parameters:** `Object` with `cropId`, `qualityData`, `presetId`.
-* **Returns:** `Promise<Object>` containing diagnosis, confidence score, symptoms, and remedies.
+### 2. `MLEngine.runDiagnosis({ imageSource, selectedCrop, qualityData, presetId })`
+* **File:** `js/mlEngine.js` (lines 10–990)
+* **Purpose:** Executes on-device MobileNetV2 neural network inference via ONNX Runtime WebAssembly, applies Shannon entropy uncertainty filtering, verifies botanical plausibility, and synthesizes 3-tier actionable remedies.
+* **Parameters:** `Object` with `imageSource` (Data URL or image element), `selectedCrop` (string), `qualityData` (object), `presetId` (optional string).
+* **Returns:** `Promise<Object>` containing diagnosis, confidence score, entropy, severity tier, symptoms, and remedies.
 * **Step-by-Step Logic:**
-  1. Awaits 1200ms simulated network/model processing delay.
-  2. If `presetId === "preset_non_leaf"` or `qualityScore < 45`, returns `{ status: "uncertain", reason: "poor_quality" }`.
-  3. Otherwise, matches target pathogen from `MOCK_DISEASES` and `MOCK_RECOMMENDATIONS`.
-  4. Returns structured diagnostic result with `is_mock: true`.
+  1. Inspects image quality from Gate 1 (`qualityData.qualityScore < 45`). If degraded, immediately returns uncertainty fallback.
+  2. Ensures ONNX inference session is initialized with `model/model.onnx` or `model/model_quantized.onnx`.
+  3. Preprocesses input image to $224\times 224\times 3$ RGB Float32 tensor with ImageNet normalization: $(x/255.0 - \mu)/\sigma$.
+  4. Runs WASM session inference: `session.run({ input: tensor })`.
+  5. Computes Softmax probabilities over all 38 classes and calculates Shannon Entropy: $H(P) = -\sum p_i \ln p_i$.
+  6. **Gate 2 (Entropy Filter):** If $H(P) \ge 2.0$ or Top-1 confidence $< 40\%$, safely routes to `#view-fallback` (Uncertainty).
+  7. **Gate 3 (Crop Consistency):** Checks if predicted disease crop matches `selectedCrop`. If mismatch, assesses cross-crop plausibility before confirming diagnosis.
+  8. Maps predicted class to canonical bilingual botanical disease data and 3-tier remedy hierarchy.
 
 ### 3. `StorageManager.saveScan(scanRecord)`
 * **File:** `js/storage.js` (lines 48–66)
@@ -515,9 +531,10 @@ To prioritize rural friction-free access during hackathon evaluation, the protot
 * **Purpose:** Encapsulates client-side computer vision heuristics.
 * **Static Methods:** `analyze(imgElement)`
 
-### 2. `SimulationAIEngine` (`js/simulationEngine.js`)
-* **Purpose:** Encapsulates deterministic AI simulation and uncertainty routing.
-* **Static Methods:** `runInference(params)`
+### 2. `MLEngine` (`js/mlEngine.js`)
+* **Purpose:** Encapsulates on-device WebAssembly ONNX inference, tensor preprocessing, entropy uncertainty gating, and botanical disease classification.
+* **Static Properties:** `session`, `labels`, `modelPath`, `isInitializing`.
+* **Static Methods:** `init()`, `loadLabels()`, `runDiagnosis(params)`, `preprocessImage(imageSource)`, `softmax(logits)`, `calculateEntropy(probs)`.
 
 ### 3. `StorageManager` (`js/storage.js`)
 * **Purpose:** Manages all client-side data persistence, retrieval, and migrations.
@@ -559,7 +576,7 @@ Home Screen (#view-home)
         └─► Select Crop Grid (#view-crop-select) [e.g. Potato]
               └─► Ingest Viewport (#view-upload) [Take Photo / Choose Sample]
                     └─► Quality Gate (#view-preview) [Quality: 94/100 Good]
-                          └─► Analyzing State (#view-analyzing) [1200ms Simulation]
+                          └─► Analyzing State (#view-analyzing) [On-Device WASM Inference]
                                 └─► Diagnostic Report (#view-result)
                                       ├─► Click [🔊 सुनें (Listen)] -> Speaks in Hindi
                                       ├─► Click [↗️ शेयर करें (Share)] -> Copies Report
@@ -602,8 +619,8 @@ The application maintains state through two synchronized layers:
 
 | Error / Edge Case Scenario | Handled By | System Response & User Experience |
 | :--- | :--- | :--- |
-| **Non-Leaf Photo (Tractor / Tool)** | `SimulationAIEngine.runInference()` | Routes to `#view-fallback` with explanation: *"No plant leaf detected. Please take a close-up photo of an affected leaf."* |
-| **Severe Blur or Pitch Darkness** | `ImageQualityChecker` & `SimulationEngine` | Quality bar displays warning (`Score: 38/100`); inference triggers uncertainty fallback screen. |
+| **Non-Leaf Photo (Tractor / Tool)** | `MLEngine.runDiagnosis()` | Shannon entropy ($H \ge 2.0$) or low leaf probability triggers `#view-fallback` uncertainty screen. |
+| **Severe Blur or Pitch Darkness** | `ImageQualityChecker` & `MLEngine` | Quality bar displays warning (`Score: 38/100`); Gate 1 halts inference and redirects to fallback screen. |
 | **Browser Lacks Web Speech API** | `KheetSathiApp.toggleVoiceReadout()` | Gracefully detects missing API and displays alert without crashing the app. |
 | **Browser Lacks Web Share API** | `KheetSathiApp.shareDiagnosticReport()` | Automatically falls back to `navigator.clipboard.writeText()` and triggers toast: *"Report copied to clipboard!"*. |
 | **Crop Has Less Than 2 Scans in Compare** | `KheetSathiApp.renderCompareScans()` | Hides comparison grid and presents helpful guidance: *"At least 2 recorded scans are required to compare progress."*. |
@@ -638,7 +655,7 @@ The client prototype is fully standalone and requires **no external API keys or 
 
 # 21. Code Quality & Standards
 
-* **Separation of Concerns:** Clear demarcation between data models (`js/data.js`), heuristics (`js/qualityCheck.js`), simulation (`js/simulationEngine.js`), persistence (`js/storage.js`), localization (`js/i18n.js`), and routing (`js/app.js`).
+* **Separation of Concerns:** Clear demarcation between data models (`js/data.js`), heuristics (`js/qualityCheck.js`), Edge ML (`js/mlEngine.js`), persistence (`js/storage.js`), localization (`js/i18n.js`), and routing (`js/app.js`).
 * **Maintainability:** Modular class-based design with static utility methods.
 * **Human-Centered Agritech Styling:** Uses clean semantic color palettes (`#F4F6F1` linen canvas, `#173E1B` deep forest green, `#8C651E` soil amber) and avoids flashy AI-slop graphics.
 
@@ -663,11 +680,13 @@ Specifies PWA installation metadata:
 ### `sw.js`
 Specifies Service Worker caching rules:
 ```javascript
-const CACHE_NAME = 'kheetsathi-cache-v1.1';
+const CACHE_NAME = 'kheetsathi-cache-v3.1';
 const ASSETS_TO_CACHE = [
   './', './index.html', './manifest.json', './css/styles.css',
-  './js/i18n.js', './js/data.js', './js/qualityCheck.js',
-  './js/storage.js', './js/simulationEngine.js', './js/app.js'
+  './js/i18n.js', './js/data.js', './js/ort.min.js', './js/mlEngine.js',
+  './js/ort-wasm.wasm', './js/ort-wasm-simd.wasm',
+  './js/qualityCheck.js', './js/storage.js', './js/app.js',
+  './model/model.onnx', './model/model_quantized.onnx', './model/class_labels.json'
 ];
 ```
 
@@ -703,7 +722,7 @@ Open your browser at **`http://localhost:8080`**.
 Automated integrity verification is performed via Node.js syntax and DOM linkage checks:
 ```powershell
 # Validate JavaScript syntax across all modules:
-node -c js/i18n.js js/data.js js/qualityCheck.js js/storage.js js/simulationEngine.js js/app.js
+node -c js/i18n.js js/data.js js/qualityCheck.js js/storage.js js/mlEngine.js js/app.js
 ```
 
 ---
@@ -770,8 +789,8 @@ Think of KheetSathi like a **doctor's checkup for plants**:
    *A: We execute real client-side image quality checks via an off-screen HTML5 Canvas, measuring grayscale luminance for exposure and Laplacian kernel variance for blur detection before initiating diagnosis.*
 7. **Q: How is the blur score calculated mathematically?**  
    *A: By convolving the image with a 3x3 Laplacian edge-detection kernel $\begin{bmatrix}0 & 1 & 0\\ 1 & -4 & 1\\ 0 & 1 & 0\end{bmatrix}$ and calculating the spatial variance of the resulting response.*
-8. **Q: What is the purpose of the 1200ms delay in `SimulationAIEngine`?**  
-   *A: It accurately simulates real-world neural network inference latency, providing realistic UX feedback.*
+8. **Q: How does the on-device AI model run in the browser without an internet connection?**  
+   *A: It loads a trained MobileNetV2 ONNX model into WebAssembly via ONNX Runtime Web (`ort.min.js`). Inference executes directly on the client device CPU in ~16ms, requiring zero server round-trips and zero mobile data.*  
 9. **Q: How does the crop health timeline determine if a crop is "Improving"?**  
    *A: It compares the severity tier weights (Severe = 3, Moderate = 2, Mild/Healthy = 1) between the oldest recorded scan and the latest scan.*
 
@@ -781,7 +800,7 @@ Think of KheetSathi like a **doctor's checkup for plants**:
 11. **Q: What is the 3-Tier Action Plan?**  
     *A: Tier 1: Zero-cost cultural practices (field sanitation/drainage); Tier 2: Biological & low-risk controls (Neem oil, Trichoderma); Tier 3: Responsible chemical guidelines with safety warnings.*
 12. **Q: What helpline is integrated into the app?**  
-    *A: The Government of India Kisan Call Center toll-free helpline (`1800-180-1551`).*
+    *A: The Government of India Kisan Call Center toll-free helpline (`1800-180-1551`), verified active as official GoI farmer assistance.*
 
 ### Code & Implementation
 13. **Q: How is bilingual localization implemented?**  
@@ -791,7 +810,7 @@ Think of KheetSathi like a **doctor's checkup for plants**:
 15. **Q: How does the report sharing feature work?**  
     *A: It calls `navigator.share()` on mobile devices and automatically falls back to `navigator.clipboard.writeText()` on desktop browsers.*
 16. **Q: How do you handle non-leaf images like tractors or tools?**  
-    *A: The system routes them to an Uncertainty Fallback screen (`#view-fallback`) advising the user to photograph a plant leaf.*
+    *A: Gate 2 calculates the Shannon entropy $H(P) = -\sum p_i \ln p_i$ across all 38 output classes. Unseen non-leaf objects yield flat distributions ($H \ge 2.0$), which are safely routed to `#view-fallback` rather than generating false diagnoses.*
 17. **Q: How is data persisted across browser sessions?**  
     *A: Through `StorageManager` which serializes state into `localStorage` keys (`kheet_scans_v1`, `kheet_my_crops_v1`).*
 18. **Q: What happens if `localStorage` contains corrupted JSON?**  
@@ -906,7 +925,7 @@ KHEETSATHI (खेती साथी) — QUICK REVISION CHEAT SHEET
   - css/styles.css:   Design tokens, responsive device frame, and organic agritech styles.
   - js/app.js:        App coordinator, screen router, voice synthesis, and share dispatcher.
   - js/qualityCheck.js: Real Canvas grayscale luminance & 2D Laplacian blur variance calculations.
-  - js/simulationEngine.js: Deterministic AI inference pipeline & uncertainty fallback router.
+  - js/mlEngine.js:   Client-side ONNX Runtime Web ML engine & multi-stage gating.
   - js/storage.js:    LocalStorage CRUD manager for scans, tracked crops, and user preferences.
   - js/i18n.js:       Complete bilingual dictionary (Hindi & English).
   - sw.js:            Cache-First Service Worker for 100% offline field capability.

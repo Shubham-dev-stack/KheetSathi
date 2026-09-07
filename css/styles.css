@@ -1097,7 +1097,7 @@ body {
 
 .preview-showcase {
   width: 100%;
-  max-height: 220px;
+  max-height: 240px;
   background: #000000;
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -1105,12 +1105,98 @@ body {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--border-hairline);
+  position: relative;
+  user-select: none;
 }
 
 .preview-showcase-img {
   width: 100%;
-  height: 220px;
+  height: 240px;
   object-fit: cover;
+  display: block;
+}
+
+/* Leaf ROI Framing Bounding Box */
+.roi-box {
+  position: absolute;
+  border: 2px dashed #22C55E;
+  background: rgba(34, 197, 94, 0.12);
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);
+  cursor: move;
+  touch-action: none;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.roi-corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: #FFFFFF;
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+}
+
+.roi-tl { top: -2px; left: -2px; border-left-width: 3px; border-top-width: 3px; }
+.roi-tr { top: -2px; right: -2px; border-right-width: 3px; border-top-width: 3px; }
+.roi-bl { bottom: -2px; left: -2px; border-left-width: 3px; border-bottom-width: 3px; }
+.roi-br { bottom: -2px; right: -2px; border-right-width: 3px; border-bottom-width: 3px; }
+
+.roi-tag {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #22C55E;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+  pointer-events: none;
+}
+
+.roi-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+}
+
+.roi-hint-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 10.5px;
+}
+
+.roi-pill-btn {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-xs);
+  padding: 3px 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-title);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.roi-pill-btn:hover {
+  background: var(--primary-subtle);
+  border-color: var(--primary-border);
+}
+
+.roi-pill-btn.active {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
 }
 
 .quality-verdict-bar {

@@ -1,5 +1,5 @@
 // KheetSathi Service Worker - Offline Resilience (with On-Device ML Model Caching)
-const CACHE_NAME = 'kheetsathi-cache-v3.0';
+const CACHE_NAME = 'kheetsathi-cache-v3.1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -13,7 +13,6 @@ const ASSETS_TO_CACHE = [
   './js/ort-wasm-simd.wasm',
   './js/qualityCheck.js',
   './js/storage.js',
-  './js/simulationEngine.js',
   './js/app.js',
   './model/model.onnx',
   './model/model_quantized.onnx',
