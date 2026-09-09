@@ -108,6 +108,8 @@ class KheetSathiApp {
     if (viewId === 'view-crop-select' || viewId === 'view-upload' || viewId === 'view-preview' || viewId === 'view-result') {
       document.getElementById('bnav-scan')?.classList.add('active');
     }
+    if (viewId === 'view-products-comp') document.getElementById('bnav-products')?.classList.add('active');
+    if (viewId === 'view-community') document.getElementById('bnav-community')?.classList.add('active');
     if (viewId === 'view-history') document.getElementById('bnav-history')?.classList.add('active');
     if (viewId === 'view-help') document.getElementById('bnav-help')?.classList.add('active');
 
@@ -121,6 +123,11 @@ class KheetSathiApp {
     if (viewId === 'view-crop-timeline') this.renderCropTimeline(payload || this.overviewCropId);
     if (viewId === 'view-compare-scans') this.renderCompareScans(payload || this.overviewCropId);
     if (viewId === 'view-history') this.renderFullHistory(this.currentHistoryFilter);
+    if (viewId === 'view-treatments') this.renderTreatmentsEncyclopedia(payload?.cropId || 'all');
+    if (viewId === 'view-products-comp') this.renderProductComparison(payload?.cropId || 'all', payload?.diseaseId || 'all');
+    if (viewId === 'view-community') this.renderCommunityFeed(payload?.cropId || 'all');
+    if (viewId === 'view-experts') this.renderExpertDirectory();
+    if (viewId === 'view-waste-advisor') this.renderWasteAdvisor(payload?.cropId || this.overviewCropId || 'potato');
   }
 
   // Language & i18n
@@ -155,6 +162,11 @@ class KheetSathiApp {
     if (this.activeView === 'view-crop-timeline') this.renderCropTimeline(this.overviewCropId);
     if (this.activeView === 'view-compare-scans') this.renderCompareScans(this.overviewCropId);
     if (this.activeView === 'view-history') this.renderFullHistory(this.currentHistoryFilter);
+    if (this.activeView === 'view-treatments') this.renderTreatmentsEncyclopedia();
+    if (this.activeView === 'view-products-comp') this.renderProductComparison();
+    if (this.activeView === 'view-community') this.renderCommunityFeed();
+    if (this.activeView === 'view-experts') this.renderExpertDirectory();
+    if (this.activeView === 'view-waste-advisor') this.renderWasteAdvisor();
     if (this.activeView === 'view-result' && this.currentScanResult) this.renderResultScreen(this.currentScanResult);
   }
 
@@ -1115,6 +1127,538 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
   }
 
   // =========================================================================
+  // MODULE 1: Treatments Encyclopedia
+  // =========================================================================
+
+  renderTreatmentsEncyclopedia(filterCrop = 'all', searchQuery = '') {
+    const isHi = this.currentLang === 'hi';
+    const container = document.getElementById('treatments-list-container');
+    const chipsContainer = document.getElementById('treatments-crop-chips');
+    if (!container) return;
+
+    // Render Crop Filter Chips
+    if (chipsContainer) {
+      const crops = [{ crop_id: 'all', name_hi: 'सभी फसलें', name_en: 'All Crops' }, ...MOCK_CROPS];
+      chipsContainer.innerHTML = crops.map(c => `
+        <button type="button" class="history-chip ${c.crop_id === filterCrop ? 'active' : ''}" data-crop="${c.crop_id}">
+          ${isHi ? c.name_hi : c.name_en}
+        </button>
+      `).join('');
+
+      chipsContainer.querySelectorAll('.history-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.renderTreatmentsEncyclopedia(btn.dataset.crop, searchQuery);
+        });
+      });
+    }
+
+    const diseasesList = Object.entries(MOCK_DISEASES).map(([key, d]) => ({
+      key,
+      ...d,
+      remedy: MOCK_RECOMMENDATIONS[key] || {}
+    }));
+
+    const filtered = diseasesList.filter(d => {
+      const matchCrop = filterCrop === 'all' || d.crop_id === filterCrop;
+      const q = searchQuery.toLowerCase().trim();
+      const matchSearch = !q || 
+        d.name_en.toLowerCase().includes(q) || 
+        d.name_hi.toLowerCase().includes(q) || 
+        (d.scientific_name && d.scientific_name.toLowerCase().includes(q));
+      return matchCrop && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px;">
+          ${isHi ? 'कोई बीमारी नहीं मिली।' : 'No matching diseases found.'}
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(d => {
+      const cropMeta = MOCK_CROPS.find(c => c.crop_id === d.crop_id);
+      const cropName = isHi ? cropMeta?.name_hi || d.crop_id : cropMeta?.name_en || d.crop_id;
+      const symptoms = isHi ? d.symptoms_hi : d.symptoms_en;
+      const cultural = isHi ? (d.remedy.cultural_hi || []).join(', ') : (d.remedy.cultural_en || []).join(', ');
+      const bio = isHi ? (d.remedy.biological_hi || []).join(', ') : (d.remedy.biological_en || []).join(', ');
+      const chem = isHi ? (d.remedy.chemical_hi || []).join(', ') : (d.remedy.chemical_en || []).join(', ');
+
+      return `
+        <div class="treatment-encyclopedia-card">
+          <div class="treatment-header">
+            <div>
+              <div class="treatment-disease-name">${isHi ? d.name_hi : d.name_en}</div>
+              <div class="treatment-scientific">${d.scientific_name || ''}</div>
+            </div>
+            <span class="badge badge-neutral">${cropName}</span>
+          </div>
+
+          <div class="treatment-section-sub">${isHi ? 'पहचान व लक्षण:' : 'Symptoms & Causes:'}</div>
+          <div class="treatment-text">${symptoms}</div>
+
+          <div class="treatment-section-sub">${isHi ? 'प्राथमिक जैविक व प्राकृतिक रोकथाम:' : 'Organic & Cultural Control:'}</div>
+          <div class="treatment-text">${cultural}${bio ? '; ' + bio : ''}</div>
+
+          <div class="treatment-section-sub">${isHi ? 'रासायनिक नियंत्रण (सावधानीपूर्वक):' : 'Chemical Control:'}</div>
+          <div class="treatment-text">${chem}</div>
+
+          <div style="margin-top: 8px; display: flex; gap: 6px; justify-content: flex-end;">
+            <button type="button" class="btn btn-outline btn-sm btn-treat-to-products" data-crop="${d.crop_id}" data-disease="${d.key}">
+              🛒 ${isHi ? 'दवाई मूल्य देखें' : 'View Products'}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    container.querySelectorAll('.btn-treat-to-products').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.navigateTo('view-products-comp', { cropId: btn.dataset.crop, diseaseId: btn.dataset.disease });
+      });
+    });
+  }
+
+  // =========================================================================
+  // MODULE 2: Multi-Retailer Product Price Comparison
+  // =========================================================================
+
+  renderProductComparison(filterCrop = 'all', filterDisease = 'all') {
+    const isHi = this.currentLang === 'hi';
+    const container = document.getElementById('products-list-container');
+    const cropSelect = document.getElementById('products-crop-select');
+    const diseaseSelect = document.getElementById('products-disease-select');
+    const retailersStrip = document.getElementById('retailers-strip-container');
+    if (!container) return;
+
+    // Populate Selectors
+    if (cropSelect) {
+      cropSelect.innerHTML = `<option value="all">${isHi ? 'सभी फसलें (All Crops)' : 'All Crops'}</option>` +
+        MOCK_CROPS.map(c => `<option value="${c.crop_id}" ${c.crop_id === filterCrop ? 'selected' : ''}>${isHi ? c.name_hi : c.name_en}</option>`).join('');
+      
+      cropSelect.onchange = () => {
+        this.renderProductComparison(cropSelect.value, 'all');
+      };
+    }
+
+    if (diseaseSelect) {
+      const diseases = Object.entries(MOCK_DISEASES).filter(([k, d]) => filterCrop === 'all' || d.crop_id === filterCrop);
+      diseaseSelect.innerHTML = `<option value="all">${isHi ? 'सभी रोग (All Diseases)' : 'All Diseases'}</option>` +
+        diseases.map(([k, d]) => `<option value="${k}" ${k === filterDisease ? 'selected' : ''}>${isHi ? d.name_hi : d.name_en}</option>`).join('');
+
+      diseaseSelect.onchange = () => {
+        this.renderProductComparison(cropSelect ? cropSelect.value : 'all', diseaseSelect.value);
+      };
+    }
+
+    // Filter Products
+    const products = MOCK_AGRI_PRODUCTS.filter(p => {
+      const matchDisease = filterDisease === 'all' || p.target_diseases.includes(filterDisease);
+      const matchCrop = filterCrop === 'all' || p.target_crops.includes(filterCrop);
+      return matchDisease && matchCrop;
+    });
+
+    if (products.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px;">
+          ${isHi ? 'इस रोग के लिए कोई उत्पाद सूची उपलब्ध नहीं है।' : 'No products listed for this filter.'}
+        </div>
+      `;
+    } else {
+      container.innerHTML = products.map(prod => {
+        const typeBadge = prod.category === 'bio' ? 
+          `<span class="badge badge-success">${isHi ? 'जैविक / सुरक्षित' : 'Bio / Safe'}</span>` : 
+          `<span class="badge badge-warning">${isHi ? 'रासायनिक कवकनाशी' : 'Fungicide'}</span>`;
+
+        const normalizedUnit = prod.normalized_unit === '100g' ? (isHi ? '₹/100 ग्राम' : '₹/100g') : (isHi ? '₹/100 मिली' : '₹/100ml');
+
+        const storesListHtml = prod.stores.map(st => {
+          const ret = MOCK_RETAILERS.find(r => r.id === st.retailer_id);
+          const retName = isHi ? ret?.name_hi || st.retailer_id : ret?.name_en || st.retailer_id;
+          const phone = ret?.phone || '18001801551';
+          return `
+            <div class="product-store-row">
+              <div>
+                <strong>${retName}</strong>
+                <span style="font-size: 10px; color: var(--text-muted); display: block;">${st.in_stock ? (isHi ? '✓ स्टॉक उपलब्ध' : 'In Stock') : (isHi ? '✕ उपलब्ध नहीं' : 'Out of stock')}</span>
+              </div>
+              <div style="text-align: right;">
+                <span style="font-weight: 800; color: var(--text-title);">₹${st.price_inr}</span>
+                <a href="tel:${phone}" style="display: block; font-size: 10px; color: var(--primary); text-decoration: none; font-weight: 700;">📞 ${isHi ? 'कॉल करें' : 'Call'}</a>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <div class="product-card">
+            <div class="product-card-top">
+              <div>
+                <div class="product-brand">${prod.brand_name}</div>
+                <div class="product-active">${prod.active_ingredient} (${prod.formulation})</div>
+              </div>
+              ${typeBadge}
+            </div>
+
+            <div class="product-pricing-strip">
+              <div>
+                <span class="product-mrp">₹${prod.mrp_inr}</span>
+                <span style="font-size: 11px; color: var(--text-muted);">/ ${prod.package_size}</span>
+              </div>
+              <span class="price-normalized-pill">${isHi ? 'सटीक दर:' : 'Normalized:'} ₹${prod.normalized_price_per_unit} / ${normalizedUnit}</span>
+            </div>
+
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+              ${isHi ? 'अनुशंसित खुराक:' : 'Standard Dosage:'} <strong>${prod.dosage}</strong>
+            </div>
+
+            <div class="product-stores-list">
+              <div style="font-size: 10.5px; font-weight: 700; color: var(--text-title); margin-bottom: 2px;">
+                ${isHi ? 'स्थानीय दुकानों पर दर:' : 'Available at Local Dealerships:'}
+              </div>
+              ${storesListHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Retailers Strip
+    if (retailersStrip) {
+      retailersStrip.innerHTML = MOCK_RETAILERS.map(r => `
+        <div class="retailer-mini-card">
+          <div style="font-weight: 700; font-size: 11.5px; color: var(--text-title);">${isHi ? r.name_hi : r.name_en}</div>
+          <div style="font-size: 10px; color: var(--text-muted);">${isHi ? r.address_hi : r.address_en}</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+            <span class="badge badge-success" style="font-size: 8.5px;">✓ ${isHi ? 'सत्यापित' : 'Verified'}</span>
+            <a href="tel:${r.phone}" class="btn btn-outline btn-sm" style="font-size: 9.5px; padding: 2px 6px; text-decoration: none;">📞 कॉल</a>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
+  // =========================================================================
+  // MODULE 3: Ask a Farmer Community Q&A
+  // =========================================================================
+
+  renderCommunityFeed(filterCrop = 'all') {
+    const isHi = this.currentLang === 'hi';
+    const container = document.getElementById('community-feed-container');
+    const chipsContainer = document.getElementById('community-crop-chips');
+    if (!container) return;
+
+    // Render Crop Chips
+    if (chipsContainer) {
+      const crops = [{ crop_id: 'all', name_hi: 'सभी सवाल', name_en: 'All Topics' }, ...MOCK_CROPS];
+      chipsContainer.innerHTML = crops.map(c => `
+        <button type="button" class="history-chip ${c.crop_id === filterCrop ? 'active' : ''}" data-crop="${c.crop_id}">
+          ${isHi ? c.name_hi : c.name_en}
+        </button>
+      `).join('');
+
+      chipsContainer.querySelectorAll('.history-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.renderCommunityFeed(btn.dataset.crop);
+        });
+      });
+    }
+
+    const posts = StorageManager.getCommunityPosts();
+    const filtered = filterCrop === 'all' ? posts : posts.filter(p => p.crop_id === filterCrop);
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 24px; color: var(--text-muted); font-size: 12px;">
+          ${isHi ? 'इस विषय पर अभी कोई सवाल नहीं है। पहला सवाल पूछें!' : 'No questions yet. Be the first to ask!'}
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(post => {
+      const cropBadge = `<span class="badge badge-neutral">${post.crop_name_hi || post.crop_id}</span>`;
+      const answersHtml = (post.answers || []).map(ans => `
+        <div class="community-answer-item">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <strong>${ans.author}</strong>
+            <span style="font-size: 9.5px; color: var(--text-faint);">${new Date(ans.created_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' })}</span>
+          </div>
+          <p style="margin-top: 2px; color: var(--text-body);">${ans.text}</p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+            <button type="button" class="answer-helpful-btn" data-post-id="${post.id}" data-ans-id="${ans.id}">
+              👍 ${isHi ? 'मददगार लगा' : 'Helpful'} (${ans.helpful_count || 0})
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      return `
+        <div class="community-post-card">
+          <div class="community-post-author">
+            <div class="author-avatar">${post.farmer_name.charAt(0)}</div>
+            <div>
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-title);">${post.farmer_name}</div>
+              <div style="font-size: 10px; color: var(--text-muted);">${post.location} • ${new Date(post.created_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' })}</div>
+            </div>
+            <div style="margin-left: auto;">${cropBadge}</div>
+          </div>
+
+          <div class="community-post-title">${post.title}</div>
+          <div class="community-post-desc">${post.description}</div>
+
+          <div class="community-answers-block">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-title); display: flex; justify-content: space-between;">
+              <span>${isHi ? 'किसान उत्तर (' : 'Answers ('}${post.answers ? post.answers.length : 0})</span>
+            </div>
+            ${answersHtml}
+          </div>
+
+          <!-- Quick Answer Input -->
+          <div style="margin-top: 8px; display: flex; gap: 6px;">
+            <input type="text" class="form-input reply-input" placeholder="${isHi ? 'अपना जवाब या सलाह लिखें...' : 'Write an answer...'}" style="font-size: 11px; padding: 4px 8px;">
+            <button type="button" class="btn btn-outline btn-sm btn-submit-reply" data-post-id="${post.id}">
+              ${isHi ? 'भेजें' : 'Send'}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Wire Helpful Buttons
+    container.querySelectorAll('.answer-helpful-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const count = StorageManager.voteHelpfulAnswer(btn.dataset.postId, btn.dataset.ansId);
+        btn.textContent = `👍 ${isHi ? 'मददगार लगा' : 'Helpful'} (${count})`;
+        this.showToast(isHi ? 'प्रतिक्रिया दर्ज की गई!' : 'Feedback recorded!');
+      });
+    });
+
+    // Wire Quick Replies
+    container.querySelectorAll('.btn-submit-reply').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const parent = btn.closest('.community-post-card');
+        const input = parent.querySelector('.reply-input');
+        if (input && input.value.trim()) {
+          const user = StorageManager.getUser();
+          StorageManager.addCommunityAnswer(btn.dataset.postId, input.value.trim(), user.name);
+          input.value = '';
+          this.renderCommunityFeed(filterCrop);
+          this.showToast(isHi ? 'आपका उत्तर चौपाल में जोड़ा गया।' : 'Answer posted to community.');
+        }
+      });
+    });
+  }
+
+  openAskQuestionModal() {
+    const modal = document.getElementById('ask-question-modal');
+    const cropSelect = document.getElementById('ask-q-crop');
+    if (!modal) return;
+
+    if (cropSelect) {
+      const isHi = this.currentLang === 'hi';
+      cropSelect.innerHTML = MOCK_CROPS.map(c => `
+        <option value="${c.crop_id}">${isHi ? c.name_hi : c.name_en}</option>
+      `).join('');
+    }
+
+    modal.classList.add('active');
+  }
+
+  // =========================================================================
+  // MODULE 4: Verified Agri Experts Directory
+  // =========================================================================
+
+  renderExpertDirectory() {
+    const isHi = this.currentLang === 'hi';
+    const container = document.getElementById('experts-list-container');
+    if (!container) return;
+
+    container.innerHTML = MOCK_FARMER_EXPERTS.map(exp => {
+      const name = isHi ? exp.name_hi : exp.name_en;
+      const role = isHi ? exp.role_hi : exp.role_en;
+      const aff = isHi ? exp.affiliation_hi : exp.affiliation_en;
+      const spec = isHi ? exp.specialization_hi.join(', ') : exp.specialization_en.join(', ');
+      const langs = exp.languages.join(', ');
+
+      return `
+        <div class="expert-profile-card">
+          <div class="expert-card-top">
+            <div class="expert-avatar">👨‍🔬</div>
+            <div style="flex: 1;">
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <strong style="font-size: 13.5px; color: var(--text-title);">${name}</strong>
+                <span class="badge badge-success" style="font-size: 8.5px;">✓ ${isHi ? 'सत्यापित वैज्ञानिक' : 'Verified'}</span>
+              </div>
+              <div style="font-size: 11px; color: var(--primary-accent); font-weight: 600;">${role}</div>
+              <div style="font-size: 10px; color: var(--text-muted);">${exp.qualification} • ${aff}</div>
+            </div>
+          </div>
+
+          <div style="font-size: 11px; color: var(--text-body);">
+            <span>${isHi ? 'विशेषज्ञता:' : 'Expertise:'}</span> <strong>${spec}</strong><br>
+            <span>${isHi ? 'भाषाएं:' : 'Languages:'}</span> ${langs} • ${exp.experience_years}+ ${isHi ? 'वर्ष अनुभव' : 'yrs exp'}
+          </div>
+
+          <div class="expert-fees-row">
+            <div>📞 ${isHi ? 'कॉल:' : 'Call:'} <strong>₹${exp.fee_structure.audio_call_inr}</strong></div>
+            <div>📹 ${isHi ? 'वीडियो:' : 'Video:'} <strong>₹${exp.fee_structure.video_call_inr}</strong></div>
+            <div>🚜 ${isHi ? 'खेत विजिट:' : 'Visit:'} <strong>₹${exp.fee_structure.field_visit_inr}</strong></div>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-block btn-book-expert" data-expert-id="${exp.id}">
+            <span>${isHi ? 'परामर्श बुक करें (Book Consultation)' : 'Book Consultation'}</span>
+          </button>
+        </div>
+      `;
+    }).join('');
+
+    container.querySelectorAll('.btn-book-expert').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.openBookExpertModal(btn.dataset.expertId);
+      });
+    });
+  }
+
+  openBookExpertModal(expertId) {
+    const modal = document.getElementById('book-expert-modal');
+    const summaryContainer = document.getElementById('expert-booking-summary');
+    const hiddenIdInput = document.getElementById('book-expert-id');
+    if (!modal) return;
+
+    const isHi = this.currentLang === 'hi';
+    const expert = MOCK_FARMER_EXPERTS.find(e => e.id === expertId) || MOCK_FARMER_EXPERTS[0];
+
+    if (hiddenIdInput) hiddenIdInput.value = expert.id;
+    if (summaryContainer) {
+      summaryContainer.innerHTML = `
+        <div style="font-size: 12.5px; font-weight: 700; color: var(--text-title);">${isHi ? expert.name_hi : expert.name_en}</div>
+        <div style="font-size: 11px; color: var(--text-muted);">${isHi ? expert.role_hi : expert.role_en} • ${expert.affiliation_en}</div>
+      `;
+    }
+
+    modal.classList.add('active');
+  }
+
+  // =========================================================================
+  // MODULE 5: Farm Waste Advisor
+  // =========================================================================
+
+  renderWasteAdvisor(defaultCropId = 'potato') {
+    const isHi = this.currentLang === 'hi';
+    const cropSelect = document.getElementById('waste-crop-input');
+    const facilitiesContainer = document.getElementById('waste-facilities-container');
+
+    if (cropSelect) {
+      const options = Object.entries(MOCK_WASTE_GUIDELINES).map(([k, g]) => `
+        <option value="${k}" ${k === defaultCropId ? 'selected' : ''}>${isHi ? g.crop_name_hi : g.crop_name_en}</option>
+      `).join('');
+      cropSelect.innerHTML = options;
+    }
+
+    if (facilitiesContainer) {
+      facilitiesContainer.innerHTML = MOCK_WASTE_FACILITIES.map(fac => `
+        <div class="facility-card">
+          <div>
+            <strong style="color: var(--text-title);">${isHi ? fac.name_hi : fac.name_en}</strong>
+            <span style="display: block; font-size: 10px; color: var(--text-muted);">${isHi ? fac.address_hi : fac.address_en} (${fac.distance_km} km)</span>
+          </div>
+          <div style="text-align: right;">
+            <span class="badge badge-success" style="font-size: 9px;">₹${fac.rate_per_ton_inr} / ton</span>
+            <a href="tel:${fac.contact_phone}" style="display: block; font-size: 10px; color: var(--primary); text-decoration: none; font-weight: 700;">📞 कॉल</a>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
+  calculateWastePlan() {
+    const isHi = this.currentLang === 'hi';
+    const cropId = document.getElementById('waste-crop-input')?.value || 'potato';
+    const acres = parseFloat(document.getElementById('waste-acres-input')?.value || '2.0');
+    const equip = document.getElementById('waste-equipment-input')?.value || 'rotavator';
+    const resultBox = document.getElementById('waste-plan-result');
+
+    const guideline = MOCK_WASTE_GUIDELINES[cropId] || MOCK_WASTE_GUIDELINES.potato;
+    const estTons = (acres * guideline.residue_per_acre_tons).toFixed(1);
+    const estValue = Math.round(estTons * guideline.market_rate_per_ton_inr);
+
+    let methodTitle = isHi ? 'इन-सीटू मल्चिंग व जैविक खाद (In-situ Mulching)' : 'In-situ Mulching & Composting';
+    let methodSteps = isHi ? [
+      'फसल कटाई के बाद रोटावेटर से अवशेष को बारीक काटकर मिट्टी में मिलाएं।',
+      'हल्की सिंचाई देकर 20-25 दिनों के लिए खेत छोड़ें — यह उत्तम जैविक ह्यूमस बनाएगा।',
+      'अगली फसल के लिए डीएपी/यूरिया की मात्रा 20% तक कम लगेगी।'
+    ] : [
+      'Incorporate residue into topsoil using rotavator/mulcher after harvest.',
+      'Provide light irrigation for microbial decomposition (20–25 days).',
+      'Enriches organic carbon and reduces subsequent NPK fertilizer demand by 20%.'
+    ];
+
+    if (equip === 'none' || guideline.recommended_action === 'biomass_power') {
+      methodTitle = isHi ? 'बायोमास केंद्र को बिक्री (Off-Farm Biomass Sale)' : 'Commercial Biomass Plant Sale';
+      methodSteps = isHi ? [
+        'अवशेष की गाठें (Bales) बनाएं।',
+        'नजदीकी बायोमास एग्रीगेटर को ₹1,800-₹2,200 प्रति टन की दर पर सीधे बेचें।',
+        'खेत खाली होगा और तुरंत अतिरिक्त नकद आय मिलेगी।'
+      ] : [
+        'Collect and bale the crop residue.',
+        'Deliver directly to the nearest bio-gas/energy facility at ₹1,800-₹2,200/ton.',
+        'Clear the field swiftly without burning and gain immediate cash profit.'
+      ];
+    }
+
+    if (resultBox) {
+      resultBox.classList.remove('hidden');
+      resultBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h4 style="font-size: 13px; font-weight: 800; color: #065F46;">
+            ✓ ${isHi ? 'अनुशंसित प्रबंधन योजना' : 'Recommended Management Plan'}
+          </h4>
+          <span class="badge badge-success">${acres} ${isHi ? 'एकड़' : 'Acres'}</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
+          <div style="background: #F0FDF4; padding: 8px; border-radius: 6px; border: 1px solid #BBF7D0;">
+            <span style="font-size: 10px; color: #166534; display: block;">${isHi ? 'कुल अनुमानित अवशेष:' : 'Estimated Residue:'}</span>
+            <strong style="font-size: 14px; color: #14532D;">${estTons} ${isHi ? 'टन' : 'Tons'}</strong>
+          </div>
+          <div style="background: #FFFBEB; padding: 8px; border-radius: 6px; border: 1px solid #FDE68A;">
+            <span style="font-size: 10px; color: #92400E; display: block;">${isHi ? 'अनुमानित पोषक/आय मूल्य:' : 'Nutrient/Cash Value:'}</span>
+            <strong style="font-size: 14px; color: #78350F;">₹${estValue.toLocaleString('en-IN')}</strong>
+          </div>
+        </div>
+
+        <div style="font-size: 12px; font-weight: 700; color: var(--text-title);">${methodTitle}</div>
+        <ul style="margin-top: 4px; padding-left: 18px; font-size: 11px; color: var(--text-body); line-height: 1.4;">
+          ${methodSteps.map(s => `<li>${s}</li>`).join('')}
+        </ul>
+
+        <div style="margin-top: 8px; font-size: 10.5px; background: #EFF6FF; padding: 6px 8px; border-radius: 4px; border: 1px solid #BFDBFE;">
+          💡 <strong>${isHi ? 'सरकारी सब्सिडी:' : 'Govt Subsidy Alert:'}</strong> ${isHi ? 'CRM योजना के अंतर्गत रोटावेटर/हैप्पी सीडर पर 50-80% तक अनुदान उपलब्ध है।' : '50%–80% subsidy available on residue management machinery via CRM portal.'}
+        </div>
+
+        <button type="button" id="btn-save-waste-plan" class="btn btn-outline btn-block btn-sm" style="margin-top: 8px;">
+          <span>💾 ${isHi ? 'इस योजना को इतिहास में सहेजें' : 'Save Plan to Activity'}</span>
+        </button>
+      `;
+
+      document.getElementById('btn-save-waste-plan')?.addEventListener('click', () => {
+        StorageManager.saveWastePlan({
+          crop_id: cropId,
+          crop_name: isHi ? guideline.crop_name_hi : guideline.crop_name_en,
+          acres,
+          residue_type: guideline.residue_type,
+          estimated_tons: estTons,
+          recommended_method: methodTitle,
+          potential_value_inr: estValue
+        });
+        this.showToast(isHi ? 'अवशेष योजना इतिहास में सहेजी गई!' : 'Waste management plan saved!');
+      });
+    }
+  }
+
+  // =========================================================================
   // Event Listeners Binding
   // =========================================================================
 
@@ -1138,16 +1682,46 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       document.getElementById('add-crop-modal').classList.remove('active');
     });
 
-    // Bottom Nav
+    // Bottom Nav (5 Primary Tabs)
     document.getElementById('bnav-home')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-home'); });
     document.getElementById('bnav-scan')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-crop-select'); });
+    document.getElementById('bnav-products')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-products-comp'); });
+    document.getElementById('bnav-community')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-community'); });
     document.getElementById('bnav-history')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-history'); });
     document.getElementById('bnav-help')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-help'); });
 
-    // Home Actions
+    // Home Actions & Ecosystem Service Cards
     document.getElementById('btn-hero-scan')?.addEventListener('click', () => this.navigateTo('view-crop-select'));
     document.getElementById('link-view-all-crops')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-my-crops'); });
     document.getElementById('link-view-all-history')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-history'); });
+
+    document.getElementById('card-service-scan')?.addEventListener('click', () => this.navigateTo('view-crop-select'));
+    document.getElementById('card-service-treatments')?.addEventListener('click', () => this.navigateTo('view-treatments'));
+    document.getElementById('card-service-products')?.addEventListener('click', () => this.navigateTo('view-products-comp'));
+    document.getElementById('card-service-community')?.addEventListener('click', () => this.navigateTo('view-community'));
+    document.getElementById('card-service-experts')?.addEventListener('click', () => this.navigateTo('view-experts'));
+    document.getElementById('card-service-waste')?.addEventListener('click', () => this.navigateTo('view-waste-advisor'));
+
+    // Contextual Result View Ecosystem Navigation
+    document.getElementById('btn-result-to-products')?.addEventListener('click', () => {
+      this.navigateTo('view-products-comp', { 
+        cropId: this.currentScanResult?.crop_id, 
+        diseaseId: this.currentScanResult?.disease_id 
+      });
+    });
+    document.getElementById('btn-result-to-community')?.addEventListener('click', () => {
+      this.navigateTo('view-community', { 
+        cropId: this.currentScanResult?.crop_id 
+      });
+    });
+    document.getElementById('btn-result-to-experts')?.addEventListener('click', () => {
+      this.navigateTo('view-experts');
+    });
+    document.getElementById('btn-result-to-waste')?.addEventListener('click', () => {
+      this.navigateTo('view-waste-advisor', { 
+        cropId: this.currentScanResult?.crop_id 
+      });
+    });
 
     // Back Buttons Across All Sub-screens
     document.getElementById('btn-back-from-my-crops')?.addEventListener('click', () => this.navigateTo('view-home'));
@@ -1158,6 +1732,80 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     document.getElementById('btn-back-from-timeline')?.addEventListener('click', () => this.navigateTo('view-crop-overview', this.overviewCropId));
     document.getElementById('btn-back-from-compare')?.addEventListener('click', () => this.navigateTo('view-crop-overview', this.overviewCropId));
     document.getElementById('btn-back-from-result')?.addEventListener('click', () => this.navigateTo('view-home'));
+    document.getElementById('btn-back-from-treatments')?.addEventListener('click', () => this.navigateTo('view-home'));
+    document.getElementById('btn-back-from-products')?.addEventListener('click', () => this.navigateTo('view-home'));
+    document.getElementById('btn-back-from-community')?.addEventListener('click', () => this.navigateTo('view-home'));
+    document.getElementById('btn-back-from-experts')?.addEventListener('click', () => this.navigateTo('view-home'));
+    document.getElementById('btn-back-from-waste')?.addEventListener('click', () => this.navigateTo('view-home'));
+
+    // Treatments Encyclopedia Search
+    document.getElementById('treatments-search-input')?.addEventListener('input', (e) => {
+      this.renderTreatmentsEncyclopedia('all', e.target.value);
+    });
+
+    // Ask Question Modal
+    document.getElementById('btn-open-ask-modal')?.addEventListener('click', () => this.openAskQuestionModal());
+    document.getElementById('btn-close-ask-modal')?.addEventListener('click', () => {
+      document.getElementById('ask-question-modal')?.classList.remove('active');
+    });
+    document.getElementById('form-ask-question')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cropId = document.getElementById('ask-q-crop')?.value;
+      const title = document.getElementById('ask-q-title')?.value;
+      const desc = document.getElementById('ask-q-desc')?.value;
+      const user = StorageManager.getUser();
+      const cropMeta = MOCK_CROPS.find(c => c.crop_id === cropId);
+
+      StorageManager.addCommunityPost({
+        farmer_name: user.name || 'किसान साथी',
+        location: user.district ? `${user.state}, ${user.district}` : 'मध्य प्रदेश',
+        crop_id: cropId,
+        crop_name_hi: cropMeta?.name_hi || cropId,
+        title,
+        description: desc
+      });
+
+      document.getElementById('ask-question-modal')?.classList.remove('active');
+      document.getElementById('form-ask-question')?.reset();
+      this.renderCommunityFeed(cropId);
+      this.showToast(this.currentLang === 'hi' ? 'आपका सवाल किसान चौपाल में प्रकाशित हो गया!' : 'Question posted to farmer community!');
+    });
+
+    // Book Expert Modal
+    document.getElementById('btn-close-expert-modal')?.addEventListener('click', () => {
+      document.getElementById('book-expert-modal')?.classList.remove('active');
+    });
+    document.getElementById('form-book-expert')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const expertId = document.getElementById('book-expert-id')?.value;
+      const expert = MOCK_FARMER_EXPERTS.find(exp => exp.id === expertId) || MOCK_FARMER_EXPERTS[0];
+      const consultType = document.getElementById('book-consult-type')?.value || 'call';
+      const preferredTime = document.getElementById('book-consult-time')?.value;
+      const notes = document.getElementById('book-consult-notes')?.value;
+
+      const fee = consultType === 'call' ? expert.fee_structure.audio_call_inr : 
+        (consultType === 'video' ? expert.fee_structure.video_call_inr : expert.fee_structure.field_visit_inr);
+
+      StorageManager.bookExpertConsultation({
+        expert_id: expert.id,
+        expert_name: this.currentLang === 'hi' ? expert.name_hi : expert.name_en,
+        expert_role: this.currentLang === 'hi' ? expert.role_hi : expert.role_en,
+        crop_name: notes || 'फसल समस्या',
+        issue_summary: notes,
+        consult_type: consultType,
+        fee,
+        preferred_time: preferredTime
+      });
+
+      document.getElementById('book-expert-modal')?.classList.remove('active');
+      document.getElementById('form-book-expert')?.reset();
+      this.showToast(this.currentLang === 'hi' ? `परामर्श बुक हुआ! ${expert.name_hi} आपसे जल्द संपर्क करेंगे।` : `Consultation booked with ${expert.name_en}!`);
+    });
+
+    // Farm Waste Advisor Calculator
+    document.getElementById('btn-calculate-waste')?.addEventListener('click', () => {
+      this.calculateWastePlan();
+    });
 
     // Crop Overview Actions
     document.getElementById('btn-overview-scan-again')?.addEventListener('click', () => {

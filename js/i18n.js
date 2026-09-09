@@ -188,6 +188,63 @@ const I18N_DICTIONARY = {
     help_support_hours: "समय: प्रातः 6:00 बजे से रात्रि 10:00 बजे तक (सातों दिन)",
     help_support_badge: "टोल फ्री नंबर",
     
+    // Farmer Assistance Ecosystem Modules
+    services_grid_title: "किसान सहायता सेवाएं",
+    service_scan_title: "फसल रोग जांच",
+    service_scan_desc: "AI पत्ती स्कैन व निदान",
+    service_treatments_title: "रोग व उपचार कोश",
+    service_treatments_desc: "जैविक व रासायनिक गाइड",
+    service_products_title: "दवाई मूल्य तुलना",
+    service_products_desc: "₹/100g सटीक तुलना",
+    service_community_title: "किसान चौपाल",
+    service_community_desc: "सवालों के स्थानीय जवाब",
+    service_experts_title: "कृषि विशेषज्ञ",
+    service_experts_desc: "सत्यापित वैज्ञानिक कॉल",
+    service_waste_title: "पराली / अवशेष सलाहकार",
+    service_waste_desc: "खाद, बायोचार व आय",
+    
+    // Result Contextual CTAs
+    result_ecosystem_title: "संबंधित किसान सेवाएं (Related Farmer Services)",
+    cta_compare_meds: "दवाई मूल्य तुलना",
+    cta_compare_meds_sub: "दुकानों पर ₹/100g रेट देखें",
+    cta_ask_community: "किसान चौपाल में पूछें",
+    cta_ask_community_sub: "स्थानीय किसानों से सलाह",
+    cta_consult_expert: "कृषि वैज्ञानिक से बात",
+    cta_consult_expert_sub: "सत्यापित विशेषज्ञ परामर्श",
+    cta_waste_advisor: "फसल अवशेष प्रबंधन",
+    cta_waste_advisor_sub: "खाद व अतिरिक्त आमदनी",
+    
+    // Treatments Hub
+    treatments_hub_title: "रोग एवं उपचार कोश",
+    treatments_hub_sub: "वैज्ञानिक एवं पारंपरिक कृषि रोग समाधान",
+    treatments_disclaimer: "ICAR / CIBRC मानकों पर आधारित दिशानिर्देश",
+    
+    // Product Price Comparison
+    products_comp_title: "दवाई व खाद मूल्य तुलना",
+    products_comp_sub: "दुकानों पर ₹/100g व ₹/100ml सटीक दर",
+    retailers_strip_title: "सत्यापित स्थानीय विक्रेता (Indore / MP)",
+    products_demo_disclaimer: "*प्रदर्शित मूल्य स्थानीय कृषि सेवा केंद्रों के सांकेतिक औसत हैं",
+    nav_products: "दवाई दाम",
+    nav_community: "चौपाल",
+    
+    // Community Q&A
+    community_title: "किसान चौपाल (Community)",
+    community_sub: "स्थानीय किसानों के वास्तविक अनुभव",
+    btn_ask_question: "+ सवाल पूछें",
+    modal_ask_title: "चौपाल में सवाल पूछें",
+    
+    // Verified Experts
+    experts_title: "कृषि वैज्ञानिक एवं विशेषज्ञ",
+    experts_sub: "सत्यापित कीट व पादप रोग वैज्ञानिकों से परामर्श",
+    modal_expert_title: "विशेषज्ञ परामर्श बुक करें",
+    kvk_free_title: "मुफ्त सरकारी परामर्श (Kisan Helpline)",
+    
+    // Waste Advisor
+    waste_advisor_title: "फसल अवशेष (पराली) सलाहकार",
+    waste_advisor_sub: "अवशेष जलाना रोकें — खाद, बायोचार व आय पाएं",
+    waste_wizard_title: "📊 अवशेष प्रबंधन गणना यंत्र (Residue Calculator)",
+    waste_facilities_title: "नजदीकी बायोमास व कंपोस्ट केंद्र",
+    
     // Farmer Profile
     profile_title: "किसान प्रोफाइल एवं सेटिंग्स",
     farmer_name: "किसान का नाम:",
@@ -383,6 +440,63 @@ const I18N_DICTIONARY = {
     help_support_desc: "Speak directly with government agricultural scientists toll-free:",
     help_support_hours: "Hours: 6:00 AM – 10:00 PM (All 7 Days)",
     help_support_badge: "Toll-Free Helpline",
+    
+    // Farmer Assistance Ecosystem Modules
+    services_grid_title: "Farmer Support Ecosystem",
+    service_scan_title: "AI Crop Health Scan",
+    service_scan_desc: "Leaf diagnosis & remedies",
+    service_treatments_title: "Treatments Guide",
+    service_treatments_desc: "Organic & chemical care",
+    service_products_title: "Price Comparison",
+    service_products_desc: "Normalized ₹/100g rates",
+    service_community_title: "Ask a Farmer",
+    service_community_desc: "Local community answers",
+    service_experts_title: "Verified Agri Experts",
+    service_experts_desc: "Consult agronomists",
+    service_waste_title: "Farm Waste Advisor",
+    service_waste_desc: "Composting & cash yield",
+    
+    // Result Contextual CTAs
+    result_ecosystem_title: "Related Farmer Services",
+    cta_compare_meds: "Compare Medicine Prices",
+    cta_compare_meds_sub: "Check ₹/100g unit rates",
+    cta_ask_community: "Ask Local Farmers",
+    cta_ask_community_sub: "Get community field advice",
+    cta_consult_expert: "Talk to Agri Scientist",
+    cta_consult_expert_sub: "Verified expert consultation",
+    cta_waste_advisor: "Farm Waste Advisor",
+    cta_waste_advisor_sub: "Compost & extra revenue",
+    
+    // Treatments Hub
+    treatments_hub_title: "Crop Disease & Treatment Encyclopedia",
+    treatments_hub_sub: "Scientific agronomic and organic management",
+    treatments_disclaimer: "Based on ICAR & CIBRC registered guidelines",
+    
+    // Product Price Comparison
+    products_comp_title: "Foliar Medicine & Fertilizer Pricing",
+    products_comp_sub: "Standardized ₹/100g & ₹/100ml multi-retailer comparison",
+    retailers_strip_title: "Verified Local Dealers (Indore / MP)",
+    products_demo_disclaimer: "*Displayed prices represent indicative regional dealer averages",
+    nav_products: "Products",
+    nav_community: "Community",
+    
+    // Community Q&A
+    community_title: "Farmer Community (चौपाल)",
+    community_sub: "Real experiences and local solutions",
+    btn_ask_question: "+ Ask Question",
+    modal_ask_title: "Ask the Farmer Community",
+    
+    // Verified Experts
+    experts_title: "Agricultural Scientists & Experts",
+    experts_sub: "Consult verified plant pathologists & agronomists",
+    modal_expert_title: "Book Expert Consultation",
+    kvk_free_title: "Free Government Hotline (Kisan Helpline)",
+    
+    // Waste Advisor
+    waste_advisor_title: "Crop Residue & Waste Advisor",
+    waste_advisor_sub: "Prevent stubble burning — make biochar, compost & profit",
+    waste_wizard_title: "📊 Residue Management Calculator",
+    waste_facilities_title: "Nearby Biomass & Compost Facilities",
     
     // Farmer Profile
     profile_title: "Farmer Profile & Settings",
