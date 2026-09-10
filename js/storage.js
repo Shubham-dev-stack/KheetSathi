@@ -97,6 +97,7 @@ class StorageManager {
         attached_photo: post.attached_photo || null,
         created_at: new Date().toISOString(),
         upvotes: 0,
+        isDemo: true,
         answers: []
       };
       const updated = [newPost, ...posts];
@@ -111,14 +112,18 @@ class StorageManager {
   static addCommunityAnswer(postId, answerText, authorName) {
     try {
       const posts = this.getCommunityPosts();
-      const post = posts.find(p => p.id === postId);
+      const post = posts.find(p => p.id === postId || p.post_id === postId);
       if (post) {
         post.answers.push({
           id: 'ans_' + Date.now(),
+          answer_id: 'ans_' + Date.now(),
           author: authorName || 'किसान भाई',
+          author_name: authorName || 'किसान भाई',
           role: 'किसान',
+          authority_level: 'community_response',
           text: answerText,
           helpful_count: 0,
+          isDemo: true,
           created_at: new Date().toISOString()
         });
         localStorage.setItem(this.COMMUNITY_POSTS_KEY, JSON.stringify(posts));
@@ -133,9 +138,9 @@ class StorageManager {
   static voteHelpfulAnswer(postId, answerId) {
     try {
       const posts = this.getCommunityPosts();
-      const post = posts.find(p => p.id === postId);
+      const post = posts.find(p => p.id === postId || p.post_id === postId);
       if (post) {
-        const ans = post.answers.find(a => a.id === answerId);
+        const ans = post.answers.find(a => a.id === answerId || a.answer_id === answerId);
         if (ans) {
           ans.helpful_count = (ans.helpful_count || 0) + 1;
           localStorage.setItem(this.COMMUNITY_POSTS_KEY, JSON.stringify(posts));
@@ -149,7 +154,7 @@ class StorageManager {
   }
 
   /**
-   * Expert Consultation Bookings
+   * Expert Consultation Bookings (Demo Interface Only)
    */
   static getExpertBookings() {
     try {
@@ -172,8 +177,9 @@ class StorageManager {
         issue_summary: bookingData.issue_summary || '',
         consult_type: bookingData.consult_type || 'call', // call, video, visit
         fee: bookingData.fee || 0,
-        preferred_time: bookingData.preferred_time || 'Next available',
-        status: 'confirmed', // confirmed, completed, cancelled
+        preferred_time: bookingData.preferred_time || 'Demo slot',
+        status: 'demo_requested', // Demo request only - no real appointment
+        isDemo: true,
         booked_at: new Date().toISOString()
       };
       const updated = [newBooking, ...bookings];
@@ -209,6 +215,7 @@ class StorageManager {
         estimated_tons: plan.estimated_tons,
         recommended_method: plan.recommended_method,
         potential_value_inr: plan.potential_value_inr,
+        isDemo: true,
         created_at: new Date().toISOString()
       };
       const updated = [newPlan, ...plans];

@@ -225,10 +225,10 @@ const MOCK_RECOMMENDATIONS = {
       "नीम के बीज के सत्व (NSKE) का सुरक्षात्मक जैविक छिड़काव करें।"
     ],
     chemical_en: [
-      "Apply protective contact fungicides (Mancozeb group) as per extension recommendations."
+      "If chemical intervention is needed, use only a locally approved product (e.g. Mancozeb group) according to its official label and seek agricultural expert guidance."
     ],
     chemical_hi: [
-      "कृषि विश्वविद्यालय द्वारा अनुशंसित संपर्क कवकनाशी (मैनकोजेब समूह) का सुरक्षात्मक छिड़काव करें।"
+      "रासायनिक उत्पाद का प्रयोग केवल स्थानीय अधिकृत लेबल और कृषि विशेषज्ञ के मार्गदर्शन अनुसार ही करें (उदा. मैनकोजेब समूह)।"
     ]
   },
   "potato_early_blight": {
@@ -251,10 +251,10 @@ const MOCK_RECOMMENDATIONS = {
       "गोबर की सड़ी खाद में ट्राइकोडर्मा मिलाकर खेत में डालें।"
     ],
     chemical_en: [
-      "Foliar spray of protective fungicides (Chlorothalonil group) under expert guidance."
+      "Use only a locally approved protective fungicide according to its registered label and seek agricultural expert guidance."
     ],
     chemical_hi: [
-      "कृषि विशेषज्ञ की सलाह से क्लोरोथैलोनिल समूह के कवकनाशी का प्रयोग करें।"
+      "रासायनिक उत्पाद का प्रयोग केवल स्थानीय अधिकृत लेबल और कृषि विशेषज्ञ के मार्गदर्शन अनुसार ही करें।"
     ]
   },
   "potato_healthy": {
@@ -273,7 +273,7 @@ const MOCK_RECOMMENDATIONS = {
       "मौसम में नमी रहने पर नीम तेल का हल्का सुरक्षात्मक छिड़काव कर सकते हैं।"
     ],
     chemical_en: [
-      "No chemical fungicides required for healthy crops."
+      "No chemical fungicides required for healthy foliage."
     ],
     chemical_hi: [
       "स्वस्थ फसल पर किसी रासायनिक दवा के छिड़काव की आवश्यकता नहीं है।"
@@ -299,10 +299,10 @@ const MOCK_RECOMMENDATIONS = {
       "प्राकृतिक मित्र कीटों का संरक्षण करें।"
     ],
     chemical_en: [
-      "Vector control: Approved systemic insecticides under official KVK advice."
+      "Vector control: Use only locally approved insecticides according to official label under agricultural expert guidance."
     ],
     chemical_hi: [
-      "सफेद मक्खी नियंत्रण: स्थानीय कृषि विज्ञान केंद्र (KVK) द्वारा अनुशंसित कीटनाशक का प्रयोग करें।"
+      "सफेद मक्खी नियंत्रण: रासायनिक कीटनाशक का प्रयोग केवल आधिकारिक लेबल व कृषि विशेषज्ञ की सलाह अनुसार करें।"
     ]
   },
   "rice_bacterial_blight": {
@@ -321,10 +321,10 @@ const MOCK_RECOMMENDATIONS = {
       "स्यूडोमोनास फ्लोरोसेंस (Pseudomonas fluorescens) जैविक घोल का छिड़काव करें।"
     ],
     chemical_en: [
-      "Apply copper-based bactericides as recommended by State Agricultural University."
+      "Use only a locally approved bactericide product according to its official label and seek agricultural expert guidance."
     ],
     chemical_hi: [
-      "राज्य कृषि विश्वविद्यालय द्वारा अनुशंसित कॉपर आधारित जीवाणुनाशी का छिड़काव करें।"
+      "रासायनिक उत्पाद का प्रयोग केवल स्थानीय अधिकृत लेबल और कृषि विशेषज्ञ के मार्गदर्शन अनुसार ही करें।"
     ]
   }
 };
@@ -415,6 +415,7 @@ const DEFAULT_HISTORY = [
     scanned_at: "2026-08-28T10:15:00Z",
     quality_score: 94,
     is_mock: true,
+    isDemo: true,
     thumbnail: "./assets/images/sample_potato_blight.jpg"
   },
   {
@@ -430,6 +431,7 @@ const DEFAULT_HISTORY = [
     scanned_at: "2026-08-27T16:40:00Z",
     quality_score: 91,
     is_mock: true,
+    isDemo: true,
     thumbnail: "./assets/images/sample_tomato_curl.jpg"
   },
   {
@@ -445,6 +447,7 @@ const DEFAULT_HISTORY = [
     scanned_at: "2026-08-26T09:20:00Z",
     quality_score: 95,
     is_mock: true,
+    isDemo: true,
     thumbnail: "./assets/images/sample_rice_blight.jpg"
   },
   {
@@ -460,6 +463,7 @@ const DEFAULT_HISTORY = [
     scanned_at: "2026-08-22T11:30:00Z",
     quality_score: 92,
     is_mock: true,
+    isDemo: true,
     thumbnail: "./assets/images/sample_potato_blight.jpg"
   },
   {
@@ -475,6 +479,7 @@ const DEFAULT_HISTORY = [
     scanned_at: "2026-08-20T14:10:00Z",
     quality_score: 89,
     is_mock: true,
+    isDemo: true,
     thumbnail: "./assets/images/sample_tomato_curl.jpg"
   }
 ];
@@ -487,7 +492,8 @@ const DEFAULT_USER = {
   state: "Madhya Pradesh",
   district: "Indore",
   village: "Sanwer",
-  crops_cultivated: ["potato", "tomato", "rice"]
+  crops_cultivated: ["potato", "tomato", "rice"],
+  isDemo: true
 };
 
 // =============================================================================
@@ -718,7 +724,7 @@ const MOCK_FARMER_EXPERTS = [
     distance_km: 12.4,
     consultation_fee: 250,
     field_visit_fee: 500,
-    availability_status: "Available Today",
+    availability_status: "Demo Profile (डेमो प्रोफाइल)",
     languages: ["हिन्दी (Hindi)", "Malwi", "English"],
     rating: 4.9,
     consultations_completed: 412,
@@ -738,7 +744,7 @@ const MOCK_FARMER_EXPERTS = [
     distance_km: 15.1,
     consultation_fee: 200,
     field_visit_fee: 450,
-    availability_status: "Available from 2:00 PM",
+    availability_status: "Demo Profile (डेमो प्रोफाइल)",
     languages: ["हिन्दी (Hindi)", "English"],
     rating: 4.8,
     consultations_completed: 285,
@@ -758,7 +764,7 @@ const MOCK_FARMER_EXPERTS = [
     distance_km: 2.5,
     consultation_fee: 150,
     field_visit_fee: 350,
-    availability_status: "Available on Call",
+    availability_status: "Demo Profile (डेमो प्रोफाइल)",
     languages: ["हिन्दी (Hindi)", "Malwi", "Nimadi"],
     rating: 4.7,
     consultations_completed: 630,
@@ -775,6 +781,7 @@ const MOCK_COMMUNITY_POSTS = [
     author_name: "Babulal Patel (बाबूलाल पटेल)",
     author_region: "Sanwer, Indore",
     author_experience: "Experienced Farmer (18 yrs)",
+    authority_level: "farmer_observation",
     crop_id: "potato",
     disease_tag: "potato_late_blight",
     title_hi: "आलू में पत्तियों के किनारे काले होकर झुलस रहे हैं, बारिश के बाद क्या करें?",
@@ -789,20 +796,24 @@ const MOCK_COMMUNITY_POSTS = [
         author_name: "Ramswaroop Yadav (रामस्वरूप यादव)",
         author_badge: "Top Contributor (मालवा क्षेत्र)",
         experience_crop: "Potato • 24 Acres",
-        text_hi: "भाई, यह पछेती झुलसा (Late Blight) के पक्के लक्षण हैं। खेत में तुरंत पानी का भराव रोकें और क्यारियों की नाली खोलें। अगर धूप निकले तो पहले मैंकोजेब (M-45) का 2 ग्राम प्रति लीटर पानी में स्प्रे करें। तेज धूप में ही छिड़कें।",
-        text_en: "Classic late blight symptoms. First ensure drain channels are open. If sunlight permits, spray Mancozeb 75 WP @ 2g/litre immediately.",
+        authority_level: "expert_verified",
+        text_hi: "भाई, यह पछेती झुलसा (Late Blight) के पक्के लक्षण हैं। खेत में तुरंत पानी का भराव रोकें और क्यारियों की नाली खोलें। अगर धूप निकले तो पहले अधिकृत लेबल अनुसार सुरक्षात्मक छिड़काव करें।",
+        text_en: "Classic late blight symptoms. First ensure drain channels are open. Apply authorized protective spray as per label if sunlight permits.",
         helpful_count: 19,
-        is_expert_reviewed: true
+        is_expert_reviewed: true,
+        isDemo: true
       },
       {
         answer_id: "ans_01_2",
         author_name: "Kailash Choudhary",
         author_badge: "Experienced Farmer",
         experience_crop: "Potato & Garlic",
+        authority_level: "community_response",
         text_hi: "रोगग्रस्त पौधों के संक्रमित पत्ते तोड़कर खेत से बाहर गड्ढे में दबा दें ताकि हवा से पड़ोसी पौधों में न फैले।",
         text_en: "Prune infected bottom leaves and bury them outside the field to prevent aerial spore spread.",
         helpful_count: 8,
-        is_expert_reviewed: false
+        is_expert_reviewed: false,
+        isDemo: true
       }
     ],
     isDemo: true
@@ -812,6 +823,7 @@ const MOCK_COMMUNITY_POSTS = [
     author_name: "Dharmendra Kushwaha (धर्मेंद्र कुशवाहा)",
     author_region: "Mhow, Indore",
     author_experience: "Vegetable Grower (10 yrs)",
+    authority_level: "farmer_observation",
     crop_id: "tomato",
     disease_tag: "tomato_leaf_curl",
     title_hi: "टमाटर की पत्तियां ऊपर की तरफ मुड़ रही हैं और पौधा बौना रह रहा है",
@@ -826,10 +838,12 @@ const MOCK_COMMUNITY_POSTS = [
         author_name: "Mohanlal Sharma",
         author_badge: "Experienced Farmer",
         experience_crop: "Tomato Polyhouse",
-        text_hi: "यह लीफ कर्ल वायरस है जिसे सफेद मक्खी (Whitefly) फैलाती है। खेत में 10-12 पीले चिपचिपे ट्रैप (Yellow Sticky Traps) प्रति एकड़ लगाएं और नीम तेल (10,000 ppm) 2-3 मिली/लीटर का स्प्रे करें।",
-        text_en: "This is leaf curl virus vectored by whiteflies. Install 10-12 yellow sticky traps per acre and apply 10,000 ppm neem oil @ 2-3ml/L.",
+        authority_level: "expert_verified",
+        text_hi: "यह लीफ कर्ल वायरस है जिसे सफेद मक्खी फैलाती है। खेत में 10-12 पीले चिपचिपे ट्रैप लगाएं और नीम तेल (10,000 ppm) का नियमित छिड़काव करें।",
+        text_en: "This is leaf curl virus vectored by whiteflies. Install yellow sticky traps and apply registered neem oil regularly.",
         helpful_count: 15,
-        is_expert_reviewed: true
+        is_expert_reviewed: true,
+        isDemo: true
       }
     ],
     isDemo: true

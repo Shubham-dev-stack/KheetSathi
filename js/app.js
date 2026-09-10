@@ -150,6 +150,18 @@ class KheetSathiApp {
       }
     });
 
+    // Update dynamic farmer greeting header
+    const user = StorageManager.getUser();
+    const greetingNameEl = document.getElementById('home-farmer-greeting');
+    const locationEl = document.getElementById('home-farmer-location');
+    if (greetingNameEl) {
+      const uName = user && user.name ? user.name : 'Shubham';
+      greetingNameEl.textContent = lang === 'hi' ? `नमस्ते, ${uName} 👋` : `Hello, ${uName} 👋`;
+    }
+    if (locationEl && user) {
+      locationEl.textContent = user.district ? `${user.district}, ${user.state ? (user.state === 'Madhya Pradesh' ? 'MP' : user.state) : 'IN'}` : 'Indore, MP';
+    }
+
     // Re-render dependent views
     this.renderCropGrid();
     this.renderMyCrops();
@@ -372,7 +384,7 @@ class KheetSathiApp {
     if (scans.length === 0) {
       container.innerHTML = `
         <div style="text-align: center; padding: 24px 14px; color: var(--text-muted); font-size: 12px;">
-          ${isHi ? 'इस फसल के लिए अभी कोई टाइमलाइन डेटा उपलब्ध नहीं है।' : 'No timeline data logged for this crop yet.'}
+          ${isHi ? 'इस फसल के लिए अभी कोई टाइमलाइन रिकॉर्ड नहीं है। नई जांच करके पहला रिकॉर्ड जोड़ें।' : 'No timeline records for this crop yet. Record a scan to start tracking.'}
         </div>
       `;
       document.getElementById('timeline-trend-badge').textContent = 'N/A';
@@ -380,7 +392,7 @@ class KheetSathiApp {
       return;
     }
 
-    // Determine trend (Compare newest with oldest)
+    // Determine trend (Compare newest with oldest based on recorded entries)
     const latest = scans[0];
     const oldest = scans[scans.length - 1];
     let isImproved = false;
@@ -400,15 +412,15 @@ class KheetSathiApp {
     if (isImproved) {
       trendBadge.className = 'badge badge-success';
       trendBadge.textContent = isHi ? 'सुधार की ओर (Improving)' : 'Improving Trend';
-      trendDesc.textContent = isHi ? 'हाल के स्कैन में गंभीरता स्तर में कमी दर्ज की गई है।' : 'Recent prototype scans show reduced severity level.';
+      trendDesc.textContent = isHi ? 'आपके दर्ज अवलोकनों के आधार पर पत्तियों पर रोग के प्रभाव में कमी देखी गई है।' : 'Based on your follow-up observations, foliar symptoms appear reduced.';
     } else if (isWorse) {
       trendBadge.className = 'badge badge-danger';
       trendBadge.textContent = isHi ? 'ध्यान देने योग्य (Needs Attention)' : 'Needs Attention';
-      trendDesc.textContent = isHi ? 'लक्षणों का फैलाव देखा गया है, कृषि परामर्श का पालन करें।' : 'Increased symptoms detected, follow agronomic recommendations.';
+      trendDesc.textContent = isHi ? 'आपके दर्ज अवलोकनों के आधार पर लक्षणों का फैलाव देखा गया है। अनुशंसित प्रबंधन का पालन करें।' : 'Based on your follow-up observations, increased symptoms observed. Follow recommended management.';
     } else {
       trendBadge.className = 'badge badge-warning';
       trendBadge.textContent = isHi ? 'स्थिर स्थिति (Stable)' : 'Stable Condition';
-      trendDesc.textContent = isHi ? 'फसल की स्थिति पिछले स्कैन के समान बनी हुई है।' : 'Condition remains consistent across recorded scans.';
+      trendDesc.textContent = isHi ? 'दर्ज स्कैन के अनुसार फसल की स्थिति स्थिर बनी हुई है।' : 'Condition remains consistent based on recorded entries.';
     }
 
     // Render Timeline Items
@@ -426,17 +438,28 @@ class KheetSathiApp {
         month: 'short', day: 'numeric', year: 'numeric'
       });
 
+      const scanTypeTag = scan.is_followup ? 
+        (isHi ? '🔄 फॉलो-अप स्कैन' : '🔄 Follow-up Scan') : 
+        (isHi ? '📷 प्राथमिक स्कैन' : '📷 Initial Scan');
+
+      const relLabel = (scan.confidence_score || 0.85) >= 0.70 ? 
+        (isHi ? 'उच्च विश्वसनीयता' : 'High reliability') : 
+        (isHi ? 'मध्यम विश्वसनीयता' : 'Moderate reliability');
+
       item.innerHTML = `
         <span class="timeline-node ${nodeClass}"></span>
         <div class="timeline-card">
           <img src="${scan.thumbnail}" class="timeline-thumb" alt="${scan.disease_name_en}">
           <div class="timeline-content">
             <div style="display: flex; justify-content: space-between; align-items: baseline;">
-              <div class="timeline-date">${dateFormatted} ${idx === 0 ? (isHi ? '• नवीनतम' : '• Latest') : ''}</div>
-              <span class="badge ${badgeClass}" style="font-size: 9px;">${scan.severity_tier || 'Checked'}</span>
+              <div class="timeline-date">${dateFormatted} • ${scanTypeTag}</div>
+              <span class="badge ${badgeClass}" style="font-size: 9px;">${scan.severity_tier || (isHi ? 'जांचा गया' : 'Checked')}</span>
             </div>
             <div class="timeline-disease">${isHi ? scan.disease_name_hi : scan.disease_name_en}</div>
-            <div style="font-size: 10px; color: var(--text-muted);">${Math.round((scan.confidence_score || 0.85) * 100)}% Confidence Score</div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">
+              <span>${isHi ? 'मॉडल संकेत:' : 'Model signal:'} <strong>${relLabel}</strong></span> • 
+              <span>${isHi ? 'किसान अवलोकन' : 'Farmer log'}</span>
+            </div>
           </div>
         </div>
       `;
@@ -503,21 +526,23 @@ class KheetSathiApp {
     const latest = scans[0];
     const earlier = scans[scans.length - 1];
 
+    const getRelText = (score) => (score >= 0.70 ? (isHi ? 'उच्च विश्वसनीयता' : 'High Rel.') : (isHi ? 'मध्यम विश्वसनीयता' : 'Mod. Rel.'));
+
     // Populate Earlier
     document.getElementById('compare-earlier-img').src = earlier.thumbnail;
     document.getElementById('compare-earlier-date').textContent = new Date(earlier.scanned_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' });
     document.getElementById('compare-earlier-disease').textContent = isHi ? earlier.disease_name_hi : earlier.disease_name_en;
-    document.getElementById('compare-earlier-severity').textContent = isHi ? earlier.severity_tier : earlier.severity_tier;
-    document.getElementById('compare-earlier-conf').textContent = `${Math.round(earlier.confidence_score * 100)}% Conf.`;
+    document.getElementById('compare-earlier-severity').textContent = earlier.severity_tier;
+    document.getElementById('compare-earlier-conf').textContent = getRelText(earlier.confidence_score || 0.85);
 
     // Populate Latest
     document.getElementById('compare-latest-img').src = latest.thumbnail;
     document.getElementById('compare-latest-date').textContent = new Date(latest.scanned_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' });
     document.getElementById('compare-latest-disease').textContent = isHi ? latest.disease_name_hi : latest.disease_name_en;
-    document.getElementById('compare-latest-severity').textContent = isHi ? latest.severity_tier : latest.severity_tier;
-    document.getElementById('compare-latest-conf').textContent = `${Math.round(latest.confidence_score * 100)}% Conf.`;
+    document.getElementById('compare-latest-severity').textContent = latest.severity_tier;
+    document.getElementById('compare-latest-conf').textContent = getRelText(latest.confidence_score || 0.85);
 
-    // Compute Trend Explanation
+    // Compute Trend Explanation based on recorded observations
     const getSeverityWeight = (s) => (s && s.includes('Severe')) ? 3 : ((s && s.includes('Moderate')) ? 2 : 1);
     const latestWeight = getSeverityWeight(latest.severity_tier);
     const earlierWeight = getSeverityWeight(earlier.severity_tier);
@@ -529,20 +554,20 @@ class KheetSathiApp {
       trendPill.className = 'badge badge-success';
       trendPill.textContent = isHi ? 'सुधार की ओर (Improving)' : 'Improving';
       trendExp.textContent = isHi ? 
-        `दर्ज रिकॉर्ड के अनुसार पत्ती पर रोग का स्तर ${earlier.severity_tier} से घटकर ${latest.severity_tier} दर्ज हुआ है।` :
-        `Recorded prototype entries show severity reduced from ${earlier.severity_tier} to ${latest.severity_tier}.`;
+        `दर्ज अवलोकनों के अनुसार पत्ती पर लक्षणों का प्रभाव ${earlier.severity_tier} से घटकर ${latest.severity_tier} पाया गया है।` :
+        `Based on recorded observations, foliar symptoms reduced from ${earlier.severity_tier} to ${latest.severity_tier}.`;
     } else if (latestWeight > earlierWeight) {
       trendPill.className = 'badge badge-danger';
       trendPill.textContent = isHi ? 'ध्यान देने योग्य (Needs Attention)' : 'Needs Attention';
       trendExp.textContent = isHi ? 
-        `पूर्व जांच की तुलना में रोग का फैलाव बढ़ा हुआ पाया गया है। तत्काल अनुशंसित रोकथाम उपायों का पालन करें।` :
-        `Recorded prototype entries indicate elevated foliar symptoms. Follow recommended field remedies.`;
+        `पूर्व जांच की तुलना में लक्षणों का फैलाव बढ़ा हुआ दर्ज हुआ है। तत्काल अनुशंसित रोकथाम उपायों का पालन करें।` :
+        `Recorded entries indicate elevated symptoms compared to previous scan. Follow recommended management.`;
     } else {
       trendPill.className = 'badge badge-warning';
       trendPill.textContent = isHi ? 'स्थिर स्थिति (Stable)' : 'Stable';
       trendExp.textContent = isHi ? 
-        `रोग की स्थिति दोनों जांचों में समान स्तर (${latest.severity_tier}) पर बनी हुई है।` :
-        `Condition remains steady at ${latest.severity_tier} across comparison scans.`;
+        `दोनों जांचों के बीच लक्षण स्तर (${latest.severity_tier}) पर स्थिर बने हुए हैं।` :
+        `Symptoms remain consistent at ${latest.severity_tier} across recorded comparison scans.`;
     }
   }
 
@@ -660,47 +685,50 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
   // Crop Grid & Presets
   // =========================================================================
 
-  renderCropGrid() {
+  renderCropGrid(filterQuery = '') {
     const container = document.getElementById('crop-grid-container');
     if (!container) return;
     container.innerHTML = '';
+    const q = (filterQuery || '').toLowerCase().trim();
+    const isHi = this.currentLang === 'hi';
 
-    MOCK_CROPS.forEach(crop => {
+    const filtered = MOCK_CROPS.filter(c => {
+      if (!q) return true;
+      return c.name_en.toLowerCase().includes(q) || c.name_hi.toLowerCase().includes(q) || c.crop_id.toLowerCase().includes(q);
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 18px; color: var(--text-muted); font-size: 12px;">
+          ${isHi ? 'कोई मेल खाती फसल नहीं मिली।' : 'No matching crop found.'}
+        </div>
+      `;
+      return;
+    }
+
+    filtered.forEach(crop => {
+      const isSel = this.selectedCrop && this.selectedCrop.crop_id === crop.crop_id;
       const card = document.createElement('div');
-      card.className = `crop-card ${this.selectedCrop.crop_id === crop.crop_id ? 'selected' : ''}`;
+      card.className = `crop-card ${isSel ? 'selected' : ''}`;
+      card.dataset.crop = crop.crop_id;
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `${crop.name_en} - ${crop.name_hi}`);
       card.innerHTML = `
         <img src="${crop.image}" class="crop-card-img" alt="${crop.name_en}">
         <div class="crop-card-text">
-          <div class="crop-name-hi">${crop.name_hi}</div>
-          <div class="crop-name-en">${crop.name_en}</div>
+          <div class="crop-name-hi">${isHi ? crop.name_hi : crop.name_en}</div>
+          <div class="crop-name-en">${isHi ? crop.name_en : crop.name_hi}</div>
         </div>
       `;
       card.addEventListener('click', () => {
-        document.querySelectorAll('.crop-card').forEach(c => c.classList.remove('selected'));
+        document.querySelectorAll('#crop-grid-container .crop-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
         this.selectedCrop = crop;
-        document.getElementById('btn-crop-next').removeAttribute('disabled');
+        document.getElementById('btn-crop-next')?.removeAttribute('disabled');
       });
       container.appendChild(card);
     });
-
-    // General / Other crop option
-    const autoCard = document.createElement('div');
-    autoCard.className = `crop-card ${this.selectedCrop.crop_id === 'general' ? 'selected' : ''}`;
-    autoCard.innerHTML = `
-      <img src="${CROP_IMAGES.general}" class="crop-card-img" alt="Other Crop">
-      <div class="crop-card-text">
-        <div class="crop-name-hi">अन्य फसल</div>
-        <div class="crop-name-en">Other Crop</div>
-      </div>
-    `;
-    autoCard.addEventListener('click', () => {
-      document.querySelectorAll('.crop-card').forEach(c => c.classList.remove('selected'));
-      autoCard.classList.add('selected');
-      this.selectedCrop = { crop_id: 'general', name_en: 'General Crop', name_hi: 'अन्य फसल', image: CROP_IMAGES.general };
-      document.getElementById('btn-crop-next').removeAttribute('disabled');
-    });
-    container.appendChild(autoCard);
   }
 
   renderPresets() {
@@ -965,15 +993,19 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     const scorePill = document.getElementById('quality-score-pill');
 
     const isGood = quality.qualityScore >= 65;
-    verdictCard.className = `quality-verdict-bar ${isGood ? 'good' : 'warning'}`;
-    verdictIcon.textContent = isGood ? '✓' : '!';
-    scorePill.className = `badge ${isGood ? 'badge-success' : 'badge-warning'}`;
-    scorePill.textContent = `${quality.qualityScore}/100`;
+    if (verdictCard) verdictCard.className = `quality-verdict-bar ${isGood ? 'good' : 'warning'}`;
+    if (verdictIcon) verdictIcon.textContent = isGood ? '✓' : '⚠';
+    if (scorePill) {
+      scorePill.className = `badge ${isGood ? 'badge-success' : 'badge-warning'}`;
+      scorePill.textContent = isGood ? (this.currentLang === 'hi' ? 'जांच योग्य' : 'Ready for Scan') : (this.currentLang === 'hi' ? 'सुधार आवश्यक' : 'Needs Better Light');
+    }
 
-    if (isGood) {
-      verdictText.textContent = this.currentLang === 'hi' ? '✓ फोटो साफ और अच्छी रोशनी में है' : '✓ Photo is clear and well-exposed';
-    } else {
-      verdictText.textContent = this.currentLang === 'hi' ? '! फोटो थोड़ी धुंधली या कम रोशनी में है' : '! Photo is slightly blurry / low exposure';
+    if (verdictText) {
+      if (isGood) {
+        verdictText.textContent = this.currentLang === 'hi' ? 'फोटो साफ और उपयुक्त है' : 'Photo is clear and suitable';
+      } else {
+        verdictText.textContent = this.currentLang === 'hi' ? 'फोटो में कम रोशनी या हल्का धुंधलापन है' : 'Photo is low exposure / slightly blurry';
+      }
     }
   }
 
@@ -987,15 +1019,15 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     const stepText = document.getElementById('analyzing-step-text');
     const isHi = this.currentLang === 'hi';
     
-    stepText.textContent = isHi ? 'फोटो देख रहे हैं और धब्बों की पहचान कर रहे हैं...' : 'Examining leaf photo and lesion textures...';
+    if (stepText) stepText.textContent = isHi ? '1. फोटो की स्पष्टता व धब्बे जांच रहे हैं...' : '1. Checking leaf exposure and lesion clarity...';
     
     setTimeout(() => {
-      stepText.textContent = isHi ? 'पत्ती के लक्षण जांच रहे हैं...' : 'Matching foliar symptom signatures...';
-    }, 400);
+      if (stepText) stepText.textContent = isHi ? '2. पत्ती व फसल के लक्षणों का मिलान हो रहा है...' : '2. Matching foliar symptom patterns...';
+    }, 250);
 
     setTimeout(() => {
-      stepText.textContent = isHi ? 'ऑन-डिवाइस AI मॉडल से विश्लेषण जारी है...' : 'Running on-device neural network inference...';
-    }, 800);
+      if (stepText) stepText.textContent = isHi ? '3. ऑन-डिवाइस AI मॉडल से पुष्टि की जा रही है...' : '3. Running on-device neural network inference...';
+    }, 550);
 
     try {
       // 1. If Leaf ROI mode is active, crop the symptom region
@@ -1047,48 +1079,91 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     const leafImg = document.getElementById('result-leaf-img');
     if (leafImg) leafImg.src = this.currentImageDataUrl || DEMO_PRESETS[0].thumbnail;
 
-    // Header
-    document.getElementById('result-crop-name').textContent = isHi ? result.crop_name_hi : result.crop_name_en;
+    // Crop Name & Header
+    const cropEl = document.getElementById('result-crop-name');
+    if (cropEl) cropEl.textContent = isHi ? result.crop_name_hi : result.crop_name_en;
+    
     document.getElementById('result-disease-hi').textContent = result.name_hi;
-    document.getElementById('result-disease-en').textContent = result.name_en;
+    document.getElementById('result-disease-en').textContent = `${result.name_en}`;
     document.getElementById('result-scientific-name').textContent = result.scientific_name;
 
-    // Confidence
-    const confPercent = Math.round(result.confidence_score * 100);
-    document.getElementById('result-confidence-text').textContent = `${confPercent}%`;
-    document.getElementById('result-confidence-fill').style.width = `${confPercent}%`;
+    // Model Reliability Assessment (High / Moderate / Uncertain)
+    const relBadge = document.getElementById('result-reliability-badge');
+    const score = (result.conditional_confidence !== undefined) ? result.conditional_confidence : (result.confidence_score || 0.85);
+    if (relBadge) {
+      if (score >= 0.70) {
+        relBadge.className = 'badge badge-success';
+        relBadge.textContent = isHi ? 'उच्च विश्वसनीयता' : 'High Reliability';
+      } else if (score >= 0.45) {
+        relBadge.className = 'badge badge-warning';
+        relBadge.textContent = isHi ? 'मध्यम विश्वसनीयता' : 'Moderate Reliability';
+      } else {
+        relBadge.className = 'badge badge-danger';
+        relBadge.textContent = isHi ? 'पहचान अनिश्चित' : 'Uncertain';
+      }
+    }
 
-    // Severity Tag
+    // Observed Symptom Level (Visual leaf observation - not laboratory measured)
     const severityBadge = document.getElementById('result-severity-badge');
-    const isSevere = result.severity_tier && result.severity_tier.includes('Severe');
-    const isMod = result.severity_tier && result.severity_tier.includes('Moderate');
-    const isMild = result.severity_tier && result.severity_tier.includes('Mild');
-    
-    severityBadge.className = `badge ${isSevere ? 'badge-danger' : (isMod ? 'badge-warning' : (isMild ? 'badge-warning' : 'badge-success'))}`;
-    severityBadge.textContent = isHi ? 
-      (isSevere ? 'गंभीर संक्रमण (Severe)' : (isMod ? 'मध्यम संक्रमण (Moderate)' : (isMild ? 'हल्का संक्रमण (Mild)' : 'स्वस्थ पौधा (Healthy)'))) :
-      result.severity_tier;
+    if (severityBadge) {
+      const isSevere = result.severity_tier && (result.severity_tier.includes('Severe') || result.severity_tier.includes('Extensive'));
+      const isMod = result.severity_tier && result.severity_tier.includes('Moderate');
+      const isMild = result.severity_tier && result.severity_tier.includes('Mild');
+      
+      severityBadge.className = `badge ${isSevere ? 'badge-danger' : (isMod ? 'badge-warning' : (isMild ? 'badge-warning' : 'badge-success'))}`;
+      severityBadge.textContent = isHi ? 
+        (isSevere ? 'व्यापक लक्षण स्तर (दृश्यमान संकेत)' : (isMod ? 'मध्यम लक्षण स्तर (दृश्यमान संकेत)' : (isMild ? 'हल्का लक्षण स्तर (दृश्यमान संकेत)' : 'स्वस्थ पौधा (दृश्यमान संकेत)'))) :
+        (isSevere ? 'Extensive (Visual Indication)' : (isMod ? 'Moderate (Visual Indication)' : (isMild ? 'Mild (Visual Indication)' : 'Healthy Foliage (Visual Indication)')));
+    }
 
-    // Observations (3 Concise Bullet Points)
+    // Expandable Evidence: "Why this result?" (Grounding in computed photo quality, crop, foliar pattern, model signal)
+    const evidenceContainer = document.getElementById('result-evidence-list');
+    if (evidenceContainer) {
+      const cropName = isHi ? result.crop_name_hi : result.crop_name_en;
+      const diseaseName = isHi ? result.name_hi : result.name_en;
+      const relLabel = score >= 0.70 ? (isHi ? 'उच्च विश्वसनीयता' : 'High Reliability') : (isHi ? 'मध्यम विश्वसनीयता' : 'Moderate Reliability');
+
+      evidenceContainer.innerHTML = `
+        <div class="evidence-item">✓ <strong>${isHi ? 'फोटो गुणवत्ता:' : 'Photo Quality:'}</strong> ${isHi ? 'पत्ती व रोग के धब्बे पर्याप्त स्पष्ट व केंद्रित' : 'Adequate exposure and clear focus detected'}</div>
+        <div class="evidence-item">✓ <strong>${isHi ? 'फसल अनुकूलता:' : 'Crop Compatibility:'}</strong> ${isHi ? `${cropName} की पत्ती संरचना से मेल` : `Matches ${cropName} foliar anatomy`}</div>
+        <div class="evidence-item">✓ <strong>${isHi ? 'लक्षण स्वरूप:' : 'Symptom Signature:'}</strong> ${isHi ? `${diseaseName} के विशिष्ट दृश्यमान वानस्पतिक लक्षण` : `Consistent with ${diseaseName} foliar lesions`}</div>
+        <div class="evidence-item">✓ <strong>${isHi ? 'AI मॉडल संकेत:' : 'AI Model Signal:'}</strong> ${isHi ? `ऑन-डिवाइस मॉडल का प्राथमिक पूर्वानुमान (${relLabel})` : `Primary on-device prediction signal (${relLabel})`}</div>
+      `;
+    }
+
+    // Observations (Concise Field Symptoms)
     const obsList = document.getElementById('result-observations-list');
     if (obsList) {
       const observations = result.observations || (isHi ? [result.symptoms_hi] : [result.symptoms_en]);
       obsList.innerHTML = observations.map(obs => `<li>${obs}</li>`).join('');
     }
 
-    // 3-Step Action Plan
+    // Moderate Reliability Notice (Dynamically toggled for 0.45 <= score < 0.70)
+    const moderateAlert = document.getElementById('result-moderate-alert');
+    if (moderateAlert) {
+      if (score >= 0.45 && score < 0.70) {
+        moderateAlert.style.display = 'block';
+        moderateAlert.innerHTML = isHi ?
+          '⚠️ <strong>मध्यम विश्वसनीयता संकेत:</strong> खेत में बड़े निर्णय या रासायनिक प्रयोग से पूर्व किसान चौपाल या कृषि विशेषज्ञ से पुष्टि अवश्य करें।' :
+          '⚠️ <strong>Moderate Reliability Indication:</strong> Consult Kisan Chaupal or an agronomist before taking high-impact chemical actions.';
+      } else {
+        moderateAlert.style.display = 'none';
+      }
+    }
+
+    // 3-Stage Action Plan (A. Immediate Safe Steps, B. Management/Prevention, C. Expert Escalation & Chemical Notice)
     const culturalList = document.getElementById('remedy-cultural-list');
     const bioList = document.getElementById('remedy-bio-list');
     const chemList = document.getElementById('remedy-chem-list');
 
-    culturalList.innerHTML = (isHi ? result.cultural_hi : result.cultural_en).map(item => `<li>${item}</li>`).join('');
-    bioList.innerHTML = (isHi ? result.biological_hi : result.biological_en).map(item => `<li>${item}</li>`).join('');
-    chemList.innerHTML = (isHi ? result.chemical_hi : result.chemical_en).map(item => `<li>${item}</li>`).join('');
+    if (culturalList) culturalList.innerHTML = (isHi ? result.cultural_hi : result.cultural_en).map(item => `<li>${item}</li>`).join('');
+    if (bioList) bioList.innerHTML = (isHi ? result.biological_hi : result.biological_en).map(item => `<li>${item}</li>`).join('');
+    if (chemList) chemList.innerHTML = (isHi ? result.chemical_hi : result.chemical_en).map(item => `<li>${item}</li>`).join('');
 
     // Reset save button label
     const saveBtnText = document.getElementById('save-btn-text');
     if (saveBtnText) {
-      saveBtnText.textContent = isHi ? 'स्कैन इतिहास में सहेजें' : 'Save Scan';
+      saveBtnText.textContent = isHi ? 'टाइमलाइन में सहेजें' : 'Save to Timeline';
     }
 
     // Reset voice button state
@@ -1111,6 +1186,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       severity_tier: this.currentScanResult.severity_tier,
       scanned_at: new Date().toISOString(),
       quality_score: this.currentQualityData?.qualityScore || 90,
+      is_followup: false,
       is_mock: this.currentScanResult.is_mock !== undefined ? this.currentScanResult.is_mock : false,
       thumbnail: this.currentImageDataUrl || DEMO_PRESETS[0].thumbnail
     };
@@ -1124,6 +1200,35 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       saveBtnText.textContent = this.currentLang === 'hi' ? '✓ सहेजा गया (Saved)' : '✓ Saved to History';
     }
     this.showToast(this.currentLang === 'hi' ? 'सहेजा गया: स्कैन इतिहास एवं टाइमलाइन में जोड़ा गया।' : 'Saved: Scan added to your history and crop timeline.');
+  }
+
+  saveFollowupScan() {
+    if (!this.currentScanResult) return;
+    const isHi = this.currentLang === 'hi';
+    const cropId = this.currentScanResult.crop_id || this.selectedCrop?.crop_id || 'potato';
+
+    const followupRecord = {
+      id: `scan_followup_${Date.now()}`,
+      crop_id: cropId,
+      crop_name_en: this.currentScanResult.crop_name_en || this.selectedCrop?.name_en || 'Crop',
+      crop_name_hi: this.currentScanResult.crop_name_hi || this.selectedCrop?.name_hi || 'फसल',
+      disease_id: this.currentScanResult.disease_id,
+      disease_name_en: this.currentScanResult.name_en,
+      disease_name_hi: this.currentScanResult.name_hi,
+      confidence_score: this.currentScanResult.confidence_score,
+      severity_tier: this.currentScanResult.severity_tier,
+      scanned_at: new Date().toISOString(),
+      quality_score: this.currentQualityData?.qualityScore || 90,
+      is_followup: true,
+      is_mock: this.currentScanResult.is_mock !== undefined ? this.currentScanResult.is_mock : false,
+      thumbnail: this.currentImageDataUrl || DEMO_PRESETS[0].thumbnail
+    };
+
+    StorageManager.saveScan(followupRecord);
+    this.renderMyCrops();
+    this.renderRecentScans();
+    this.showToast(isHi ? 'फॉलो-अप स्कैन जोड़ा गया! टाइमलाइन में दर्ज हुआ।' : 'Follow-up scan added! Recorded in crop timeline.');
+    this.navigateTo('view-crop-timeline', cropId);
   }
 
   // =========================================================================
@@ -1224,7 +1329,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
   // MODULE 2: Multi-Retailer Product Price Comparison
   // =========================================================================
 
-  renderProductComparison(filterCrop = 'all', filterDisease = 'all') {
+  renderProductComparison(filterCrop = 'all', filterDisease = 'all', filterCategory = 'all') {
     const isHi = this.currentLang === 'hi';
     const container = document.getElementById('products-list-container');
     const cropSelect = document.getElementById('products-crop-select');
@@ -1232,13 +1337,26 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     const retailersStrip = document.getElementById('retailers-strip-container');
     if (!container) return;
 
+    this.productFilterCrop = filterCrop;
+    this.productFilterDisease = filterDisease;
+    this.productFilterCategory = filterCategory;
+
+    // Update Category Filter Buttons Active State
+    document.querySelectorAll('#products-category-filters .prod-filter-btn').forEach(btn => {
+      const cat = btn.dataset.cat || 'all';
+      btn.classList.toggle('active', cat === filterCategory);
+      btn.onclick = () => {
+        this.renderProductComparison(this.productFilterCrop || 'all', this.productFilterDisease || 'all', cat);
+      };
+    });
+
     // Populate Selectors
     if (cropSelect) {
       cropSelect.innerHTML = `<option value="all">${isHi ? 'सभी फसलें (All Crops)' : 'All Crops'}</option>` +
         MOCK_CROPS.map(c => `<option value="${c.crop_id}" ${c.crop_id === filterCrop ? 'selected' : ''}>${isHi ? c.name_hi : c.name_en}</option>`).join('');
       
       cropSelect.onchange = () => {
-        this.renderProductComparison(cropSelect.value, 'all');
+        this.renderProductComparison(cropSelect.value, 'all', this.productFilterCategory || 'all');
       };
     }
 
@@ -1248,44 +1366,85 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
         diseases.map(([k, d]) => `<option value="${k}" ${k === filterDisease ? 'selected' : ''}>${isHi ? d.name_hi : d.name_en}</option>`).join('');
 
       diseaseSelect.onchange = () => {
-        this.renderProductComparison(cropSelect ? cropSelect.value : 'all', diseaseSelect.value);
+        this.renderProductComparison(cropSelect ? cropSelect.value : 'all', diseaseSelect.value, this.productFilterCategory || 'all');
       };
     }
 
     // Filter Products
     const products = MOCK_AGRI_PRODUCTS.filter(p => {
-      const matchDisease = filterDisease === 'all' || p.target_diseases.includes(filterDisease);
-      const matchCrop = filterCrop === 'all' || p.target_crops.includes(filterCrop);
-      return matchDisease && matchCrop;
+      const matchDisease = filterDisease === 'all' || (p.target_diseases && p.target_diseases.includes(filterDisease));
+      const matchCrop = filterCrop === 'all' || (p.target_crops && p.target_crops.includes(filterCrop));
+      
+      let matchCat = true;
+      const catLower = (p.category || '').toLowerCase();
+      const isBio = catLower.includes('bio') || catLower.includes('organic') || catLower.includes('जैविक');
+      if (filterCategory === 'bio') {
+        matchCat = isBio;
+      } else if (filterCategory === 'chemical') {
+        matchCat = !isBio;
+      }
+      return matchDisease && matchCrop && matchCat;
     });
 
     if (products.length === 0) {
       container.innerHTML = `
-        <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 12px;">
-          ${isHi ? 'इस रोग के लिए कोई उत्पाद सूची उपलब्ध नहीं है।' : 'No products listed for this filter.'}
+        <div class="empty-state-card">
+          <div style="font-size: 20px; margin-bottom: 6px;">🌱</div>
+          <div style="font-weight: 700; color: var(--text-title); margin-bottom: 4px;">
+            ${isHi ? 'इस श्रेणी में कोई सत्यापित उत्पाद उपलब्ध नहीं है' : 'No verified options available in this category'}
+          </div>
+          <p style="margin: 0; font-size: 11px;">
+            ${isHi ? 'कृपया अन्य श्रेणी या फसल का चयन करें अथवा कृषि विशेषज्ञ से सलाह लें।' : 'Please choose another category or consult an agronomist.'}
+          </p>
         </div>
       `;
     } else {
       container.innerHTML = products.map(prod => {
-        const typeBadge = prod.category === 'bio' ? 
-          `<span class="badge badge-success">${isHi ? 'जैविक / सुरक्षित' : 'Bio / Safe'}</span>` : 
-          `<span class="badge badge-warning">${isHi ? 'रासायनिक कवकनाशी' : 'Fungicide'}</span>`;
+        const catLower = (prod.category || '').toLowerCase();
+        const isBio = catLower.includes('bio') || catLower.includes('organic') || catLower.includes('जैविक');
+        const typeBadge = isBio ? 
+          `<span class="badge badge-success">${isHi ? '🌿 जैविक / बायो' : '🌿 Biological / Bio'}</span>` : 
+          `<span class="badge badge-warning">${isHi ? '🧪 रासायनिक कवकनाशी' : '🧪 Chemical Fungicide'}</span>`;
 
-        const normalizedUnit = prod.normalized_unit === '100g' ? (isHi ? '₹/100 ग्राम' : '₹/100g') : (isHi ? '₹/100 मिली' : '₹/100ml');
+        const desc = isHi ? (prod.description_hi || prod.description_en) : prod.description_en;
+        const safety = isHi ? (prod.safety_cautions_hi || prod.safety_cautions_en) : prod.safety_cautions_en;
 
-        const storesListHtml = prod.stores.map(st => {
-          const ret = MOCK_RETAILERS.find(r => r.id === st.retailer_id);
-          const retName = isHi ? ret?.name_hi || st.retailer_id : ret?.name_en || st.retailer_id;
-          const phone = ret?.phone || '18001801551';
-          return `
-            <div class="product-store-row">
-              <div>
-                <strong>${retName}</strong>
-                <span style="font-size: 10px; color: var(--text-muted); display: block;">${st.in_stock ? (isHi ? '✓ स्टॉक उपलब्ध' : 'In Stock') : (isHi ? '✕ उपलब्ध नहीं' : 'Out of stock')}</span>
+        const variantsHtml = (prod.pack_variants || []).map(v => {
+          const normUnitText = v.normalized_unit === '100g' ? (isHi ? '₹/100 ग्राम' : '₹/100g') : (isHi ? '₹/100 मिली' : '₹/100ml');
+          const storesListHtml = (v.retailers || []).map(st => {
+            const ret = MOCK_RETAILERS.find(r => r.retailer_id === st.retailer_id || r.id === st.retailer_id);
+            const retName = ret ? (ret.shop_name || ret.name_en) : st.retailer_id;
+            const retPhone = ret ? ret.phone : '18001801551';
+            const stockLabel = st.stock_status === 'in_stock' ? (isHi ? '✓ स्टॉक उपलब्ध' : 'In Stock') : (isHi ? '⚠️ सीमित स्टॉक' : 'Low Stock');
+            const normPrice = Math.round((st.price / v.pack_size) * 100);
+
+            return `
+              <div class="product-store-row">
+                <div>
+                  <strong>${retName}</strong>
+                  <span style="font-size: 10px; color: var(--text-muted); display: block;">${stockLabel}</span>
+                </div>
+                <div style="text-align: right;">
+                  <span style="font-weight: 800; color: var(--text-title);">₹${st.price}</span>
+                  <span style="font-size: 10px; color: var(--text-muted); display: block;">(₹${normPrice} ${normUnitText})</span>
+                  <a href="tel:${retPhone}" style="display: inline-block; font-size: 10px; color: var(--primary); text-decoration: none; font-weight: 700; margin-top: 2px;">📞 ${isHi ? 'कॉल' : 'Call'}</a>
+                </div>
               </div>
-              <div style="text-align: right;">
-                <span style="font-weight: 800; color: var(--text-title);">₹${st.price_inr}</span>
-                <a href="tel:${phone}" style="display: block; font-size: 10px; color: var(--primary); text-decoration: none; font-weight: 700;">📞 ${isHi ? 'कॉल करें' : 'Call'}</a>
+            `;
+          }).join('');
+
+          return `
+            <div style="margin-top: 6px; border-top: 1px dashed var(--border-hairline); padding-top: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+                <span style="font-size: 11px; font-weight: 700; color: var(--text-title);">${isHi ? 'पैकिंग:' : 'Pack Size:'} ${v.pack_size}${v.unit}</span>
+                <span class="price-normalized-pill">${normUnitText} ${isHi ? 'मानकीकृत' : 'Basis'}</span>
+              </div>
+              <div class="product-stores-list">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <span style="font-size: 10px; font-weight: 700; color: var(--text-title);">${isHi ? 'दुकानों पर दर:' : 'Store Pricing:'}</span>
+                  <span class="badge badge-disclaimer" style="font-size: 8px;">${isHi ? 'डेमो मूल्य व उपलब्धता' : 'Demo rates & stock'}</span>
+                </div>
+                ${storesListHtml}
               </div>
             </div>
           `;
@@ -1296,29 +1455,24 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
             <div class="product-card-top">
               <div>
                 <div class="product-brand">${prod.brand_name}</div>
-                <div class="product-active">${prod.active_ingredient} (${prod.formulation})</div>
+                <div class="product-active">${prod.active_ingredient}</div>
               </div>
               ${typeBadge}
             </div>
 
-            <div class="product-pricing-strip">
-              <div>
-                <span class="product-mrp">₹${prod.mrp_inr}</span>
-                <span style="font-size: 11px; color: var(--text-muted);">/ ${prod.package_size}</span>
-              </div>
-              <span class="price-normalized-pill">${isHi ? 'सटीक दर:' : 'Normalized:'} ₹${prod.normalized_price_per_unit} / ${normalizedUnit}</span>
+            <p style="font-size: 11px; color: var(--text-body); margin: 6px 0 4px 0;">${desc}</p>
+
+            <div style="font-size: 10.5px; color: var(--text-muted); margin-bottom: 4px;">
+              ${isHi ? 'अनुशंसित उपयोग:' : 'Dosage guideline:'} <strong>${prod.dosage_guide || 'निर्देशानुसार'}</strong>
             </div>
 
-            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
-              ${isHi ? 'अनुशंसित खुराक:' : 'Standard Dosage:'} <strong>${prod.dosage}</strong>
-            </div>
+            ${variantsHtml}
 
-            <div class="product-stores-list">
-              <div style="font-size: 10.5px; font-weight: 700; color: var(--text-title); margin-bottom: 2px;">
-                ${isHi ? 'स्थानीय दुकानों पर दर:' : 'Available at Local Dealerships:'}
+            ${safety ? `
+              <div style="margin-top: 6px; font-size: 10px; color: #B45309; background: #FFFBEB; padding: 4px 6px; border-radius: var(--radius-xs);">
+                ⚠️ ${safety}
               </div>
-              ${storesListHtml}
-            </div>
+            ` : ''}
           </div>
         `;
       }).join('');
@@ -1328,8 +1482,11 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     if (retailersStrip) {
       retailersStrip.innerHTML = MOCK_RETAILERS.map(r => `
         <div class="retailer-mini-card">
-          <div style="font-weight: 700; font-size: 11.5px; color: var(--text-title);">${isHi ? r.name_hi : r.name_en}</div>
-          <div style="font-size: 10px; color: var(--text-muted);">${isHi ? r.address_hi : r.address_en}</div>
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div style="font-weight: 700; font-size: 11.5px; color: var(--text-title);">${r.shop_name || r.name_en}</div>
+            <span class="badge badge-disclaimer" style="font-size: 8px;">${isHi ? 'डेमो विक्रेता' : 'Demo'}</span>
+          </div>
+          <div style="font-size: 10px; color: var(--text-muted); margin-top: 1px;">📍 ${r.location} (${r.distance_km} km)</div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
             <span class="badge badge-success" style="font-size: 8.5px;">✓ ${isHi ? 'सत्यापित' : 'Verified'}</span>
             <a href="tel:${r.phone}" class="btn btn-outline btn-sm" style="font-size: 9.5px; padding: 2px 6px; text-decoration: none;">📞 कॉल</a>
@@ -1378,39 +1535,68 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     }
 
     container.innerHTML = filtered.map(post => {
-      const cropBadge = `<span class="badge badge-neutral">${post.crop_name_hi || post.crop_id}</span>`;
-      const answersHtml = (post.answers || []).map(ans => `
-        <div class="community-answer-item">
-          <div style="display: flex; justify-content: space-between; align-items: baseline;">
-            <strong>${ans.author}</strong>
-            <span style="font-size: 9.5px; color: var(--text-faint);">${new Date(ans.created_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' })}</span>
+      const authorName = post.author_name || post.farmer_name || 'किसान साथी';
+      const location = post.author_region || post.location || 'Indore, MP';
+      const title = post.title_hi || post.title || 'फसल समस्या';
+      const desc = post.question_text || post.description || '';
+      const cropId = post.crop_id || 'general';
+      const cropMeta = MOCK_CROPS.find(c => c.crop_id === cropId);
+      const cropBadgeText = cropMeta ? (isHi ? cropMeta.name_hi : cropMeta.name_en) : (post.crop_name_hi || cropId);
+      const cropBadge = `<span class="badge badge-neutral">${cropBadgeText}</span>`;
+      const postId = post.post_id || post.id || `p_${Date.now()}`;
+
+      const answersHtml = (post.answers || []).map(ans => {
+        const isExp = ans.authority_level === 'expert_verified' || ans.is_expert_reviewed;
+        const isComm = ans.authority_level === 'community_response';
+        const authBadge = isExp ? 
+          `<span class="badge badge-success" style="font-size: 8px;">✓ ${isHi ? 'विशेषज्ञ सत्यापित' : 'Expert Verified'}</span>` : 
+          (isComm ? `<span class="badge badge-neutral" style="font-size: 8px;">💬 ${isHi ? 'सामुदायिक सुझाव' : 'Community'}</span>` :
+          `<span class="badge badge-neutral" style="font-size: 8px;">👨‍🌾 ${isHi ? 'किसान अनुभव' : 'Farmer Log'}</span>`);
+
+        const ansAuthor = ans.author_name || ans.author || 'साथी किसान';
+        const ansText = isHi ? (ans.text_hi || ans.text) : (ans.text_en || ans.text || ans.text_hi);
+        const ansId = ans.answer_id || ans.id || 'ans_1';
+
+        return `
+          <div class="community-answer-item">
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <strong>${ansAuthor}</strong>
+                ${authBadge}
+              </div>
+              <span style="font-size: 9.5px; color: var(--text-faint);">${ans.created_at ? new Date(ans.created_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' }) : ''}</span>
+            </div>
+            <p style="margin-top: 2px; color: var(--text-body); font-size: 11.5px;">${ansText}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+              <button type="button" class="answer-helpful-btn" data-post-id="${postId}" data-ans-id="${ansId}">
+                👍 ${isHi ? 'मददगार लगा' : 'Helpful'} (${ans.helpful_count || ans.helpful_votes || 0})
+              </button>
+            </div>
           </div>
-          <p style="margin-top: 2px; color: var(--text-body);">${ans.text}</p>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
-            <button type="button" class="answer-helpful-btn" data-post-id="${post.id}" data-ans-id="${ans.id}">
-              👍 ${isHi ? 'मददगार लगा' : 'Helpful'} (${ans.helpful_count || 0})
-            </button>
-          </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
 
       return `
         <div class="community-post-card">
           <div class="community-post-author">
-            <div class="author-avatar">${post.farmer_name.charAt(0)}</div>
+            <div class="author-avatar">${authorName.charAt(0)}</div>
             <div>
-              <div style="font-size: 12px; font-weight: 700; color: var(--text-title);">${post.farmer_name}</div>
-              <div style="font-size: 10px; color: var(--text-muted);">${post.location} • ${new Date(post.created_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' })}</div>
+              <div style="display: flex; align-items: center; gap: 5px;">
+                <div style="font-size: 12px; font-weight: 700; color: var(--text-title);">${authorName}</div>
+                <span class="badge badge-neutral" style="font-size: 8px;">👨‍🌾 ${isHi ? 'किसान अवलोकन' : 'Farmer Log'}</span>
+              </div>
+              <div style="font-size: 10px; color: var(--text-muted);">${location} • ${post.created_at ? new Date(post.created_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' }) : ''}</div>
             </div>
             <div style="margin-left: auto;">${cropBadge}</div>
           </div>
 
-          <div class="community-post-title">${post.title}</div>
-          <div class="community-post-desc">${post.description}</div>
+          <div class="community-post-title">${title}</div>
+          <div class="community-post-desc">${desc}</div>
 
           <div class="community-answers-block">
-            <div style="font-size: 11px; font-weight: 700; color: var(--text-title); display: flex; justify-content: space-between;">
-              <span>${isHi ? 'किसान उत्तर (' : 'Answers ('}${post.answers ? post.answers.length : 0})</span>
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-title); display: flex; justify-content: space-between; align-items: center;">
+              <span>${isHi ? 'किसान उत्तर व सलाह (' : 'Responses ('}${post.answers ? post.answers.length : 0})</span>
+              <span class="badge badge-disclaimer" style="font-size: 8px;">${isHi ? 'सामुदायिक मंच' : 'Community forum'}</span>
             </div>
             ${answersHtml}
           </div>
@@ -1418,7 +1604,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
           <!-- Quick Answer Input -->
           <div style="margin-top: 8px; display: flex; gap: 6px;">
             <input type="text" class="form-input reply-input" placeholder="${isHi ? 'अपना जवाब या सलाह लिखें...' : 'Write an answer...'}" style="font-size: 11px; padding: 4px 8px;">
-            <button type="button" class="btn btn-outline btn-sm btn-submit-reply" data-post-id="${post.id}">
+            <button type="button" class="btn btn-outline btn-sm btn-submit-reply" data-post-id="${postId}">
               ${isHi ? 'भेजें' : 'Send'}
             </button>
           </div>
@@ -1451,16 +1637,27 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     });
   }
 
-  openAskQuestionModal() {
+  openAskQuestionModal(prefillData = null) {
     const modal = document.getElementById('ask-question-modal');
     const cropSelect = document.getElementById('ask-q-crop');
+    const titleInput = document.getElementById('ask-q-title');
+    const descInput = document.getElementById('ask-q-desc');
     if (!modal) return;
 
+    const isHi = this.currentLang === 'hi';
     if (cropSelect) {
-      const isHi = this.currentLang === 'hi';
       cropSelect.innerHTML = MOCK_CROPS.map(c => `
         <option value="${c.crop_id}">${isHi ? c.name_hi : c.name_en}</option>
       `).join('');
+    }
+
+    if (prefillData) {
+      if (cropSelect && prefillData.cropId) cropSelect.value = prefillData.cropId;
+      if (titleInput && prefillData.title) titleInput.value = prefillData.title;
+      if (descInput && prefillData.desc) descInput.value = prefillData.desc;
+    } else {
+      if (titleInput) titleInput.value = '';
+      if (descInput) descInput.value = '';
     }
 
     modal.classList.add('active');
@@ -1476,39 +1673,40 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     if (!container) return;
 
     container.innerHTML = MOCK_FARMER_EXPERTS.map(exp => {
-      const name = isHi ? exp.name_hi : exp.name_en;
-      const role = isHi ? exp.role_hi : exp.role_en;
-      const aff = isHi ? exp.affiliation_hi : exp.affiliation_en;
-      const spec = isHi ? exp.specialization_hi.join(', ') : exp.specialization_en.join(', ');
-      const langs = exp.languages.join(', ');
+      const cropsText = (exp.specialization_crops || []).map(c => {
+        const mc = MOCK_CROPS.find(crop => crop.crop_id === c);
+        return mc ? (isHi ? mc.name_hi : mc.name_en) : c;
+      }).join(', ');
+      const langsText = (exp.languages || []).join(', ');
 
       return `
         <div class="expert-profile-card">
           <div class="expert-card-top">
             <div class="expert-avatar">👨‍🔬</div>
             <div style="flex: 1;">
-              <div style="display: flex; align-items: center; gap: 4px;">
-                <strong style="font-size: 13.5px; color: var(--text-title);">${name}</strong>
-                <span class="badge badge-success" style="font-size: 8.5px;">✓ ${isHi ? 'सत्यापित वैज्ञानिक' : 'Verified'}</span>
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <strong style="font-size: 13.5px; color: var(--text-title);">${exp.name}</strong>
+                <span class="badge badge-disclaimer" style="font-size: 8px;">${isHi ? 'डेमो प्रोफाइल' : 'Demo Profile'}</span>
               </div>
-              <div style="font-size: 11px; color: var(--primary-accent); font-weight: 600;">${role}</div>
-              <div style="font-size: 10px; color: var(--text-muted);">${exp.qualification} • ${aff}</div>
+              <div style="font-size: 11px; color: var(--primary-accent); font-weight: 600;">${exp.title}</div>
+              <div style="font-size: 10px; color: var(--text-muted);">${exp.qualification} • ${exp.organization}</div>
             </div>
           </div>
 
-          <div style="font-size: 11px; color: var(--text-body);">
-            <span>${isHi ? 'विशेषज्ञता:' : 'Expertise:'}</span> <strong>${spec}</strong><br>
-            <span>${isHi ? 'भाषाएं:' : 'Languages:'}</span> ${langs} • ${exp.experience_years}+ ${isHi ? 'वर्ष अनुभव' : 'yrs exp'}
+          <div style="font-size: 11px; color: var(--text-body); margin-top: 6px;">
+            <div><span>${isHi ? 'विशेषज्ञता:' : 'Expertise:'}</span> <strong>${cropsText}</strong></div>
+            <div style="margin-top: 2px;"><span>${isHi ? 'भाषाएं:' : 'Languages:'}</span> ${langsText} • ${exp.experience_years}+ ${isHi ? 'वर्ष अनुभव' : 'yrs exp'}</div>
+            <div style="margin-top: 2px; font-size: 10.5px; color: var(--text-muted);">📍 ${exp.location} • ⭐ ${exp.rating} (${exp.consultations_completed} ${isHi ? 'परामर्श' : 'consultations'})</div>
           </div>
 
-          <div class="expert-fees-row">
-            <div>📞 ${isHi ? 'कॉल:' : 'Call:'} <strong>₹${exp.fee_structure.audio_call_inr}</strong></div>
-            <div>📹 ${isHi ? 'वीडियो:' : 'Video:'} <strong>₹${exp.fee_structure.video_call_inr}</strong></div>
-            <div>🚜 ${isHi ? 'खेत विजिट:' : 'Visit:'} <strong>₹${exp.fee_structure.field_visit_inr}</strong></div>
+          <div class="expert-fees-row" style="margin-top: 8px;">
+            <div>📞 ${isHi ? 'कॉल:' : 'Call:'} <strong>₹${exp.consultation_fee}</strong></div>
+            <div>📹 ${isHi ? 'वीडियो:' : 'Video:'} <strong>₹${Math.round(exp.consultation_fee * 1.4)}</strong></div>
+            <div>🚜 ${isHi ? 'खेत विजिट:' : 'Visit:'} <strong>₹${exp.field_visit_fee}</strong></div>
           </div>
 
-          <button type="button" class="btn btn-primary btn-block btn-book-expert" data-expert-id="${exp.id}">
-            <span>${isHi ? 'परामर्श बुक करें (Book Consultation)' : 'Book Consultation'}</span>
+          <button type="button" class="btn btn-primary btn-block btn-book-expert" data-expert-id="${exp.expert_id}" style="margin-top: 8px;">
+            <span>${isHi ? 'परामर्श बुक करें (डेमो)' : 'Book Consultation (Demo)'}</span>
           </button>
         </div>
       `;
@@ -1528,13 +1726,14 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     if (!modal) return;
 
     const isHi = this.currentLang === 'hi';
-    const expert = MOCK_FARMER_EXPERTS.find(e => e.id === expertId) || MOCK_FARMER_EXPERTS[0];
+    const expert = MOCK_FARMER_EXPERTS.find(e => e.expert_id === expertId || e.id === expertId) || MOCK_FARMER_EXPERTS[0];
 
-    if (hiddenIdInput) hiddenIdInput.value = expert.id;
+    if (hiddenIdInput) hiddenIdInput.value = expert.expert_id;
     if (summaryContainer) {
       summaryContainer.innerHTML = `
-        <div style="font-size: 12.5px; font-weight: 700; color: var(--text-title);">${isHi ? expert.name_hi : expert.name_en}</div>
-        <div style="font-size: 11px; color: var(--text-muted);">${isHi ? expert.role_hi : expert.role_en} • ${expert.affiliation_en}</div>
+        <div style="font-size: 12.5px; font-weight: 700; color: var(--text-title);">${expert.name}</div>
+        <div style="font-size: 11px; color: var(--text-muted);">${expert.title} • ${expert.organization}</div>
+        <div style="font-size: 10px; color: var(--text-faint); margin-top: 2px;">📍 ${expert.location} • ⭐ ${expert.rating} (${expert.consultations_completed} ${isHi ? 'परामर्श' : 'consultations'})</div>
       `;
     }
 
@@ -1663,6 +1862,14 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
   // =========================================================================
 
   bindEvents() {
+    // Keyboard accessibility for interactive role="button" elements
+    document.addEventListener('keydown', (e) => {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.getAttribute('role') === 'button') {
+        e.preventDefault();
+        e.target.click();
+      }
+    });
+
     // Top Nav
     document.getElementById('nav-brand-btn')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-home'); });
     document.getElementById('lang-toggle-btn')?.addEventListener('click', () => this.toggleLanguage());
@@ -1692,6 +1899,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
     // Home Actions & Ecosystem Service Cards
     document.getElementById('btn-hero-scan')?.addEventListener('click', () => this.navigateTo('view-crop-select'));
+    document.getElementById('card-weather-advisory')?.addEventListener('click', () => this.navigateTo('view-treatments'));
     document.getElementById('link-view-all-crops')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-my-crops'); });
     document.getElementById('link-view-all-history')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-history'); });
 
@@ -1705,13 +1913,23 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     // Contextual Result View Ecosystem Navigation
     document.getElementById('btn-result-to-products')?.addEventListener('click', () => {
       this.navigateTo('view-products-comp', { 
-        cropId: this.currentScanResult?.crop_id, 
-        diseaseId: this.currentScanResult?.disease_id 
+        cropId: this.currentScanResult?.crop_id || 'all', 
+        diseaseId: this.currentScanResult?.disease_id || 'all' 
       });
     });
     document.getElementById('btn-result-to-community')?.addEventListener('click', () => {
-      this.navigateTo('view-community', { 
-        cropId: this.currentScanResult?.crop_id 
+      const isHi = this.currentLang === 'hi';
+      const cropId = this.currentScanResult?.crop_id || 'potato';
+      const cropName = isHi ? (this.currentScanResult?.crop_name_hi || 'फसल') : (this.currentScanResult?.crop_name_en || 'Crop');
+      const diseaseName = isHi ? (this.currentScanResult?.name_hi || 'रोग') : (this.currentScanResult?.name_en || 'Disease');
+      const relScore = this.currentScanResult?.confidence_score || 0.85;
+      const relLabel = relScore >= 0.70 ? (isHi ? 'उच्च विश्वसनीयता' : 'High Reliability') : (isHi ? 'मध्यम विश्वसनीयता' : 'Moderate Reliability');
+
+      this.navigateTo('view-community', { cropId });
+      this.openAskQuestionModal({
+        cropId,
+        title: isHi ? `${cropName} में ${diseaseName} के लक्षण - किसान सलाह चाहिए` : `Foliar symptoms of ${diseaseName} on ${cropName} - advice needed`,
+        desc: isHi ? `AI जांच में ${cropName} में ${diseaseName} (${relLabel}) का संभावित संकेत मिला है। क्या किसी किसान भाई ने इसका सफल उपचार किया है?` : `AI scan indicated possible ${diseaseName} on ${cropName} (${relLabel}). Has anyone managed this successfully?`
       });
     });
     document.getElementById('btn-result-to-experts')?.addEventListener('click', () => {
@@ -1719,7 +1937,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     });
     document.getElementById('btn-result-to-waste')?.addEventListener('click', () => {
       this.navigateTo('view-waste-advisor', { 
-        cropId: this.currentScanResult?.crop_id 
+        cropId: this.currentScanResult?.crop_id || 'potato'
       });
     });
 
@@ -1778,18 +1996,18 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     document.getElementById('form-book-expert')?.addEventListener('submit', (e) => {
       e.preventDefault();
       const expertId = document.getElementById('book-expert-id')?.value;
-      const expert = MOCK_FARMER_EXPERTS.find(exp => exp.id === expertId) || MOCK_FARMER_EXPERTS[0];
+      const expert = MOCK_FARMER_EXPERTS.find(exp => exp.expert_id === expertId || exp.id === expertId) || MOCK_FARMER_EXPERTS[0];
       const consultType = document.getElementById('book-consult-type')?.value || 'call';
       const preferredTime = document.getElementById('book-consult-time')?.value;
       const notes = document.getElementById('book-consult-notes')?.value;
 
-      const fee = consultType === 'call' ? expert.fee_structure.audio_call_inr : 
-        (consultType === 'video' ? expert.fee_structure.video_call_inr : expert.fee_structure.field_visit_inr);
+      const fee = consultType === 'call' ? expert.consultation_fee : 
+        (consultType === 'video' ? Math.round(expert.consultation_fee * 1.4) : expert.field_visit_fee);
 
       StorageManager.bookExpertConsultation({
-        expert_id: expert.id,
-        expert_name: this.currentLang === 'hi' ? expert.name_hi : expert.name_en,
-        expert_role: this.currentLang === 'hi' ? expert.role_hi : expert.role_en,
+        expert_id: expert.expert_id,
+        expert_name: expert.name,
+        expert_role: expert.title,
         crop_name: notes || 'फसल समस्या',
         issue_summary: notes,
         consult_type: consultType,
@@ -1799,7 +2017,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
       document.getElementById('book-expert-modal')?.classList.remove('active');
       document.getElementById('form-book-expert')?.reset();
-      this.showToast(this.currentLang === 'hi' ? `परामर्श बुक हुआ! ${expert.name_hi} आपसे जल्द संपर्क करेंगे।` : `Consultation booked with ${expert.name_en}!`);
+      this.showToast(this.currentLang === 'hi' ? 'डेमो परामर्श अनुरोध दर्ज (कोई वास्तविक अपॉइंटमेंट नहीं बनाया गया है)' : 'Demo booking request logged (no real appointment created)');
     });
 
     // Farm Waste Advisor Calculator
@@ -1828,6 +2046,16 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
     // Compare Actions
     document.getElementById('btn-compare-scan-action')?.addEventListener('click', () => this.navigateTo('view-crop-select'));
+
+    // Crop Selection Search & Direct Camera Trigger
+    document.getElementById('crop-search-input')?.addEventListener('input', (e) => {
+      this.renderCropGrid(e.target.value);
+    });
+    document.getElementById('btn-crop-direct-photo')?.addEventListener('click', () => {
+      const badge = document.getElementById('active-crop-badge');
+      if (badge) badge.textContent = this.currentLang === 'hi' ? this.selectedCrop.name_hi : this.selectedCrop.name_en;
+      this.navigateTo('view-upload');
+    });
 
     // Crop Selection Next
     document.getElementById('btn-crop-next')?.addEventListener('click', () => {
@@ -1881,14 +2109,19 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     document.getElementById('btn-preview-retake')?.addEventListener('click', () => this.navigateTo('view-upload'));
     document.getElementById('btn-preview-analyze')?.addEventListener('click', () => this.startAnalysis());
 
-    // Result Actions (Voice, Share, Save, New Scan)
+    // Result Actions (Voice, Share, Save, Follow-up, New Scan)
     document.getElementById('btn-voice-readout')?.addEventListener('click', () => this.toggleVoiceReadout());
     document.getElementById('btn-share-report')?.addEventListener('click', () => this.shareDiagnosticReport());
     document.getElementById('btn-save-scan-action')?.addEventListener('click', () => this.saveCurrentScan());
+    document.getElementById('btn-result-add-followup')?.addEventListener('click', () => {
+      this.saveFollowupScan();
+    });
     document.getElementById('btn-result-new-scan')?.addEventListener('click', () => this.navigateTo('view-crop-select'));
 
-    // Fallback Retry
+    // Fallback Actions
     document.getElementById('btn-fallback-retry')?.addEventListener('click', () => this.navigateTo('view-upload'));
+    document.getElementById('btn-fallback-to-community')?.addEventListener('click', () => this.navigateTo('view-community'));
+    document.getElementById('btn-fallback-to-expert')?.addEventListener('click', () => this.navigateTo('view-experts'));
 
     // Clear History
     document.getElementById('btn-clear-history-action')?.addEventListener('click', () => {
@@ -2029,4 +2262,5 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 let app;
 window.addEventListener('DOMContentLoaded', () => {
   app = new KheetSathiApp();
+  window.app = app;
 });

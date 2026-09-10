@@ -470,7 +470,179 @@ body {
 }
 
 /* ========================================================================== */
-/* Authentic Photographic Hero (Home Screen)                                  */
+/* SECTION 1: Farmer Greeting Card                                            */
+/* ========================================================================== */
+
+.farmer-greeting-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px 2px 2px;
+}
+
+.greeting-text-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.greeting-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.greeting-name {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-title);
+  line-height: 1.25;
+}
+
+.greeting-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-body);
+  box-shadow: var(--shadow-subtle);
+}
+
+.location-dot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  background: #16A34A;
+}
+
+/* ========================================================================== */
+/* SECTION 2: Compact Weather & Agronomic Advisory Card                       */
+/* ========================================================================== */
+
+.weather-advisory-card {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F4F8F4 100%);
+  border: 1px solid var(--primary-border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.15s ease;
+}
+
+.weather-advisory-card:hover {
+  border-color: var(--primary-accent);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
+}
+
+.weather-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weather-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.weather-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.weather-temp {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--text-title);
+  line-height: 1.2;
+}
+
+.weather-condition {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.weather-sub {
+  font-size: 10.5px;
+  color: var(--text-faint);
+  margin-top: 1px;
+}
+
+.badge-demo-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  background: #FEF3C7;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+
+.weather-humidity-tag {
+  background: #EFF6FF;
+  color: #1D4ED8;
+  border: 1px solid #DBEAFE;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.weather-advisory-bottom {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-top: 7px;
+  border-top: 1px dashed var(--border-hairline);
+}
+
+.advisory-pill {
+  background: var(--primary-subtle);
+  color: var(--primary);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-xs);
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+}
+
+.advisory-snippet {
+  font-size: 11px;
+  color: var(--text-body);
+  line-height: 1.3;
+  margin: 0;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.advisory-arrow {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+/* ========================================================================== */
+/* SECTION 3: Authentic Photographic Hero (Home Screen)                        */
 /* ========================================================================== */
 
 .hero-showcase {
@@ -481,12 +653,12 @@ body {
   border: 1px solid var(--border-hairline);
   box-shadow: var(--shadow-card);
   background: #173E1B;
-  min-height: 190px;
+  min-height: 180px;
 }
 
 .hero-showcase-bg {
   width: 100%;
-  height: 190px;
+  height: 180px;
   object-fit: cover;
   display: block;
 }
@@ -514,7 +686,7 @@ body {
 }
 
 .hero-headline {
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 800;
   color: #FFFFFF;
   line-height: 1.2;
@@ -549,6 +721,117 @@ body {
 .hero-cta-btn:hover, .hero-cta-btn:active {
   background: #1F5B22;
   transform: translateY(-1px);
+}
+
+/* ========================================================================== */
+/* SECTION 4: Ecosystem Services 2x3 Grid                                     */
+/* ========================================================================== */
+
+.ecosystem-services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.service-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+  padding: 10px 6px 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-subtle);
+}
+
+.service-card:hover {
+  border-color: var(--primary-border);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
+}
+
+.service-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  margin-bottom: 6px;
+  transition: transform 0.15s;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.06);
+}
+
+/* Pastel Icon Accents */
+.icon-scan {
+  background: #E8F5EC;
+  border: 1px solid #C6E7D2;
+}
+
+.icon-treatments {
+  background: #FEF3E2;
+  border: 1px solid #FBDCB0;
+}
+
+.icon-products {
+  background: #EBF5FE;
+  border: 1px solid #C3E2FD;
+}
+
+.icon-community {
+  background: #F3EEFD;
+  border: 1px solid #DED0FA;
+}
+
+.icon-experts {
+  background: #FDF2F4;
+  border: 1px solid #F9CBD4;
+}
+
+.icon-waste {
+  background: #E6FFFA;
+  border: 1px solid #B2F5EA;
+}
+
+.service-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.service-title {
+  font-size: 11.5px;
+  font-weight: 750;
+  color: var(--text-title);
+  line-height: 1.2;
+}
+
+.service-sub {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.section-link {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.section-link:hover {
+  color: var(--primary-accent);
+  text-decoration: underline;
 }
 
 /* ========================================================================== */
@@ -924,6 +1207,133 @@ body {
   font-size: 11.5px;
   color: var(--text-body);
   line-height: 1.4;
+}
+
+/* ========================================================================== */
+/* Crop Selection Search & Direct Trigger                                     */
+/* ========================================================================== */
+
+.crop-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.crop-search-field {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 12px;
+  color: var(--text-title);
+  font-family: inherit;
+}
+
+.direct-photo-strip {
+  margin-bottom: 8px;
+}
+
+/* ========================================================================== */
+/* Farmer-Friendly Photography Field Guide                                    */
+/* ========================================================================== */
+
+.farmer-guide-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 10px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+}
+
+.guide-item {
+  font-size: 10.5px;
+  color: var(--text-body);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  line-height: 1.25;
+}
+
+.guide-check {
+  color: #16A34A;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+/* ========================================================================== */
+/* Reliability Explanation & Evidence Accordion                              */
+/* ========================================================================== */
+
+.reliability-explainer-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-xs);
+  padding: 6px 8px;
+  margin-top: 8px;
+}
+
+.reliability-explainer-box p {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.evidence-accordion {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+}
+
+.evidence-summary {
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  list-style: none;
+}
+
+.evidence-summary::-webkit-details-marker {
+  display: none;
+}
+
+.evidence-arrow {
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: transform 0.2s;
+}
+
+.evidence-accordion[open] .evidence-arrow {
+  transform: rotate(180deg);
+}
+
+.evidence-content {
+  padding: 0 12px 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-top: 1px dashed var(--border-hairline);
+  padding-top: 8px;
+}
+
+.evidence-item {
+  font-size: 11px;
+  color: var(--text-body);
+  line-height: 1.35;
 }
 
 /* ========================================================================== */
@@ -2336,4 +2746,73 @@ body {
   border-radius: var(--radius-sm);
   padding: 8px 10px;
 }
+
+/* Phase 4 Ecosystem Enhancements */
+.moderate-reliability-alert {
+  background: #FEF3C7;
+  border: 1px solid #FDE68A;
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #92400E;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.demo-notice-banner {
+  background: #EFF6FF;
+  border: 1px solid #BFDBFE;
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  font-size: 10.5px;
+  color: #1E40AF;
+  margin-bottom: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.products-category-filters {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  margin: 6px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prod-filter-btn {
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-hairline);
+  background: var(--bg-surface);
+  color: var(--text-title);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.prod-filter-btn:hover {
+  border-color: var(--primary-border);
+  background: var(--bg-canvas);
+}
+
+.prod-filter-btn.active {
+  background: var(--primary);
+  color: #FFFFFF;
+  border-color: var(--primary);
+}
+
+.empty-state-card {
+  text-align: center;
+  padding: 24px 14px;
+  color: var(--text-muted);
+  font-size: 12px;
+  background: var(--bg-surface);
+  border: 1px dashed var(--border-hairline);
+  border-radius: var(--radius-md);
+  margin-top: 8px;
+}
+
 

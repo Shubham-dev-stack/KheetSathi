@@ -102,119 +102,142 @@
         <main class="main-content">
 
           <!-- ========================================================= -->
-          <!-- VIEW 1: HOME (Authentic Agricultural Storytelling Hero)   -->
+          <!-- VIEW 1: HOME (Modern Farmer-First Dashboard)              -->
           <!-- ========================================================= -->
           <section id="view-home" class="view-section active">
             
-            <!-- Photographic Hero Composition -->
+            <!-- SECTION 1: Farmer Greeting Header -->
+            <!-- SECTION 1: Farmer Profile Greeting Header -->
+            <div class="farmer-greeting-card">
+              <div class="greeting-text-wrap">
+                <div class="greeting-sub" data-i18n="greeting_tagline">किसान की ताकत, हमारी पहचान</div>
+                <h2 class="greeting-name" id="home-farmer-greeting">नमस्ते, Shubham 👋</h2>
+              </div>
+              <div class="greeting-badge" title="Set in Farmer Profile">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                <span id="home-farmer-location">Indore, MP</span>
+              </div>
+            </div>
+
+            <!-- SECTION 2: Weather & Agronomic Advisory Card (Sample/Advisory Data) -->
+            <div class="weather-advisory-card" id="card-weather-advisory" title="Click to view full treatment encyclopedia">
+              <div class="weather-top-row">
+                <div class="weather-left">
+                  <span class="weather-icon">🌤️</span>
+                  <div>
+                    <div class="weather-temp">28°C <span class="weather-condition" data-i18n="weather_partly_cloudy">Partly Cloudy</span> <span class="badge-demo-tag" data-i18n="demo_badge">डेमो सलाह</span></div>
+                    <div class="weather-sub">Indore, MP • H:32° L:22°</div>
+                  </div>
+                </div>
+                <div class="weather-humidity-tag">
+                  <span>💧 84% Humidity</span>
+                </div>
+              </div>
+              <div class="weather-advisory-bottom">
+                <div class="advisory-pill" data-i18n="today_tip_badge">आज का सुझाव</div>
+                <p class="advisory-snippet" data-i18n="today_tip_text">टमाटर में झुलसा रोग का खतरा बढ़ सकता है। समय पर निगरानी रखें।</p>
+                <span class="advisory-arrow">→</span>
+              </div>
+            </div>
+
+            <!-- SECTION 3: PRIMARY ACTION — HERO Scan Leaf CTA Card -->
             <div class="hero-showcase">
-              <img id="hero-banner-img" class="hero-showcase-bg" src="" alt="Agricultural Field Context">
+              <img id="hero-banner-img" class="hero-showcase-bg" src="./assets/images/hero_farm.jpg" alt="Agricultural Field Context">
               <div class="hero-showcase-overlay">
-                <span class="hero-eyebrow" data-i18n="hero_eyebrow">फसल की सेहत</span>
+                <span class="hero-eyebrow" data-i18n="hero_eyebrow">मुख्य कार्य: फसल रोग निदान</span>
                 <h2 class="hero-headline" data-i18n="hero_title">आज आपकी फसल कैसी है?</h2>
                 <p class="hero-subtext" data-i18n="hero_desc">
-                  पत्ती की साफ फोटो लें — AI तुरंत संभावित समस्या पहचानेगा।
+                  पत्ती की साफ फोटो लें — ऑन-डिवाइस AI तुरंत संभावित समस्या पहचानेगा।
                 </p>
-                <button id="btn-hero-scan" class="hero-cta-btn">
+                <button id="btn-hero-scan" class="hero-cta-btn" aria-label="Start Crop Leaf Scan">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                  <span data-i18n="btn_start_scan">फसल की जांच करें</span>
+                  <span data-i18n="btn_start_scan">फसल की जांच करें (Scan Crop)</span>
                 </button>
               </div>
             </div>
 
-            <!-- Farmer Assistance Ecosystem Action Grid -->
-            <div class="home-section-block">
-              <h3 class="text-section-title" data-i18n="services_grid_title">किसान सहायता सेवाएं</h3>
-              <div class="ecosystem-services-grid">
-                <div class="service-card" id="card-service-scan">
-                  <div class="service-icon" style="background: #E8F5E9; color: #2E7D32;">🌿</div>
-                  <div class="service-details">
-                    <div class="service-title" data-i18n="service_scan_title">फसल रोग जांच</div>
-                    <div class="service-sub" data-i18n="service_scan_desc">AI पत्ती स्कैन व निदान</div>
-                  </div>
-                </div>
-
-                <div class="service-card" id="card-service-treatments">
-                  <div class="service-icon" style="background: #FFF3E0; color: #E65100;">📖</div>
-                  <div class="service-details">
-                    <div class="service-title" data-i18n="service_treatments_title">रोग व उपचार कोश</div>
-                    <div class="service-sub" data-i18n="service_treatments_desc">जैविक व रासायनिक गाइड</div>
-                  </div>
-                </div>
-
-                <div class="service-card" id="card-service-products">
-                  <div class="service-icon" style="background: #E3F2FD; color: #1565C0;">🛒</div>
-                  <div class="service-details">
-                    <div class="service-title" data-i18n="service_products_title">दवाई मूल्य तुलना</div>
-                    <div class="service-sub" data-i18n="service_products_desc">₹/100g सटीक तुलना</div>
-                  </div>
-                </div>
-
-                <div class="service-card" id="card-service-community">
-                  <div class="service-icon" style="background: #EDE7F6; color: #512DA8;">👨‍🌾</div>
-                  <div class="service-details">
-                    <div class="service-title" data-i18n="service_community_title">किसान चौपाल</div>
-                    <div class="service-sub" data-i18n="service_community_desc">सवालों के स्थानीय जवाब</div>
-                  </div>
-                </div>
-
-                <div class="service-card" id="card-service-experts">
-                  <div class="service-icon" style="background: #FCE4EC; color: #C2185B;">👨‍🔬</div>
-                  <div class="service-details">
-                    <div class="service-title" data-i18n="service_experts_title">कृषि विशेषज्ञ</div>
-                    <div class="service-sub" data-i18n="service_experts_desc">सत्यापित वैज्ञानिक कॉल</div>
-                  </div>
-                </div>
-
-                <div class="service-card" id="card-service-waste">
-                  <div class="service-icon" style="background: #E0F2F1; color: #00695C;">♻️</div>
-                  <div class="service-details">
-                    <div class="service-title" data-i18n="service_waste_title">पराली / अवशेष सलाहकार</div>
-                    <div class="service-sub" data-i18n="service_waste_desc">खाद, बायोचार व आय</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- FEATURE C: My Crops Tracked Section (Compact) -->
+            <!-- SECTION 4: SECONDARY ACTION — YOUR CROPS TRACKER -->
             <div class="home-section-block">
               <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-                <h3 class="text-section-title" data-i18n="my_crops_title">आपकी फसलें</h3>
-                <a href="#" id="link-view-all-crops" style="font-size: 11px; color: var(--primary); font-weight: 700; text-decoration: none;" data-i18n="view_all_crops">सभी फसलें देखें →</a>
+                <h3 class="text-section-title" data-i18n="my_crops_title">मेरी फसलें</h3>
+                <a href="#" id="link-view-all-crops" class="section-link" data-i18n="view_all_crops">संपूर्ण देखें →</a>
               </div>
               <div id="home-my-crops-strip" class="my-crops-strip">
                 <!-- Populated dynamically by JS -->
               </div>
             </div>
 
-            <!-- Recent Activity Timeline (Open Editorial List) -->
+            <!-- SECTION 5: SECONDARY ACTION — RECENT CROP HEALTH SCANS -->
             <div class="home-section-block">
               <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-                <h3 class="text-section-title" data-i18n="recent_scans_title">हालिया जांच</h3>
-                <a href="#" id="link-view-all-history" style="font-size: 11px; color: var(--primary); font-weight: 700; text-decoration: none;" data-i18n="view_all_history">पूरा इतिहास देखें →</a>
+                <h3 class="text-section-title" data-i18n="recent_scans_title">हालिया फसल स्वास्थ्य</h3>
+                <a href="#" id="link-view-all-history" class="section-link" data-i18n="view_all_history">पूरा इतिहास देखें →</a>
               </div>
               <div id="home-recent-scans" class="history-container">
                 <!-- Populated dynamically with compact flat rows -->
               </div>
             </div>
 
-            <!-- Weather & Agronomic Advisory Bulletin -->
-            <div class="advisory-bulletin">
-              <div class="advisory-header">
-                <div class="advisory-badge-wrap">
-                  <span class="advisory-pulse"></span>
-                  <span class="advisory-badge-text" data-i18n="today_tip_badge">मौसम एवं रोग परामर्श</span>
-                </div>
-                <div class="advisory-metric">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-                  <span>84% Humidity</span>
-                </div>
+            <!-- SECTION 6: TERTIARY SUPPORTING TOOLS — QUICK SERVICES 2x3 GRID -->
+            <div class="home-section-block">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+                <h3 class="text-section-title" data-i18n="services_grid_title">अन्य किसान सहायता सेवाएं</h3>
+                <span class="badge-demo-tag" style="font-size: 9.5px;" data-i18n="tools_tag">सलाह व उपकरण</span>
               </div>
-              <div class="advisory-body">
-                <h4 class="advisory-title" data-i18n="today_tip_title">उच्च नमी चेतावनी: झुलसा रोग (Blight Risk)</h4>
-                <p class="advisory-desc" data-i18n="today_tip_text">
-                  वातावरण में लगातार नमी रहने से आलू और टमाटर में झुलसा रोग (Blight) का जोखिम बढ़ जाता है। क्यारियों में जल निकासी साफ रखें।
-                </p>
+              <div class="ecosystem-services-grid">
+                <!-- 1. Scan -->
+                <div class="service-card" id="card-service-scan" role="button" tabindex="0" aria-label="Scan Crop Leaf">
+                  <div class="service-icon icon-scan">📷</div>
+                  <div class="service-details">
+                    <div class="service-title" data-i18n="service_scan_title">स्कैन करें</div>
+                    <div class="service-sub" data-i18n="service_scan_sub">(पत्ती/फसल)</div>
+                  </div>
+                </div>
+
+                <!-- 2. Treatments -->
+                <div class="service-card" id="card-service-treatments" role="button" tabindex="0" aria-label="Disease Treatments">
+                  <div class="service-icon icon-treatments">📖</div>
+                  <div class="service-details">
+                    <div class="service-title" data-i18n="service_treatments_title">उपचार व सलाह</div>
+                    <div class="service-sub" data-i18n="service_treatments_sub">(बीमारियाँ)</div>
+                  </div>
+                </div>
+
+                <!-- 3. Price Comparison -->
+                <div class="service-card" id="card-service-products" role="button" tabindex="0" aria-label="Input Price Comparison">
+                  <div class="service-icon icon-products">🏷️</div>
+                  <div class="service-details">
+                    <div class="service-title" data-i18n="service_products_title">कीमत तुलना</div>
+                    <div class="service-sub" data-i18n="service_products_sub">(दवाई/खाद)</div>
+                  </div>
+                </div>
+
+                <!-- 4. Community -->
+                <div class="service-card" id="card-service-community" role="button" tabindex="0" aria-label="Farmer Forum">
+                  <div class="service-icon icon-community">👥</div>
+                  <div class="service-details">
+                    <div class="service-title" data-i18n="service_community_title">किसानों से पूछें</div>
+                    <div class="service-sub" data-i18n="service_community_sub">(चौपाल)</div>
+                  </div>
+                </div>
+
+                <!-- 5. Experts -->
+                <div class="service-card" id="card-service-experts" role="button" tabindex="0" aria-label="Agronomist Advice">
+                  <div class="service-icon icon-experts">👨‍🔬</div>
+                  <div class="service-details">
+                    <div class="service-title" data-i18n="service_experts_title">विशेषज्ञ से सलाह</div>
+                    <div class="service-sub" data-i18n="service_experts_sub">(वैज्ञानिक कॉल)</div>
+                  </div>
+                </div>
+
+                <!-- 6. Farm Waste / Work -->
+                <div class="service-card" id="card-service-waste" role="button" tabindex="0" aria-label="Crop Residue Advisor">
+                  <div class="service-icon icon-waste">♻️</div>
+                  <div class="service-details">
+                    <div class="service-title" data-i18n="service_waste_title">अवशेष सलाहकार</div>
+                    <div class="service-sub" data-i18n="service_waste_sub">(खाद/आय)</div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
@@ -407,46 +430,64 @@
           </section>
 
           <!-- ========================================================= -->
-          <!-- VIEW 2: CROP SELECTION (Photographic Grid)                -->
+          <!-- VIEW 2: CROP SELECTION (Botanical Grid & Search)          -->
           <!-- ========================================================= -->
           <section id="view-crop-select" class="view-section">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <button id="btn-back-from-crop-select" class="icon-btn" title="Back">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-              </button>
-              <div>
-                <h2 class="text-headline" data-i18n="crop_select_title">आपकी फसल कौन-सी है?</h2>
-                <p class="text-caption" data-i18n="crop_select_desc">जिस फसल की पत्ती जांचनी है, उसे चुनें:</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <button id="btn-back-from-crop-select" class="icon-btn" title="Back" aria-label="Back to Home">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <div>
+                  <h2 class="text-headline" data-i18n="crop_select_title">आपकी फसल कौन-सी है?</h2>
+                  <p class="text-caption" data-i18n="crop_select_desc">जिस फसल की पत्ती जांचनी है, उसे चुनें:</p>
+                </div>
               </div>
             </div>
 
-            <div class="crop-grid" id="crop-grid-container">
-              <!-- Populated by JS with Photographic Crop Cards -->
+            <!-- Search Bar for Crops -->
+            <div class="crop-search-bar">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="crop-search-input" class="crop-search-field" placeholder="फसल खोजें (Search crop - Potato, Tomato, Rice...)" aria-label="Search Crop">
             </div>
 
-            <button id="btn-crop-next" class="btn btn-primary btn-block" disabled>
-              <span>आगे बढ़ें (Proceed to Photo) →</span>
-            </button>
+            <!-- Quick Direct Camera Trigger -->
+            <div class="direct-photo-strip">
+              <button id="btn-crop-direct-photo" class="btn btn-outline btn-block btn-sm">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                <span data-i18n="btn_direct_camera">सीधे पत्ती की फोटो लें (Direct Camera)</span>
+              </button>
+            </div>
+
+            <div class="crop-grid" id="crop-grid-container">
+              <!-- Populated dynamically by JS with Botanical Crop Cards -->
+            </div>
+
+            <div style="margin-top: 8px;">
+              <button id="btn-crop-next" class="btn btn-primary btn-block">
+                <span data-i18n="btn_crop_continue">आगे बढ़ें (Continue to Photo) →</span>
+              </button>
+            </div>
           </section>
 
           <!-- ========================================================= -->
-          <!-- VIEW 3: CAMERA / INGESTION (Dominant Viewport)             -->
+          <!-- VIEW 3: CAMERA / INGESTION (Field Guide & Viewfinder)     -->
           <!-- ========================================================= -->
           <section id="view-upload" class="view-section">
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div style="display: flex; align-items: center; gap: 8px;">
-                <button id="btn-back-from-upload" class="icon-btn" title="Back">
+                <button id="btn-back-from-upload" class="icon-btn" title="Back" aria-label="Back to Crop Selection">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
                 </button>
                 <div>
                   <h2 class="text-headline" data-i18n="upload_title">पत्ती की फोटो लें</h2>
-                  <p class="text-caption" data-i18n="upload_desc">साफ फोटो से बेहतर जांच मिलती है</p>
+                  <p class="text-caption" data-i18n="upload_desc">साफ फोटो से विश्वसनीय जांच मिलती है</p>
                 </div>
               </div>
               <span id="active-crop-badge" class="badge badge-success">Potato</span>
             </div>
 
-            <!-- Dominant Viewport with Hairline Corner Brackets -->
+            <!-- Dominant Viewport with Framing Brackets -->
             <div class="capture-viewport" id="upload-dropzone">
               <input type="file" id="file-input-camera" accept="image/*" capture="environment" class="hidden">
               <input type="file" id="file-input-gallery" accept="image/*" class="hidden">
@@ -457,19 +498,27 @@
                 <span class="corner bl"></span>
                 <span class="corner br"></span>
                 <div class="framing-leaf-silhouette">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg>
+                  <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.75)" stroke-width="1.6"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg>
                 </div>
               </div>
-              <div class="guide-text">पत्ती को फ्रेम के बीच रखें</div>
+              <div class="guide-text" data-i18n="dropzone_hint">पत्ती को फ्रेम के बीच रखें</div>
+            </div>
+
+            <!-- Simple Farmer-Friendly Photography Guide Checklist -->
+            <div class="farmer-guide-card">
+              <div class="guide-item"><span class="guide-check">✓</span> <span data-i18n="guide_rule_light">अच्छी व प्राकृतिक रोशनी में फोटो लें</span></div>
+              <div class="guide-item"><span class="guide-check">✓</span> <span data-i18n="guide_rule_single">एक ही पत्ती को केंद्र में साफ रखें</span></div>
+              <div class="guide-item"><span class="guide-check">✓</span> <span data-i18n="guide_rule_frame">पत्ती पूरी तरह फ्रेम के अंदर रहे</span></div>
+              <div class="guide-item"><span class="guide-check">✓</span> <span data-i18n="guide_rule_blur">धुंधली या हिलती हुई फोटो से बचें</span></div>
             </div>
 
             <!-- Shutter & Gallery Controls -->
             <div style="display: flex; gap: 8px;">
-              <button id="btn-trigger-camera" class="btn btn-primary" style="flex: 1.3;">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <button id="btn-trigger-camera" class="btn btn-primary" style="flex: 1.3;" aria-label="Open Camera">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
                 <span data-i18n="btn_open_camera">कैमरा खोलें</span>
               </button>
-              <button id="btn-trigger-gallery" class="btn btn-outline" style="flex: 1;">
+              <button id="btn-trigger-gallery" class="btn btn-outline" style="flex: 1;" aria-label="Select from Gallery">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                 <span data-i18n="btn_choose_gallery">गैलरी</span>
               </button>
@@ -480,7 +529,7 @@
               <div id="btn-toggle-demo-drawer" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 11px; color: var(--text-muted); font-weight: 600;">
                 <div style="display: flex; align-items: center; gap: 6px;">
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                  <span>परीक्षण हेतु नमूना पत्ती (Demo Leaf Samples)</span>
+                  <span data-i18n="demo_presets_title">परीक्षण हेतु नमूना पत्ती (Demo Leaf Samples)</span>
                 </div>
                 <span id="demo-drawer-arrow" style="font-size: 10px;">▾</span>
               </div>
@@ -495,12 +544,12 @@
           <!-- ========================================================= -->
           <section id="view-preview" class="view-section">
             <div style="display: flex; align-items: center; gap: 8px;">
-              <button id="btn-back-from-preview" class="icon-btn" title="Back">
+              <button id="btn-back-from-preview" class="icon-btn" title="Back" aria-label="Back to Upload">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
               <div>
                 <h2 class="text-headline" data-i18n="preview_title">फोटो की गुणवत्ता</h2>
-                <p class="text-caption">Client-Side Image Exposure &amp; Blur Pre-check</p>
+                <p class="text-caption" data-i18n="preview_subtitle">फोटो स्पष्टता व लक्षण क्षेत्र (ROI) जांच</p>
               </div>
             </div>
 
@@ -516,11 +565,11 @@
               </div>
             </div>
 
-            <!-- ROI Quick Controls -->
+            <!-- ROI Controls Bar -->
             <div id="roi-controls-strip" class="roi-controls-bar">
               <div class="roi-hint-text">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                <span data-i18n="roi_hint">पत्ती या रोग के धब्बे पर बॉक्स सेट करें</span>
+                <span data-i18n="roi_hint">प्रभावित हिस्से पर बॉक्स सेट करें</span>
               </div>
               <div style="display: flex; gap: 4px;">
                 <button type="button" id="btn-roi-full" class="roi-pill-btn active" data-i18n="roi_full">पूरी फोटो</button>
@@ -528,20 +577,21 @@
               </div>
             </div>
 
+            <!-- Real CV Quality Verdict Bar (Simplified Language) -->
             <div id="quality-verdict-card" class="quality-verdict-bar good">
-              <div style="display: flex; align-items: center; gap: 6px;">
+              <div style="display: flex; align-items: center; gap: 7px;">
                 <span id="quality-verdict-icon">✓</span>
-                <span id="quality-verdict-text" data-i18n="quality_good">फोटो साफ और अच्छी रोशनी में है</span>
+                <span id="quality-verdict-text" data-i18n="quality_good">फोटो साफ और उपयुक्त है</span>
               </div>
-              <span id="quality-score-pill" class="badge badge-success">94/100</span>
+              <span id="quality-score-pill" class="badge badge-success" data-i18n="quality_status_ok">जांच योग्य</span>
             </div>
 
             <div style="display: flex; gap: 8px;">
-              <button id="btn-preview-analyze" class="btn btn-primary btn-block" style="flex: 1.4;">
+              <button id="btn-preview-analyze" class="btn btn-primary btn-block" style="flex: 1.4;" aria-label="Start AI Diagnosis">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                <span data-i18n="btn_analyze">जांच शुरू करें</span>
+                <span data-i18n="btn_analyze">जांच शुरू करें (Diagnose)</span>
               </button>
-              <button id="btn-preview-retake" class="btn btn-outline" style="flex: 1;">
+              <button id="btn-preview-retake" class="btn btn-outline" style="flex: 1;" aria-label="Retake Photo">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
                 <span data-i18n="btn_retake">दोबारा फोटो लें</span>
               </button>
@@ -553,7 +603,7 @@
           <!-- ========================================================= -->
           <section id="view-analyzing" class="view-section">
             <div class="preview-showcase" style="max-height: 160px;">
-              <img id="analyzing-image-element" class="preview-showcase-img" src="" alt="Analyzing Leaf" style="height: 160px; opacity: 0.85;">
+              <img id="analyzing-image-element" class="preview-showcase-img" src="" alt="Analyzing Leaf" style="height: 160px; opacity: 0.9;">
             </div>
 
             <div class="analyzing-box">
@@ -563,133 +613,166 @@
                   पत्ती का विश्लेषण हो रहा है...
                 </h3>
                 <p id="analyzing-step-text" class="text-caption" style="margin-top: 3px;" data-i18n="analyzing_step1">
-                  फोटो देख रहे हैं और धब्बों की पहचान कर रहे हैं...
+                  1. फोटो की गुणवत्ता जांच रहे हैं...
                 </p>
               </div>
-              <div style="margin-top: 3px;">
-                <span class="badge badge-disclaimer" data-i18n="analyzing_subtext">ऑन-डिवाइस Edge AI विश्लेषण (WASM)</span>
+              <div style="margin-top: 4px;">
+                <span class="badge badge-disclaimer" data-i18n="analyzing_subtext">ऑन-डिवाइस Edge AI (ONNX WASM)</span>
               </div>
             </div>
           </section>
 
           <!-- ========================================================= -->
-          <!-- VIEW 6: DIAGNOSTIC RESULT (SIGNATURE HERO PRODUCT MOMENT) -->
+          <!-- VIEW 6: DIAGNOSTIC RESULT (Calm, Grounded Trust Screen)    -->
           <!-- ========================================================= -->
           <section id="view-result" class="view-section">
             
-            <!-- Result Top Nav Bar -->
+            <!-- Result Header -->
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <button id="btn-back-from-result" class="icon-btn" title="Home">
+              <button id="btn-back-from-result" class="icon-btn" title="Home" aria-label="Back to Home">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
               </button>
               <span class="badge badge-disclaimer" data-i18n="prototype_badge">ऑन-डिवाइस AI परिणाम (MobileNetV2 ONNX)</span>
             </div>
 
-            <!-- Scanned Leaf Photo Card -->
+            <!-- Scanned Leaf Photo Card with Diagnosis Tags -->
             <div class="result-leaf-hero">
               <img id="result-leaf-img" class="result-leaf-img" src="" alt="Scanned Leaf">
               <div class="result-leaf-badges">
                 <span id="result-crop-name" class="badge badge-neutral">Potato</span>
-                <span id="result-severity-badge" class="badge badge-warning">Moderate Severity</span>
+                <span id="result-severity-badge" class="badge badge-warning">मध्यम लक्षण स्तर (दृश्यमान संकेत)</span>
               </div>
             </div>
 
-            <!-- Diagnosed Condition Report -->
+            <!-- Diagnosed Condition & Reliability Assessment -->
             <div class="report-block">
-              <span class="hero-eyebrow" style="color: var(--text-muted); display: block;" data-i18n="condition_eyebrow">
-                संभावित समस्या
-              </span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                <span class="hero-eyebrow" style="color: var(--text-muted);" data-i18n="condition_eyebrow">
+                  संभावित समस्या (Possible Condition)
+                </span>
+                <span id="result-reliability-badge" class="badge badge-success">उच्च विश्वसनीयता</span>
+              </div>
+              
               <h2 id="result-disease-hi" class="report-disease-name">पछेती झुलसा</h2>
-              <div id="result-disease-en" class="report-disease-sub">Potato Late Blight</div>
+              <div id="result-disease-en" class="report-disease-sub">Late Blight (Phytophthora infestans)</div>
               <div id="result-scientific-name" class="report-scientific">Phytophthora infestans</div>
 
-              <!-- Confidence Presentation -->
-              <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border-hairline);">
-                <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 600; color: var(--text-muted);">
-                  <span data-i18n="confidence_label">मॉडल कॉन्फिडेंस स्कोर:</span>
-                  <span id="result-confidence-text" style="color: var(--primary); font-weight: 800;">89%</span>
-                </div>
-                <div class="confidence-track">
-                  <div id="result-confidence-fill" class="confidence-fill" style="width: 89%;"></div>
-                </div>
+              <!-- Reliability Explanation Note -->
+              <div class="reliability-explainer-box">
+                <p data-i18n="reliability_disclaimer">
+                  ℹ️ विश्वसनीयता का अनुमान AI मॉडल की भविष्यवाणी क्षमता व अनिश्चितता संकेतों से लगाया गया है। यह रोग निदान की पूर्ण गारंटी नहीं है। खेत में निर्णय से पूर्व पत्तियों पर लक्षणों का मिलान करें।
+                </p>
               </div>
             </div>
 
-            <!-- What We Observed (3 Concise Field Symptoms) -->
+            <!-- Expandable Evidence: "Why this result?" -->
+            <div class="home-section-block">
+              <details class="evidence-accordion" id="result-evidence-details">
+                <summary class="evidence-summary">
+                  <span style="font-weight: 700; font-size: 12px;" data-i18n="why_this_result_title">🔍 यह परिणाम क्यों? (Why this result?)</span>
+                  <span class="evidence-arrow">▾</span>
+                </summary>
+                <div class="evidence-content" id="result-evidence-list">
+                  <div class="evidence-item">✓ <strong>फोटो गुणवत्ता:</strong> पत्ती व चकत्ते स्पष्ट दृश्यमान</div>
+                  <div class="evidence-item">✓ <strong>फसल अनुकूलता:</strong> चयनित फसल से संबंधित पत्ती बनावट</div>
+                  <div class="evidence-item">✓ <strong>लक्षण स्वरूप:</strong> पत्तियों पर देखे गए विशिष्ट चकत्ते</div>
+                  <div class="evidence-item">✓ <strong>AI मॉडल संकेत:</strong> ऑन-डिवाइस मॉडल का प्राथमिक पूर्वानुमान</div>
+                </div>
+              </details>
+            </div>
+
+            <!-- What We Observed (Field Symptoms) -->
             <div class="home-section-block">
               <h3 class="text-section-title" style="font-size: 13px; margin-bottom: 4px;" data-i18n="symptoms_title">
-                हमने क्या देखा
+                देखे जाने वाले लक्षण (What You May Observe)
               </h3>
               <ul id="result-observations-list" class="symptoms-checklist">
                 <!-- Populated by JS -->
               </ul>
             </div>
 
-            <!-- Action Plan (Ordered 01, 02, 03) -->
+            <!-- Moderate Reliability Notice (Dynamically toggled) -->
+            <div id="result-moderate-alert" class="moderate-reliability-alert" style="display: none;">
+              ⚠️ <strong>मध्यम विश्वसनीयता संकेत:</strong> खेत में बड़े निर्णय या रासायनिक प्रयोग से पूर्व किसान चौपाल या कृषि विशेषज्ञ से पुष्टि अवश्य करें।
+            </div>
+
+            <!-- Structured 3-Stage Action Plan -->
             <div class="home-section-block">
-              <h3 class="text-section-title" style="font-size: 13px; margin-bottom: 4px;" data-i18n="remedies_title">
-                अगला कदम
-              </h3>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <h3 class="text-section-title" style="font-size: 13px; margin: 0;" data-i18n="remedies_title">
+                  कार्य योजना: 3-चरणीय प्रबंधन (Action Plan)
+                </h3>
+              </div>
               
               <div class="report-block" style="padding: 10px 12px;">
+                <!-- Stage A: Immediate safe steps -->
                 <div class="action-step-item">
-                  <div class="step-num">01</div>
+                  <div class="step-num">A</div>
                   <div class="step-content">
-                    <h4 data-i18n="tier_cultural_title">पहले क्या करें (खेत में तत्काल उपाय)</h4>
+                    <h4 data-i18n="tier_cultural_title">A. तत्काल सुरक्षित उपाय (Immediate Safe Steps)</h4>
                     <ul id="remedy-cultural-list"></ul>
                   </div>
                 </div>
 
+                <!-- Stage B: Management / prevention -->
                 <div class="action-step-item">
-                  <div class="step-num">02</div>
+                  <div class="step-num">B</div>
                   <div class="step-content">
-                    <h4 data-i18n="tier_biological_title">फिर जैविक / कम-जोखिम विकल्प</h4>
+                    <h4 data-i18n="tier_biological_title">B. प्रबंधन व रोकथाम (Management & Prevention)</h4>
                     <ul id="remedy-bio-list"></ul>
                   </div>
                 </div>
 
+                <!-- Stage C: Expert escalation & chemical guidance -->
                 <div class="action-step-item">
-                  <div class="step-num">03</div>
+                  <div class="step-num">C</div>
                   <div class="step-content">
-                    <h4 data-i18n="tier_chemical_title">सावधानी एवं रासायनिक सलाह</h4>
+                    <h4 data-i18n="tier_chemical_title">C. विशेषज्ञ परामर्श व रासायनिक सलाह (Expert Escalation)</h4>
                     <ul id="remedy-chem-list"></ul>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- FEATURE D & E: Voice Guidance & Share Actions -->
-            <div style="display: flex; gap: 6px;">
-              <button id="btn-voice-readout" class="btn btn-outline" style="flex: 1;" title="Read Aloud">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                <span id="voice-btn-text" data-i18n="btn_voice_read">बोलकर सुनें</span>
-              </button>
-              <button id="btn-share-report" class="btn btn-outline" style="flex: 1;" title="Share Diagnostic Report">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                <span data-i18n="btn_share_scan">रिपोर्ट साझा करें</span>
-              </button>
+            <!-- Primary CTAs: Follow-up & Save to Timeline -->
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; gap: 6px;">
+                <button id="btn-result-add-followup" class="btn btn-primary" style="flex: 1.3;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  <span data-i18n="btn_add_followup">+ फॉलो-अप जोड़ें (Add Follow-up)</span>
+                </button>
+                <button id="btn-save-scan-action" class="btn btn-outline" style="flex: 1;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  <span id="save-btn-text" data-i18n="btn_save_scan">टाइमलाइन में सहेजें</span>
+                </button>
+              </div>
+
+              <div style="display: flex; gap: 6px;">
+                <button id="btn-voice-readout" class="btn btn-outline" style="flex: 1;" title="Read Aloud">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                  <span id="voice-btn-text" data-i18n="btn_voice_read">बोलकर सुनें</span>
+                </button>
+                <button id="btn-share-report" class="btn btn-outline" style="flex: 1;" title="Share Diagnostic Report">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                  <span data-i18n="btn_share_scan">रिपोर्ट साझा करें</span>
+                </button>
+                <button id="btn-result-new-scan" class="btn btn-outline" style="flex: 1;">
+                  <span data-i18n="btn_new_scan">नई जांच</span>
+                </button>
+              </div>
             </div>
 
-            <!-- Contextual Ecosystem Next Steps CTAs -->
+            <!-- Human Support Escalation CTAs -->
             <div class="home-section-block">
-              <h3 class="text-section-title" style="font-size: 13px; margin-bottom: 6px;" data-i18n="result_ecosystem_title">
-                संबंधित किसान सेवाएं (Related Farmer Services)
+              <h3 class="text-section-title" style="font-size: 13px; margin-bottom: 6px;" data-i18n="result_human_support_title">
+                मानव विशेषज्ञ व किसान सहायता (Farmer Support)
               </h3>
               <div class="result-action-grid">
-                <button type="button" id="btn-result-to-products" class="result-action-card">
-                  <div class="action-card-icon" style="background: #E3F2FD; color: #1565C0;">🛒</div>
-                  <div class="action-card-text">
-                    <strong data-i18n="cta_compare_meds">दवाई मूल्य तुलना</strong>
-                    <span data-i18n="cta_compare_meds_sub">दुकानों पर ₹/100g रेट देखें</span>
-                  </div>
-                  <span class="action-arrow">→</span>
-                </button>
-
                 <button type="button" id="btn-result-to-community" class="result-action-card">
                   <div class="action-card-icon" style="background: #EDE7F6; color: #512DA8;">👨‍🌾</div>
                   <div class="action-card-text">
                     <strong data-i18n="cta_ask_community">किसान चौपाल में पूछें</strong>
-                    <span data-i18n="cta_ask_community_sub">स्थानीय किसानों से सलाह</span>
+                    <span data-i18n="cta_ask_community_sub">समान समस्या वाले किसानों से सलाह</span>
                   </div>
                   <span class="action-arrow">→</span>
                 </button>
@@ -697,8 +780,17 @@
                 <button type="button" id="btn-result-to-experts" class="result-action-card">
                   <div class="action-card-icon" style="background: #FCE4EC; color: #C2185B;">👨‍🔬</div>
                   <div class="action-card-text">
-                    <strong data-i18n="cta_consult_expert">कृषि वैज्ञानिक से बात</strong>
-                    <span data-i18n="cta_consult_expert_sub">सत्यापित विशेषज्ञ परामर्श</span>
+                    <strong data-i18n="cta_consult_expert">सत्यापित विशेषज्ञ से परामर्श</strong>
+                    <span data-i18n="cta_consult_expert_sub">कृषि वैज्ञानिक से सीधी बातचीत</span>
+                  </div>
+                  <span class="action-arrow">→</span>
+                </button>
+
+                <button type="button" id="btn-result-to-products" class="result-action-card">
+                  <div class="action-card-icon" style="background: #E3F2FD; color: #1565C0;">🛒</div>
+                  <div class="action-card-text">
+                    <strong data-i18n="cta_compare_meds">दवाई मूल्य तुलना</strong>
+                    <span data-i18n="cta_compare_meds_sub">दुकानों पर ₹/100g दर देखें</span>
                   </div>
                   <span class="action-arrow">→</span>
                 </button>
@@ -706,7 +798,7 @@
                 <button type="button" id="btn-result-to-waste" class="result-action-card">
                   <div class="action-card-icon" style="background: #E0F2F1; color: #00695C;">♻️</div>
                   <div class="action-card-text">
-                    <strong data-i18n="cta_waste_advisor">फसल अवशेष प्रबंधन</strong>
+                    <strong data-i18n="cta_waste_advisor">अवशेष प्रबंधन</strong>
                     <span data-i18n="cta_waste_advisor_sub">खाद व अतिरिक्त आमदनी</span>
                   </div>
                   <span class="action-arrow">→</span>
@@ -720,7 +812,7 @@
               <div>
                 <strong data-i18n="safety_disclaimer_title">अनिवार्य सुरक्षा चेतावनी:</strong>
                 <p data-i18n="safety_disclaimer_text" style="margin-top: 2px;">
-                  रासायनिक दवाओं के प्रयोग से पूर्व सुरक्षा मास्क और दस्ताने पहनें। सटीक क्षेत्रीय मात्रा हेतु नजदीकी कृषि विज्ञान केंद्र (KVK) से सलाह लें।
+                  रासायनिक दवाओं के प्रयोग से पूर्व सुरक्षा मास्क व दस्ताने पहनें। क्षेत्रीय मात्रा हेतु नजदीकी कृषि विज्ञान केंद्र (KVK) से संपर्क करें।
                 </p>
                 <div style="margin-top: 6px;">
                   <a href="tel:18001801551" class="btn btn-outline btn-sm" style="background: #FFFFFF; font-size: 10.5px; text-decoration: none;">
@@ -730,17 +822,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Result Bottom Action Buttons -->
-            <div style="display: flex; gap: 6px;">
-              <button id="btn-save-scan-action" class="btn btn-primary" style="flex: 1.2;">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                <span id="save-btn-text" data-i18n="btn_save_scan">स्कैन इतिहास में सहेजें</span>
-              </button>
-              <button id="btn-result-new-scan" class="btn btn-outline" style="flex: 1;">
-                <span data-i18n="btn_new_scan">नई जांच करें</span>
-              </button>
-            </div>
           </section>
 
           <!-- ========================================================= -->
@@ -748,18 +829,36 @@
           <!-- ========================================================= -->
           <section id="view-fallback" class="view-section">
             <div class="report-block" style="text-align: center; padding: 20px 14px;">
-              <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-earth-subtle); border: 1px solid var(--accent-earth-border); color: var(--accent-earth); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <div style="width: 48px; height: 48px; border-radius: 50%; background: #FEF3C7; border: 1px solid #FDE68A; color: #B45309; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               </div>
-              <h2 class="text-headline" data-i18n="fallback_title">जांच परिणाम अनिश्चित है</h2>
-              <p id="fallback-reason-text" class="text-caption" style="margin-top: 6px;" data-i18n="fallback_msg">
-                AI पत्ती के रोग की पुष्टि पर्याप्त सटीकता से नहीं कर सका। कृपया बेहतर रोशनी में पत्ती की स्पष्ट फोटो लें या कृषि विशेषज्ञ से सलाह लें।
+              <h2 class="text-headline" data-i18n="fallback_title">हम इस समस्या की पुष्टि नहीं कर सके</h2>
+              <p style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-top: 4px;" data-i18n="fallback_safe_subtitle">
+                सुरक्षित पहचान हेतु फोटो में पर्याप्त स्पष्ट जानकारी नहीं मिली।
               </p>
-              <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 6px;">
+              <div id="fallback-reason-box" style="background: var(--bg-subtle); border: 1px solid var(--border-hairline); border-radius: var(--radius-sm); padding: 8px 10px; margin-top: 10px; text-align: left;">
+                <div style="font-size: 10.5px; font-weight: 750; color: var(--text-title);" data-i18n="fallback_reason_label">संभावित कारण:</div>
+                <p id="fallback-reason-text" class="text-caption" style="margin-top: 2px;">
+                  फोटो में पर्याप्त रोशनी नहीं थी या पत्ती के लक्षण स्पष्ट नहीं थे।
+                </p>
+              </div>
+
+              <div style="margin-top: 14px; display: flex; flex-direction: column; gap: 7px;">
                 <button id="btn-fallback-retry" class="btn btn-primary btn-block">
-                  <span data-i18n="btn_try_again">नई फोटो के साथ पुनः प्रयास करें</span>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                  <span data-i18n="btn_try_again">बेहतर फोटो के साथ पुनः प्रयास करें</span>
                 </button>
-                <a href="tel:18001801551" class="btn btn-outline btn-block" style="text-decoration: none;">
+                
+                <div style="display: flex; gap: 6px;">
+                  <button id="btn-fallback-to-community" class="btn btn-outline" style="flex: 1;">
+                    <span data-i18n="btn_fallback_ask_community">👨‍🌾 किसान चौपाल</span>
+                  </button>
+                  <button id="btn-fallback-to-expert" class="btn btn-outline" style="flex: 1;">
+                    <span data-i18n="btn_fallback_ask_expert">👨‍🔬 विशेषज्ञ परामर्श</span>
+                  </button>
+                </div>
+
+                <a href="tel:18001801551" class="btn btn-outline btn-block" style="text-decoration: none; font-size: 11px;">
                   <span data-i18n="btn_call_kvk">किसान कॉल सेंटर से बात करें (1800-180-1551)*</span>
                 </a>
               </div>
@@ -994,6 +1093,18 @@
               </div>
             </div>
 
+            <!-- Demo comparison banner -->
+            <div class="demo-notice-banner" data-i18n="products_demo_banner">
+              ℹ️ <strong>डेमो तुलना:</strong> प्रदर्शित मूल्य और स्टॉक सांकेतिक हैं, वास्तविक समय की दरें नहीं हैं।
+            </div>
+
+            <!-- Category Filter Tabs: All / Bio / Chemical -->
+            <div class="products-category-filters" id="products-category-filters">
+              <button type="button" class="prod-filter-btn active" data-cat="all" data-i18n="filter_all_products">सभी उत्पाद (All)</button>
+              <button type="button" class="prod-filter-btn" data-cat="bio" data-i18n="filter_bio_products">🌿 जैविक / बायो (Bio/Organic)</button>
+              <button type="button" class="prod-filter-btn" data-cat="chemical" data-i18n="filter_chem_products">🧪 रासायनिक उत्पाद (Chemical)</button>
+            </div>
+
             <!-- Disease / Crop Filter Selectors -->
             <div style="display: flex; gap: 8px;">
               <select id="products-crop-select" class="form-select" style="flex: 1;">
@@ -1062,6 +1173,11 @@
                 <h2 class="text-headline" data-i18n="experts_title">कृषि वैज्ञानिक एवं विशेषज्ञ</h2>
                 <p class="text-caption" data-i18n="experts_sub">सत्यापित कीट व पादप रोग वैज्ञानिकों से परामर्श</p>
               </div>
+            </div>
+
+            <!-- Demo Expert Notice Banner -->
+            <div class="demo-notice-banner" data-i18n="experts_demo_banner">
+              ℹ️ <strong>डेमो विशेषज्ञ निर्देशिका:</strong> प्रदर्शित प्रोफाइल व शुल्क सांकेतिक हैं। सरकारी सहायता हेतु 1800-180-1551 पर कॉल करें।
             </div>
 
             <!-- Experts List -->
@@ -1254,8 +1370,11 @@
         <div id="book-expert-modal" class="modal-backdrop">
           <div class="modal-sheet">
             <div class="modal-header">
-              <h3 style="font-size: 14px; font-weight: 700;" data-i18n="modal_expert_title">विशेषज्ञ परामर्श बुक करें</h3>
+              <h3 style="font-size: 14px; font-weight: 700;" data-i18n="modal_expert_title">विशेषज्ञ परामर्श अनुरोध (डेमो)</h3>
               <button id="btn-close-expert-modal" class="icon-btn">✕</button>
+            </div>
+            <div class="demo-notice-banner" style="margin-bottom: 8px;" data-i18n="expert_booking_demo_notice">
+              ℹ️ डेमो बुकिंग इंटरफ़ेस — कोई वास्तविक अपॉइंटमेंट नहीं बनाया गया है।
             </div>
             <div id="expert-booking-summary" class="booking-summary-card" style="margin-bottom: 10px;">
               <!-- Populated by JS -->
@@ -1271,7 +1390,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="book-consult-time" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;">पसंदीदा समय:</label>
+                <label for="book-consult-time" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;">पसंदीदा समय (डेमो स्लॉट):</label>
                 <select id="book-consult-time" class="form-select">
                   <option value="today_evening">आज शाम (05:00 PM - 07:00 PM)</option>
                   <option value="tomorrow_morning">कल सुबह (08:00 AM - 10:00 AM)</option>
@@ -1282,11 +1401,8 @@
                 <label for="book-consult-notes" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;">फसल व समस्या का विवरण:</label>
                 <input type="text" id="book-consult-notes" class="form-input" placeholder="उदा. आलू के पत्तों पर काले चकत्ते">
               </div>
-              <div style="font-size: 10.5px; color: var(--text-muted); background: var(--bg-subtle); padding: 6px 8px; border-radius: var(--radius-xs);">
-                ℹ️ बुकिंग पुष्टि के बाद विशेषज्ञ दिए गए समय पर आपसे संपर्क करेंगे। शुल्क सेवा के बाद देय है।
-              </div>
               <button type="submit" class="btn btn-primary btn-block">
-                <span>परामर्श बुक करें (Confirm Booking)</span>
+                <span data-i18n="modal_expert_submit">परामर्श अनुरोध भेजें (डेमो)</span>
               </button>
             </form>
           </div>
