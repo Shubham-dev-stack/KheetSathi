@@ -128,6 +128,8 @@ class KheetSathiApp {
     if (viewId === 'view-community') this.renderCommunityFeed(payload?.cropId || 'all');
     if (viewId === 'view-experts') this.renderExpertDirectory();
     if (viewId === 'view-waste-advisor') this.renderWasteAdvisor(payload?.cropId || this.overviewCropId || 'potato');
+    if (viewId === 'view-farm-work') this.renderFarmWork();
+    if (viewId === 'view-profile') this.renderProfile();
   }
 
   // Language & i18n
@@ -1243,14 +1245,23 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
     // Render Crop Filter Chips
     if (chipsContainer) {
-      const crops = [{ crop_id: 'all', name_hi: 'सभी फसलें', name_en: 'All Crops' }, ...MOCK_CROPS];
+      const crops = [
+        { crop_id: 'all', name_hi: 'सभी फसलें', name_en: 'All Crops', emoji: '🌱' },
+        { crop_id: 'potato', name_hi: 'आलू', name_en: 'Potato', emoji: '🥔' },
+        { crop_id: 'tomato', name_hi: 'टमाटर', name_en: 'Tomato', emoji: '🍅' },
+        { crop_id: 'rice', name_hi: 'धान', name_en: 'Rice / Paddy', emoji: '🌾' },
+        { crop_id: 'wheat', name_hi: 'गेहूं', name_en: 'Wheat', emoji: '🌾' },
+        { crop_id: 'cotton', name_hi: 'कपास', name_en: 'Cotton', emoji: '🌿' }
+      ];
+
       chipsContainer.innerHTML = crops.map(c => `
-        <button type="button" class="history-chip ${c.crop_id === filterCrop ? 'active' : ''}" data-crop="${c.crop_id}">
-          ${isHi ? c.name_hi : c.name_en}
+        <button type="button" class="community-topic-chip ${c.crop_id === filterCrop ? 'active' : ''}" data-crop="${c.crop_id}">
+          <span class="chip-emoji">${c.emoji}</span>
+          <span class="chip-label">${isHi ? c.name_hi : c.name_en}</span>
         </button>
       `).join('');
 
-      chipsContainer.querySelectorAll('.history-chip').forEach(btn => {
+      chipsContainer.querySelectorAll('.community-topic-chip').forEach(btn => {
         btn.addEventListener('click', () => {
           this.renderTreatmentsEncyclopedia(btn.dataset.crop, searchQuery);
         });
@@ -1421,13 +1432,15 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
             return `
               <div class="product-store-row">
                 <div>
-                  <strong>${retName}</strong>
-                  <span style="font-size: 10px; color: var(--text-muted); display: block;">${stockLabel}</span>
+                  <strong style="color: var(--text-title); font-size: 11.5px;">${retName}</strong>
+                  <span style="font-size: 10px; color: ${st.stock_status === 'in_stock' ? '#166534' : '#B45309'}; display: block; font-weight: 600;">${stockLabel}</span>
                 </div>
-                <div style="text-align: right;">
-                  <span style="font-weight: 800; color: var(--text-title);">₹${st.price}</span>
-                  <span style="font-size: 10px; color: var(--text-muted); display: block;">(₹${normPrice} ${normUnitText})</span>
-                  <a href="tel:${retPhone}" style="display: inline-block; font-size: 10px; color: var(--primary); text-decoration: none; font-weight: 700; margin-top: 2px;">📞 ${isHi ? 'कॉल' : 'Call'}</a>
+                <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 2px;">
+                  <div style="display: flex; align-items: baseline; gap: 4px;">
+                    <span style="font-weight: 800; font-size: 13.5px; color: #166534;">₹${st.price}</span>
+                    <span style="font-size: 10px; color: var(--text-muted);">(₹${normPrice} ${normUnitText})</span>
+                  </div>
+                  <a href="tel:${retPhone}" class="store-call-btn">📞 ${isHi ? 'कॉल करें' : 'Call'}</a>
                 </div>
               </div>
             `;
@@ -1508,14 +1521,30 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
     // Render Crop Chips
     if (chipsContainer) {
-      const crops = [{ crop_id: 'all', name_hi: 'सभी सवाल', name_en: 'All Topics' }, ...MOCK_CROPS];
-      chipsContainer.innerHTML = crops.map(c => `
-        <button type="button" class="history-chip ${c.crop_id === filterCrop ? 'active' : ''}" data-crop="${c.crop_id}">
-          ${isHi ? c.name_hi : c.name_en}
-        </button>
-      `).join('');
+      const crops = [
+        { crop_id: 'all', name_hi: 'सभी सवाल', name_en: 'All Topics', emoji: '💬' },
+        { crop_id: 'potato', name_hi: 'आलू', name_en: 'Potato', emoji: '🥔' },
+        { crop_id: 'tomato', name_hi: 'टमाटर', name_en: 'Tomato', emoji: '🍅' },
+        { crop_id: 'rice', name_hi: 'धान', name_en: 'Rice / Paddy', emoji: '🌾' },
+        { crop_id: 'wheat', name_hi: 'गेहूं', name_en: 'Wheat', emoji: '🌾' },
+        { crop_id: 'cotton', name_hi: 'कपास', name_en: 'Cotton', emoji: '🌿' }
+      ];
 
-      chipsContainer.querySelectorAll('.history-chip').forEach(btn => {
+      const allPosts = StorageManager.getCommunityPosts();
+
+      chipsContainer.innerHTML = crops.map(c => {
+        const count = c.crop_id === 'all' ? allPosts.length : allPosts.filter(p => p.crop_id === c.crop_id).length;
+        const isActive = c.crop_id === filterCrop;
+        return `
+          <button type="button" class="community-topic-chip ${isActive ? 'active' : ''}" data-crop="${c.crop_id}">
+            <span class="chip-emoji">${c.emoji}</span>
+            <span class="chip-label">${isHi ? c.name_hi : c.name_en}</span>
+            <span class="chip-badge">${count}</span>
+          </button>
+        `;
+      }).join('');
+
+      chipsContainer.querySelectorAll('.community-topic-chip').forEach(btn => {
         btn.addEventListener('click', () => {
           this.renderCommunityFeed(btn.dataset.crop);
         });
@@ -1699,10 +1728,10 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
             <div style="margin-top: 2px; font-size: 10.5px; color: var(--text-muted);">📍 ${exp.location} • ⭐ ${exp.rating} (${exp.consultations_completed} ${isHi ? 'परामर्श' : 'consultations'})</div>
           </div>
 
-          <div class="expert-fees-row" style="margin-top: 8px;">
-            <div>📞 ${isHi ? 'कॉल:' : 'Call:'} <strong>₹${exp.consultation_fee}</strong></div>
-            <div>📹 ${isHi ? 'वीडियो:' : 'Video:'} <strong>₹${Math.round(exp.consultation_fee * 1.4)}</strong></div>
-            <div>🚜 ${isHi ? 'खेत विजिट:' : 'Visit:'} <strong>₹${exp.field_visit_fee}</strong></div>
+          <div class="expert-fees-grid" style="margin-top: 8px;">
+            <span class="expert-fee-chip call">📞 ${isHi ? 'कॉल' : 'Call'}: <strong>₹${exp.consultation_fee}</strong></span>
+            <span class="expert-fee-chip video">📹 ${isHi ? 'वीडियो' : 'Video'}: <strong>₹${Math.round(exp.consultation_fee * 1.4)}</strong></span>
+            <span class="expert-fee-chip visit">🚜 ${isHi ? 'विजिट' : 'Visit'}: <strong>₹${exp.field_visit_fee}</strong></span>
           </div>
 
           <button type="button" class="btn btn-primary btn-block btn-book-expert" data-expert-id="${exp.expert_id}" style="margin-top: 8px;">
@@ -1857,6 +1886,68 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     }
   }
 
+  renderFarmWork() {
+    const container = document.getElementById('farm-work-jobs-list');
+    if (!container) return;
+    const isHi = this.currentLang === 'hi';
+    const jobs = StorageManager.getFarmWorkJobs();
+
+    if (jobs.length === 0) {
+      container.innerHTML = `
+        <div style="padding: 16px; text-align: center; color: var(--text-muted); font-size: 11.5px;">
+          ${isHi ? 'अभी कोई सक्रिय कार्य सूची उपलब्ध नहीं है।' : 'No active farm work listings.'}
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = jobs.map(job => `
+      <div class="report-block farm-work-card" style="padding: 12px; margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <div style="font-size: 13px; font-weight: 800; color: var(--text-title);">${isHi ? job.work_type_hi : job.work_type_en}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+              🌾 ${isHi ? job.crop_name_hi : job.crop_name_en} • 📍 ${job.location}
+            </div>
+          </div>
+          <span class="badge badge-success" style="font-size: 10px;">${job.workers_needed} ${isHi ? 'मजदूर चाहिए' : 'Workers'}</span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border-hairline);">
+          <div style="font-size: 11px; color: var(--text-body);">
+            <span>📅 ${job.date} • ⏱️ ${job.hours_per_day} ${isHi ? 'घंटे' : 'hrs'}</span>
+            <div style="font-weight: 700; color: #166534; margin-top: 2px;">💰 ${job.wage_per_day}</div>
+          </div>
+          <a href="tel:${job.phone}" class="btn btn-outline btn-sm" style="text-decoration: none; font-size: 11px;">
+            📞 ${isHi ? 'संपर्क करें' : 'Contact'}
+          </a>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderProfile() {
+    const user = StorageManager.getUser();
+    const consults = StorageManager.getExpertBookings();
+    const posts = StorageManager.getCommunityPosts().filter(p => p.id && String(p.id).startsWith('cp_'));
+    const isHi = this.currentLang === 'hi';
+
+    const nameEl = document.getElementById('profile-farmer-name');
+    if (nameEl) nameEl.textContent = user.name || (isHi ? 'शुभम कुमार' : 'Shubham Kumar');
+
+    const cropsEl = document.getElementById('profile-stat-crops');
+    if (cropsEl) cropsEl.textContent = user.crops_cultivated ? user.crops_cultivated.length : 3;
+
+    const postsEl = document.getElementById('profile-stat-posts');
+    if (postsEl) postsEl.textContent = Math.max(posts.length, 12);
+
+    const consultsEl = document.getElementById('profile-stat-consults');
+    if (consultsEl) consultsEl.textContent = Math.max(consults.length, 5);
+
+    const langCurrentEl = document.getElementById('profile-lang-current');
+    if (langCurrentEl) langCurrentEl.textContent = isHi ? 'हिन्दी' : 'English';
+  }
+
   // =========================================================================
   // Event Listeners Binding
   // =========================================================================
@@ -1874,19 +1965,16 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     document.getElementById('nav-brand-btn')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-home'); });
     document.getElementById('lang-toggle-btn')?.addEventListener('click', () => this.toggleLanguage());
     document.getElementById('btn-help-nav')?.addEventListener('click', () => this.navigateTo('view-help'));
-    document.getElementById('btn-profile-nav')?.addEventListener('click', () => {
-      const scans = StorageManager.getScans();
-      document.getElementById('profile-total-scans').textContent = scans.length;
-      document.getElementById('profile-modal').classList.add('active');
-    });
+    document.getElementById('btn-profile-nav')?.addEventListener('click', () => this.navigateTo('view-profile'));
+    document.getElementById('btn-profile-help')?.addEventListener('click', () => this.navigateTo('view-help'));
     document.getElementById('btn-close-profile')?.addEventListener('click', () => {
-      document.getElementById('profile-modal').classList.remove('active');
+      document.getElementById('profile-modal')?.classList.remove('active');
     });
 
     // Add Crop Modal
     document.getElementById('btn-open-add-crop')?.addEventListener('click', () => this.openAddCropModal());
     document.getElementById('btn-close-add-crop')?.addEventListener('click', () => {
-      document.getElementById('add-crop-modal').classList.remove('active');
+      document.getElementById('add-crop-modal')?.classList.remove('active');
     });
 
     // Bottom Nav (5 Primary Tabs)
@@ -1908,7 +1996,76 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     document.getElementById('card-service-products')?.addEventListener('click', () => this.navigateTo('view-products-comp'));
     document.getElementById('card-service-community')?.addEventListener('click', () => this.navigateTo('view-community'));
     document.getElementById('card-service-experts')?.addEventListener('click', () => this.navigateTo('view-experts'));
+    document.getElementById('card-service-farm-work')?.addEventListener('click', () => this.navigateTo('view-farm-work'));
     document.getElementById('card-service-waste')?.addEventListener('click', () => this.navigateTo('view-waste-advisor'));
+
+    // Farm Work Tabs & Form Submission
+    document.getElementById('tab-find-work-btn')?.addEventListener('click', () => {
+      document.getElementById('tab-find-work-btn')?.classList.add('active');
+      document.getElementById('tab-post-work-btn')?.classList.remove('active');
+      const formCard = document.getElementById('farm-work-post-form-card');
+      const jobsList = document.getElementById('farm-work-jobs-list');
+      if (formCard) formCard.style.display = 'none';
+      if (jobsList) jobsList.style.display = 'block';
+    });
+
+    document.getElementById('tab-post-work-btn')?.addEventListener('click', () => {
+      document.getElementById('tab-post-work-btn')?.classList.add('active');
+      document.getElementById('tab-find-work-btn')?.classList.remove('active');
+      const formCard = document.getElementById('farm-work-post-form-card');
+      const jobsList = document.getElementById('farm-work-jobs-list');
+      if (formCard) formCard.style.display = 'block';
+      if (jobsList) jobsList.style.display = 'none';
+    });
+
+    document.getElementById('form-post-farm-work')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const workType = document.getElementById('fw-work-type')?.value;
+      const cropId = document.getElementById('fw-crop-select')?.value;
+      const workers = parseInt(document.getElementById('fw-workers-needed')?.value || '5');
+      const date = document.getElementById('fw-work-date')?.value || '15 सित. 2026';
+      const hours = parseInt(document.getElementById('fw-work-hours')?.value || '6');
+      const cropMeta = MOCK_CROPS.find(c => c.crop_id === cropId);
+      const isHi = this.currentLang === 'hi';
+
+      StorageManager.addFarmWorkJob({
+        work_type_hi: workType,
+        work_type_en: workType,
+        crop_id: cropId,
+        crop_name_hi: cropMeta?.name_hi || cropId,
+        crop_name_en: cropMeta?.name_en || cropId,
+        workers_needed: workers,
+        date: date,
+        hours_per_day: hours,
+        wage_per_day: '₹450 / दिन',
+        location: 'Sanwer, Indore'
+      });
+
+      this.showToast(isHi ? 'कार्य अनुरोध पोस्ट हुआ (डेमो)!' : 'Farm work request posted (Demo)!');
+      document.getElementById('tab-find-work-btn')?.click();
+      this.renderFarmWork();
+    });
+
+    // Profile Menu Navigation Rows
+    document.getElementById('pmenu-info')?.addEventListener('click', () => {
+      this.showToast(this.currentLang === 'hi' ? 'किसान प्रोफ़ाइल सक्रिय है' : 'Farmer profile is active');
+    });
+    document.getElementById('pmenu-crops')?.addEventListener('click', () => this.navigateTo('view-my-crops'));
+    document.getElementById('pmenu-lang')?.addEventListener('click', () => this.toggleLanguage());
+    document.getElementById('pmenu-notif')?.addEventListener('click', () => {
+      this.showToast(this.currentLang === 'hi' ? 'सभी फसल सूचनाएं अद्यतित हैं' : 'All crop alerts are up-to-date');
+    });
+    document.getElementById('pmenu-help')?.addEventListener('click', () => this.navigateTo('view-help'));
+    document.getElementById('pmenu-settings')?.addEventListener('click', () => {
+      this.showToast(this.currentLang === 'hi' ? 'सेटिंग्स: PWA ऑफलाइन कैश सक्रिय' : 'Settings: Offline PWA active');
+    });
+    document.getElementById('pmenu-logout')?.addEventListener('click', () => {
+      if (confirm(this.currentLang === 'hi' ? 'क्या आप सारा स्थानीय डेटा रीसेट करना चाहते हैं?' : 'Reset all local storage data?')) {
+        localStorage.clear();
+        StorageManager.init();
+        location.reload();
+      }
+    });
 
     // Contextual Result View Ecosystem Navigation
     document.getElementById('btn-result-to-products')?.addEventListener('click', () => {
@@ -1955,6 +2112,8 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     document.getElementById('btn-back-from-community')?.addEventListener('click', () => this.navigateTo('view-home'));
     document.getElementById('btn-back-from-experts')?.addEventListener('click', () => this.navigateTo('view-home'));
     document.getElementById('btn-back-from-waste')?.addEventListener('click', () => this.navigateTo('view-home'));
+    document.getElementById('btn-back-from-farm-work')?.addEventListener('click', () => this.navigateTo('view-home'));
+    document.getElementById('btn-back-from-profile')?.addEventListener('click', () => this.navigateTo('view-home'));
 
     // Treatments Encyclopedia Search
     document.getElementById('treatments-search-input')?.addEventListener('input', (e) => {

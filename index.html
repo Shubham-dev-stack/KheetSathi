@@ -73,11 +73,11 @@
           <span id="toast-message">Message</span>
         </div>
 
-        <!-- Top Navigation Bar (Fixed) -->
+        <!-- Top Navigation Bar (Farmer-First Curved Green App Header) -->
         <header class="top-nav">
-          <div class="brand-wrapper" id="nav-brand-btn">
+          <div class="brand-wrapper" id="nav-brand-btn" role="button" tabindex="0" aria-label="Go to Home">
             <div class="brand-mark">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
             </div>
             <div class="brand-info">
               <span class="brand-title" data-i18n="brand_title">खेती साथी</span>
@@ -102,16 +102,15 @@
         <main class="main-content">
 
           <!-- ========================================================= -->
-          <!-- VIEW 1: HOME (Modern Farmer-First Dashboard)              -->
+          <!-- VIEW 1: HOME (Farmer Dashboard matching Reference #2)     -->
           <!-- ========================================================= -->
           <section id="view-home" class="view-section active">
             
-            <!-- SECTION 1: Farmer Greeting Header -->
-            <!-- SECTION 1: Farmer Profile Greeting Header -->
+            <!-- Top Area: Farmer Profile Greeting Header -->
             <div class="farmer-greeting-card">
               <div class="greeting-text-wrap">
-                <div class="greeting-sub" data-i18n="greeting_tagline">किसान की ताकत, हमारी पहचान</div>
                 <h2 class="greeting-name" id="home-farmer-greeting">नमस्ते, Shubham 👋</h2>
+                <div class="greeting-sub" data-i18n="greeting_tagline">किसान की ताकत, हमारी पहचान</div>
               </div>
               <div class="greeting-badge" title="Set in Farmer Profile">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
@@ -119,8 +118,8 @@
               </div>
             </div>
 
-            <!-- SECTION 2: Weather & Agronomic Advisory Card (Sample/Advisory Data) -->
-            <div class="weather-advisory-card" id="card-weather-advisory" title="Click to view full treatment encyclopedia">
+            <!-- Weather & Agronomic Advisory Card (Reference screen 2 top) -->
+            <div class="weather-advisory-card" id="card-weather-advisory" role="button" tabindex="0" title="Click to view crop advisory">
               <div class="weather-top-row">
                 <div class="weather-left">
                   <span class="weather-icon">🌤️</span>
@@ -136,11 +135,11 @@
               <div class="weather-advisory-bottom">
                 <div class="advisory-pill" data-i18n="today_tip_badge">आज का सुझाव</div>
                 <p class="advisory-snippet" data-i18n="today_tip_text">टमाटर में झुलसा रोग का खतरा बढ़ सकता है। समय पर निगरानी रखें।</p>
-                <span class="advisory-arrow">→</span>
+                <span class="advisory-arrow">➔</span>
               </div>
             </div>
 
-            <!-- SECTION 3: PRIMARY ACTION — HERO Scan Leaf CTA Card -->
+            <!-- Hero Action Area: Strong Scan Crop CTA Card -->
             <div class="hero-showcase">
               <img id="hero-banner-img" class="hero-showcase-bg" src="./assets/images/hero_farm.jpg" alt="Agricultural Field Context">
               <div class="hero-showcase-overlay">
@@ -156,46 +155,20 @@
               </div>
             </div>
 
-            <!-- SECTION 4: SECONDARY ACTION — YOUR CROPS TRACKER -->
+            <!-- Structured 6-Feature Farmer Ecosystem Grid (Reference Screen #2) -->
             <div class="home-section-block">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-                <h3 class="text-section-title" data-i18n="my_crops_title">मेरी फसलें</h3>
-                <a href="#" id="link-view-all-crops" class="section-link" data-i18n="view_all_crops">संपूर्ण देखें →</a>
-              </div>
-              <div id="home-my-crops-strip" class="my-crops-strip">
-                <!-- Populated dynamically by JS -->
-              </div>
-            </div>
-
-            <!-- SECTION 5: SECONDARY ACTION — RECENT CROP HEALTH SCANS -->
-            <div class="home-section-block">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-                <h3 class="text-section-title" data-i18n="recent_scans_title">हालिया फसल स्वास्थ्य</h3>
-                <a href="#" id="link-view-all-history" class="section-link" data-i18n="view_all_history">पूरा इतिहास देखें →</a>
-              </div>
-              <div id="home-recent-scans" class="history-container">
-                <!-- Populated dynamically with compact flat rows -->
-              </div>
-            </div>
-
-            <!-- SECTION 6: TERTIARY SUPPORTING TOOLS — QUICK SERVICES 2x3 GRID -->
-            <div class="home-section-block">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
-                <h3 class="text-section-title" data-i18n="services_grid_title">अन्य किसान सहायता सेवाएं</h3>
-                <span class="badge-demo-tag" style="font-size: 9.5px;" data-i18n="tools_tag">सलाह व उपकरण</span>
-              </div>
               <div class="ecosystem-services-grid">
-                <!-- 1. Scan -->
-                <div class="service-card" id="card-service-scan" role="button" tabindex="0" aria-label="Scan Crop Leaf">
-                  <div class="service-icon icon-scan">📷</div>
+                <!-- 1. AI Crop Health Scan -->
+                <div class="service-card" id="card-service-scan" role="button" tabindex="0" aria-label="AI Crop Health Scan">
+                  <div class="service-icon icon-scan">🍃</div>
                   <div class="service-details">
                     <div class="service-title" data-i18n="service_scan_title">स्कैन करें</div>
                     <div class="service-sub" data-i18n="service_scan_sub">(पत्ती/फसल)</div>
                   </div>
                 </div>
 
-                <!-- 2. Treatments -->
-                <div class="service-card" id="card-service-treatments" role="button" tabindex="0" aria-label="Disease Treatments">
+                <!-- 2. Treatment & Advice -->
+                <div class="service-card" id="card-service-treatments" role="button" tabindex="0" aria-label="Treatment and Advice">
                   <div class="service-icon icon-treatments">📖</div>
                   <div class="service-details">
                     <div class="service-title" data-i18n="service_treatments_title">उपचार व सलाह</div>
@@ -204,7 +177,7 @@
                 </div>
 
                 <!-- 3. Price Comparison -->
-                <div class="service-card" id="card-service-products" role="button" tabindex="0" aria-label="Input Price Comparison">
+                <div class="service-card" id="card-service-products" role="button" tabindex="0" aria-label="Price Comparison">
                   <div class="service-icon icon-products">🏷️</div>
                   <div class="service-details">
                     <div class="service-title" data-i18n="service_products_title">कीमत तुलना</div>
@@ -212,8 +185,8 @@
                   </div>
                 </div>
 
-                <!-- 4. Community -->
-                <div class="service-card" id="card-service-community" role="button" tabindex="0" aria-label="Farmer Forum">
+                <!-- 4. Ask a Farmer (Community) -->
+                <div class="service-card" id="card-service-community" role="button" tabindex="0" aria-label="Ask a Farmer Community">
                   <div class="service-icon icon-community">👥</div>
                   <div class="service-details">
                     <div class="service-title" data-i18n="service_community_title">किसानों से पूछें</div>
@@ -221,8 +194,8 @@
                   </div>
                 </div>
 
-                <!-- 5. Experts -->
-                <div class="service-card" id="card-service-experts" role="button" tabindex="0" aria-label="Agronomist Advice">
+                <!-- 5. Expert Help -->
+                <div class="service-card" id="card-service-experts" role="button" tabindex="0" aria-label="Expert Consultation">
                   <div class="service-icon icon-experts">👨‍🔬</div>
                   <div class="service-details">
                     <div class="service-title" data-i18n="service_experts_title">विशेषज्ञ से सलाह</div>
@@ -230,14 +203,36 @@
                   </div>
                 </div>
 
-                <!-- 6. Farm Waste / Work -->
-                <div class="service-card" id="card-service-waste" role="button" tabindex="0" aria-label="Crop Residue Advisor">
-                  <div class="service-icon icon-waste">♻️</div>
+                <!-- 6. Farm Work & Waste Advisor -->
+                <div class="service-card" id="card-service-farm-work" role="button" tabindex="0" aria-label="Farm Work and Waste Advisor">
+                  <div class="service-icon icon-waste">🚜</div>
                   <div class="service-details">
-                    <div class="service-title" data-i18n="service_waste_title">अवशेष सलाहकार</div>
-                    <div class="service-sub" data-i18n="service_waste_sub">(खाद/आय)</div>
+                    <div class="service-title" data-i18n="farm_work_title">फार्म वर्क</div>
+                    <div class="service-sub" data-i18n="farm_work_sub">(मजदूर/सेवा)</div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <!-- Your Crops Section (Reference Screen #2) -->
+            <div class="home-section-block">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                <h3 class="text-section-title" data-i18n="my_crops_title">मेरी फसलें</h3>
+                <a href="#" id="link-view-all-crops" class="section-link" data-i18n="view_all_crops">संपूर्ण देखें →</a>
+              </div>
+              <div id="home-my-crops-strip" class="my-crops-strip">
+                <!-- Populated dynamically by JS -->
+              </div>
+            </div>
+
+            <!-- Recent Scans / Activity -->
+            <div class="home-section-block">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                <h3 class="text-section-title" data-i18n="recent_scans_title">हालिया फसल स्वास्थ्य</h3>
+                <a href="#" id="link-view-all-history" class="section-link" data-i18n="view_all_history">पूरा इतिहास देखें →</a>
+              </div>
+              <div id="home-recent-scans" class="history-container">
+                <!-- Populated dynamically with compact rows -->
               </div>
             </div>
           </section>
@@ -1255,6 +1250,195 @@
               <h3 class="text-section-title" data-i18n="waste_facilities_title">नजदीकी बायोमास व कंपोस्ट केंद्र</h3>
               <div id="waste-facilities-container" class="facilities-container">
                 <!-- Populated by JS -->
+              </div>
+            </div>
+          </section>
+
+          <!-- ========================================================= -->
+          <!-- VIEW 15: FARM WORK CONNECT (Screen 9 in Reference)        -->
+          <!-- ========================================================= -->
+          <section id="view-farm-work" class="view-section">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <button id="btn-back-from-farm-work" class="icon-btn" title="Back">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div>
+                <h2 class="text-headline" data-i18n="farm_work_title">फार्म वर्क कनेक्ट</h2>
+                <p class="text-caption" data-i18n="farm_work_sub">कृषि कार्य हेतु मजदूर खोजें व काम पोस्ट करें</p>
+              </div>
+            </div>
+
+            <!-- Demo Notice Banner -->
+            <div class="demo-notice-banner" data-i18n="farm_work_demo_notice">
+              ℹ️ <strong>डेमो सेवा:</strong> प्रदर्शित कृषि कार्य सूची व अनुरोध सांकेतिक हैं, कोई वास्तविक श्रम अनुबंध नहीं बनाया जाता है।
+            </div>
+
+            <!-- Segmented Control: Find Work vs Post Work -->
+            <div class="segment-tabs" style="display: flex; gap: 8px; margin-bottom: 10px;">
+              <button type="button" id="tab-find-work-btn" class="segment-tab-btn active" data-i18n="tab_find_work">काम खोजें</button>
+              <button type="button" id="tab-post-work-btn" class="segment-tab-btn" data-i18n="tab_post_work">काम पोस्ट करें</button>
+            </div>
+
+            <!-- Post Work Card Form (Screen 9 Left Form) -->
+            <div id="farm-work-post-form-card" class="report-block" style="display: none; padding: 14px;">
+              <h3 style="font-size: 13px; font-weight: 800; color: var(--text-title); margin-bottom: 10px;" data-i18n="need_workers_title">
+                मुझे मजदूर चाहिए
+              </h3>
+              <form id="form-post-farm-work" style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="form-group">
+                  <label for="fw-work-type" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;" data-i18n="work_type_label">काम का प्रकार:</label>
+                  <select id="fw-work-type" class="form-select">
+                    <option value="कटाई (Harvesting)">कटाई (Harvesting)</option>
+                    <option value="बुवाई (Sowing / Transplantation)">बुवाई (Sowing)</option>
+                    <option value="दवाई छिड़काव (Spraying)">दवाई छिड़काव (Spraying)</option>
+                    <option value="निराई-गुड़ाई (Weeding)">निराई-गुड़ाई (Weeding)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="fw-crop-select" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;">फसल:</label>
+                  <select id="fw-crop-select" class="form-select">
+                    <option value="potato">आलू (Potato)</option>
+                    <option value="tomato">टमाटर (Tomato)</option>
+                    <option value="wheat">गेहूं (Wheat)</option>
+                    <option value="rice">धान (Rice)</option>
+                  </select>
+                </div>
+                <div style="display: flex; gap: 8px;">
+                  <div class="form-group" style="flex: 1;">
+                    <label for="fw-workers-needed" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;" data-i18n="workers_count_label">कितने लोग चाहिए?</label>
+                    <input type="number" id="fw-workers-needed" class="form-input" value="5" min="1" max="50">
+                  </div>
+                  <div class="form-group" style="flex: 1.2;">
+                    <label for="fw-work-date" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;" data-i18n="work_date_label">तारीख:</label>
+                    <input type="text" id="fw-work-date" class="form-input" value="15 सित. 2026">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="fw-work-hours" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;" data-i18n="work_hours_label">काम का समय (प्रतिदिन):</label>
+                  <select id="fw-work-hours" class="form-select">
+                    <option value="6">6 घंटे</option>
+                    <option value="8">8 घंटे</option>
+                    <option value="4">4 घंटे (आधा दिन)</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  <span data-i18n="btn_post_work">पोस्ट करें (डेमो)</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Find Work Listings (Screen 9 Active Jobs) -->
+            <div id="farm-work-jobs-list" class="farm-work-list">
+              <!-- Populated by JS -->
+            </div>
+          </section>
+
+          <!-- ========================================================= -->
+          <!-- VIEW 16: FARMER PROFILE (Screen 12 in Reference)          -->
+          <!-- ========================================================= -->
+          <section id="view-profile" class="view-section">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <button id="btn-back-from-profile" class="icon-btn" title="Back">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <h2 class="text-headline" data-i18n="profile_title" style="font-size: 15px;">किसान प्रोफ़ाइल</h2>
+              <button id="btn-profile-help" class="icon-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </button>
+            </div>
+
+            <!-- Profile Hero Card (Green Curved Card matching Screen #12) -->
+            <div class="profile-hero-card">
+              <div class="profile-hero-top">
+                <div class="profile-avatar-wrap">
+                  <span style="font-size: 28px;">👨‍🌾</span>
+                </div>
+                <div class="profile-info-block">
+                  <h3 class="profile-name" id="profile-farmer-name">Shubham Kumar</h3>
+                  <div class="profile-land-sub">किसान • 10 एकड़ (Indore, MP)</div>
+                  <div style="display: flex; gap: 6px; margin-top: 4px;">
+                    <span class="badge badge-success" style="font-size: 9.5px; background: rgba(255,255,255,0.25); color: #FFFFFF; border: none;">✓ <span data-i18n="profile_verified_badge">सत्यापित किसान</span></span>
+                    <span class="badge badge-warning" style="font-size: 9.5px; background: rgba(245,158,11,0.25); color: #FEF3C7; border: none;">⭐ <span data-i18n="profile_points_badge">100+ अंक</span></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 3-Col Stats Counter Strip -->
+              <div class="profile-stats-strip">
+                <div class="profile-stat-item">
+                  <div class="profile-stat-val" id="profile-stat-crops">3</div>
+                  <div class="profile-stat-lbl" data-i18n="stat_my_crops">मेरी फसलें</div>
+                </div>
+                <div class="profile-stat-item">
+                  <div class="profile-stat-val" id="profile-stat-posts">12</div>
+                  <div class="profile-stat-lbl" data-i18n="stat_community_posts">समुदाय पोस्ट</div>
+                </div>
+                <div class="profile-stat-item">
+                  <div class="profile-stat-val" id="profile-stat-consults">5</div>
+                  <div class="profile-stat-lbl" data-i18n="stat_expert_consult">विशेषज्ञ परामर्श</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Settings & Account Menu List (Screen #12 Menu Rows) -->
+            <div class="profile-menu-list">
+              <div class="profile-menu-item" id="pmenu-info" role="button" tabindex="0">
+                <div class="profile-menu-left">
+                  <span class="profile-menu-icon">👤</span>
+                  <span class="profile-menu-title" data-i18n="menu_personal_info">मेरी जानकारी</span>
+                </div>
+                <span class="profile-menu-arrow">›</span>
+              </div>
+
+              <div class="profile-menu-item" id="pmenu-crops" role="button" tabindex="0">
+                <div class="profile-menu-left">
+                  <span class="profile-menu-icon">🌾</span>
+                  <span class="profile-menu-title" data-i18n="menu_my_crops_land">मेरी फसलें व खेत</span>
+                </div>
+                <span class="profile-menu-arrow">›</span>
+              </div>
+
+              <div class="profile-menu-item" id="pmenu-lang" role="button" tabindex="0">
+                <div class="profile-menu-left">
+                  <span class="profile-menu-icon">🌐</span>
+                  <span class="profile-menu-title" data-i18n="menu_language">भाषा / Language</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 4px;">
+                  <span id="profile-lang-current" style="font-size: 11px; color: var(--text-muted); font-weight: 600;">हिन्दी</span>
+                  <span class="profile-menu-arrow">›</span>
+                </div>
+              </div>
+
+              <div class="profile-menu-item" id="pmenu-notif" role="button" tabindex="0">
+                <div class="profile-menu-left">
+                  <span class="profile-menu-icon">🔔</span>
+                  <span class="profile-menu-title" data-i18n="menu_notifications">सूचनाएं</span>
+                </div>
+                <span class="profile-menu-arrow">›</span>
+              </div>
+
+              <div class="profile-menu-item" id="pmenu-help" role="button" tabindex="0">
+                <div class="profile-menu-left">
+                  <span class="profile-menu-icon">❓</span>
+                  <span class="profile-menu-title" data-i18n="menu_help_center">सहायता केंद्र</span>
+                </div>
+                <span class="profile-menu-arrow">›</span>
+              </div>
+
+              <div class="profile-menu-item" id="pmenu-settings" role="button" tabindex="0">
+                <div class="profile-menu-left">
+                  <span class="profile-menu-icon">⚙️</span>
+                  <span class="profile-menu-title" data-i18n="menu_settings">सेटिंग्स</span>
+                </div>
+                <span class="profile-menu-arrow">›</span>
+              </div>
+
+              <div class="profile-menu-item" id="pmenu-logout" role="button" tabindex="0" style="color: var(--alert-red);">
+                <div class="profile-menu-left">
+                  <span class="profile-menu-icon">🚪</span>
+                  <span class="profile-menu-title" style="color: var(--alert-red);" data-i18n="menu_logout">डेटा रीसेट / लॉग आउट</span>
+                </div>
+                <span class="profile-menu-arrow" style="color: var(--alert-red);">›</span>
               </div>
             </div>
           </section>

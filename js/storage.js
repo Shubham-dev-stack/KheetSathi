@@ -10,6 +10,7 @@ class StorageManager {
   static COMMUNITY_POSTS_KEY = 'kheet_community_posts_v1';
   static EXPERT_BOOKINGS_KEY = 'kheet_expert_bookings_v1';
   static WASTE_PLANS_KEY = 'kheet_waste_plans_v1';
+  static FARM_WORK_KEY = 'kheet_farm_work_v1';
 
   /**
    * Initializes local storage with seed data if empty or outdated
@@ -40,6 +41,9 @@ class StorageManager {
     }
     if (!localStorage.getItem(this.WASTE_PLANS_KEY)) {
       localStorage.setItem(this.WASTE_PLANS_KEY, JSON.stringify([]));
+    }
+    if (!localStorage.getItem(this.FARM_WORK_KEY)) {
+      localStorage.setItem(this.FARM_WORK_KEY, JSON.stringify(MOCK_FARM_WORK_JOBS));
     }
   }
 
@@ -223,6 +227,48 @@ class StorageManager {
       return newPlan;
     } catch (e) {
       console.error('Failed to save waste plan', e);
+      return null;
+    }
+  }
+
+  /**
+   * Farm Work Connect Store (Demo Listings)
+   */
+  static getFarmWorkJobs() {
+    try {
+      const data = localStorage.getItem(this.FARM_WORK_KEY);
+      return data ? JSON.parse(data) : MOCK_FARM_WORK_JOBS;
+    } catch (e) {
+      return MOCK_FARM_WORK_JOBS;
+    }
+  }
+
+  static addFarmWorkJob(job) {
+    try {
+      const jobs = this.getFarmWorkJobs();
+      const newJob = {
+        job_id: 'fw_' + Date.now(),
+        work_type_hi: job.work_type_hi || 'कृषि कार्य',
+        work_type_en: job.work_type_en || 'Farm Work',
+        crop_id: job.crop_id || 'general',
+        crop_name_hi: job.crop_name_hi || 'फसल',
+        crop_name_en: job.crop_name_en || 'Crop',
+        workers_needed: job.workers_needed || 1,
+        date: job.date || 'आज',
+        hours_per_day: job.hours_per_day || 6,
+        wage_per_day: job.wage_per_day || '₹400 / दिन',
+        location: job.location || 'Sanwer, Indore',
+        posted_by: job.posted_by || 'किसान साथी',
+        phone: job.phone || '07321-224411',
+        status: 'active',
+        isDemo: true,
+        created_at: new Date().toISOString()
+      };
+      const updated = [newJob, ...jobs];
+      localStorage.setItem(this.FARM_WORK_KEY, JSON.stringify(updated));
+      return newJob;
+    } catch (e) {
+      console.error('Failed to add farm work job', e);
       return null;
     }
   }

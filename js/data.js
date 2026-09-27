@@ -1135,3 +1135,58 @@ const EXTENDED_TREATMENTS = {
   }
 };
 
+// 8. Farm Work Connect Mock Listings
+const MOCK_FARM_WORK_JOBS = [
+  {
+    job_id: "job_01",
+    work_type_hi: "कटाई (Harvesting)",
+    work_type_en: "Harvesting",
+    crop_id: "potato",
+    crop_name_hi: "आलू",
+    crop_name_en: "Potato",
+    workers_needed: 5,
+    date: "15 सित. 2026",
+    hours_per_day: 6,
+    wage_per_day: "₹450 / दिन",
+    location: "Sanwer, Indore",
+    posted_by: "Ramesh Patel",
+    phone: "07321-224411",
+    status: "active",
+    isDemo: true
+  },
+  {
+    job_id: "job_02",
+    work_type_hi: "दवाई छिड़काव (Spraying)",
+    work_type_en: "Pesticide Spraying",
+    crop_id: "tomato",
+    crop_name_hi: "टमाटर",
+    crop_name_en: "Tomato",
+    workers_needed: 2,
+    date: "16 सित. 2026",
+    hours_per_day: 4,
+    wage_per_day: "₹500 / दिन",
+    location: "Kshipra Road, Indore",
+    posted_by: "Dharmendra Kushwaha",
+    phone: "07321-229900",
+    status: "active",
+    isDemo: true
+  },
+  {
+    job_id: "job_03",
+    work_type_hi: "निराई-गुड़ाई (Weeding)",
+    work_type_en: "Weeding & Hoeing",
+    crop_id: "rice",
+    crop_name_hi: "धान",
+    crop_name_en: "Rice / Paddy",
+    workers_needed: 4,
+    date: "18 सित. 2026",
+    hours_per_day: 7,
+    wage_per_day: "₹400 / दिन",
+    location: "Sanwer Tehsil",
+    posted_by: "Babulal Patel",
+    phone: "07321-223344",
+    status: "active",
+    isDemo: true
+  }
+];
+

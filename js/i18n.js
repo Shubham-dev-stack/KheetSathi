@@ -301,12 +301,53 @@ const I18N_DICTIONARY = {
     waste_facilities_title: "नजदीकी बायोमास व कंपोस्ट केंद्र",
     
     // Farmer Profile
-    profile_title: "किसान प्रोफाइल एवं सेटिंग्स",
+    profile_title: "किसान प्रोफ़ाइल",
     farmer_name: "किसान का नाम:",
     farmer_location: "राज्य / जिला:",
     total_scans: "कुल किए गए स्कैन:",
     offline_cache_status: "ऑफलाइन डेटा स्थिति:",
-    cache_ready: "सक्रिय (PWA Cache Ready)"
+    cache_ready: "सक्रिय (PWA Cache Ready)",
+    profile_verified_badge: "सत्यापित किसान",
+    profile_points_badge: "100+ अंक",
+    stat_my_crops: "मेरी फसलें",
+    stat_community_posts: "समुदाय पोस्ट",
+    stat_expert_consult: "विशेषज्ञ परामर्श",
+    menu_personal_info: "मेरी जानकारी",
+    menu_my_crops_land: "मेरी फसलें व खेत",
+    menu_language: "भाषा / Language",
+    menu_notifications: "सूचनाएं",
+    menu_help_center: "सहायता केंद्र",
+    menu_settings: "सेटिंग्स",
+    menu_logout: "डेटा रीसेट / लॉग आउट",
+
+    // Farm Work Connect
+    farm_work_title: "फार्म वर्क कनेक्ट",
+    farm_work_sub: "कृषि कार्य हेतु मजदूर खोजें व काम पोस्ट करें",
+    tab_find_work: "काम खोजें",
+    tab_post_work: "काम पोस्ट करें",
+    need_workers_title: "मुझे मजदूर चाहिए",
+    work_type_label: "काम का प्रकार",
+    workers_count_label: "कितने लोग चाहिए?",
+    work_date_label: "तारीख",
+    work_hours_label: "काम का समय (प्रतिदिन)",
+    btn_post_work: "पोस्ट करें (डेमो)",
+    farm_work_demo_notice: "ℹ️ डेमो सेवा — कोई वास्तविक श्रम अनुबंध नहीं बनाया जाता है।",
+
+    // Scan Guidance & Actions
+    scan_viewfinder_guidance_title: "बेहतर परिणाम के लिए:",
+    scan_guide_rule_1: "साफ और अच्छी रोशनी में फोटो लें",
+    scan_guide_rule_2: "पत्ते का पूरा हिस्सा फ्रेम में रखें",
+    scan_guide_rule_3: "धुंधली फोटो से बचें",
+    btn_flash_toggle: "फ्लैश",
+    btn_listen_voice: "आवाज़ में सुनें",
+    btn_share_result: "शेयर करें",
+    plan_cultural_title: "सांस्कृतिक उपाय (खेत की सफाई, जल निकासी)",
+    plan_biological_title: "जैविक उपाय (ट्राइकोडर्मा, नीम तेल)",
+    plan_chemical_title: "रासायनिक उपाय (अधिकृत दवा • लेबल अनुसार)",
+    chemical_label_disclaimer: "⚠️ केवल आधिकारिक CIBRC लेबल अनुसार अधिकृत कीटनाशक का प्रयोग करें और कृषि विशेषज्ञ की सलाह लें।",
+    splash_tagline: "स्वस्थ फसल • समृद्ध किसान",
+    splash_motto: "सही पहचान, सही समाधान, हर किसान के साथ",
+    splash_start_btn: "ऐप शुरू करें (Start App)"
   },
   
   en: {
@@ -609,11 +650,52 @@ const I18N_DICTIONARY = {
     waste_facilities_title: "Nearby Biomass & Compost Facilities",
     
     // Farmer Profile
-    profile_title: "Farmer Profile & Settings",
+    profile_title: "Farmer Profile",
     farmer_name: "Farmer Name:",
     farmer_location: "State / District:",
     total_scans: "Total Checks Logged:",
     offline_cache_status: "Offline PWA Status:",
-    cache_ready: "Active (PWA Cache Ready)"
+    cache_ready: "Active (PWA Cache Ready)",
+    profile_verified_badge: "Verified Farmer",
+    profile_points_badge: "100+ Points",
+    stat_my_crops: "My Crops",
+    stat_community_posts: "Community Posts",
+    stat_expert_consult: "Expert Consultations",
+    menu_personal_info: "Personal Information",
+    menu_my_crops_land: "My Crops & Land",
+    menu_language: "Language / भाषा",
+    menu_notifications: "Notifications",
+    menu_help_center: "Help Center",
+    menu_settings: "Settings",
+    menu_logout: "Reset Data / Logout",
+
+    // Farm Work Connect
+    farm_work_title: "Farm Work Connect",
+    farm_work_sub: "Find agricultural workers & post farm work opportunities",
+    tab_find_work: "Find Work",
+    tab_post_work: "Post Work",
+    need_workers_title: "I Need Farm Workers",
+    work_type_label: "Work Type",
+    workers_count_label: "Workers Needed",
+    work_date_label: "Date",
+    work_hours_label: "Daily Hours",
+    btn_post_work: "Post Work (Demo)",
+    farm_work_demo_notice: "ℹ️ Demo service — no real labour contract is created.",
+
+    // Scan Guidance & Actions
+    scan_viewfinder_guidance_title: "For Best Results:",
+    scan_guide_rule_1: "Take photo in clean, bright daylight",
+    scan_guide_rule_2: "Keep full leaf centered in frame",
+    scan_guide_rule_3: "Avoid blurry or shaky photos",
+    btn_flash_toggle: "Flash",
+    btn_listen_voice: "Listen (Voice)",
+    btn_share_result: "Share Result",
+    plan_cultural_title: "Cultural Practices (Field sanitation & drainage)",
+    plan_biological_title: "Biological Options (Trichoderma, Neem oil)",
+    plan_chemical_title: "Chemical Guidance (Official label directions)",
+    chemical_label_disclaimer: "⚠️ Use only locally approved products according to their official label and seek agricultural expert guidance.",
+    splash_tagline: "Healthy Crops • Prosperous Farmers",
+    splash_motto: "Right Detection, Right Remedy, With Every Farmer",
+    splash_start_btn: "Start App"
   }
 };
