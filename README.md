@@ -12,9 +12,13 @@
 > *"खेती का सच्चा साथी — बिना इंटरनेट खेत में सटीक फसल रोग पहचान और संपूर्ण समाधान"*  
 > **"The True Companion of Farming — Instant, Zero-Data Foliar Diagnosis & Agricultural Support for Smallholder Farmers"**
 
+<br/>
+
+![KheetSathi Master Hero Showcase](./assets/screenshots/desktop_1_home.png)
+
 ---
 
-[Key Highlights](#-key-highlights) • [System Architecture](#-system-architecture) • [Workflow & User Journey](#-workflow--user-journey) • [ML Inference Pipeline](#-edge-ai--ml-pipeline) • [Post-Diagnosis Ecosystem](#-post-diagnosis-ecosystem) • [Getting Started](#-getting-started) • [Contributors](#-lead-contributor--developer)
+[Key Highlights](#-key-highlights) • [Visual Showcase](#-application-visual-showcase) • [System Architecture](#-system-architecture) • [Workflow & User Journey](#-workflow--user-journey) • [ML Inference Pipeline](#-edge-ai--ml-pipeline) • [Post-Diagnosis Ecosystem](#-post-diagnosis-ecosystem) • [Getting Started](#-getting-started) • [Documentation](#-project-documentation-index) • [Contributors](#-lead-contributor--developer)
 
 </div>
 
@@ -22,14 +26,15 @@
 
 ## 📌 Problem Statement & Context
 
-In rural Indian farmlands, smallholder farmers lose **20% to 40% of their harvest annually** to preventable foliar diseases, pests, and nutrient deficiencies. Conventional AI solutions fail in the field because:
-1. **Zero Internet in Farmlands:** Cloud-dependent AI apps fail due to spotty or non-existent 4G/5G mobile connectivity.
-2. **High Latency & Server Costs:** Cloud processing drains bandwidth and requires expensive backend GPU server clusters.
-3. **The Lab-to-Field Domain Shift:** Models trained on clean laboratory leaves fail on real-field photos containing background soil, hands, weeds, and shadows.
-4. **False Confidence & Chemical Hazards:** Blind predictions on non-crop images lead to pesticide misuse and environmental toxicity.
+In rural Indian farmlands, smallholder farmers lose **20% to 40% of their harvest annually** to preventable foliar diseases, fungal blights, viral vectors, and nutrient deficiencies. Conventional agricultural AI applications fail in actual field conditions because:
+
+1. **Zero / Patchy Internet in Farmlands:** Cloud-dependent AI solutions freeze and fail in remote rural fields with poor cellular coverage.
+2. **Cloud Latency & High Server Costs:** Streaming high-resolution camera images to GPU servers introduces heavy latency and unsustainable operational costs.
+3. **The Lab-to-Field Domain Gap:** AI models trained strictly on laboratory images fail when exposed to real-world clutter (soil, hands, shadows, weeds, variable lighting).
+4. **Blind False Confidence & Chemical Toxicity:** Traditional classifiers force guesses on blurry photos or non-leaf objects, promoting incorrect pesticide spraying, environmental toxicity, and unnecessary input costs.
 
 ### 💡 The KheetSathi Solution
-**KheetSathi** is an **on-device Edge AI Progressive Web App (PWA)** that runs fine-tuned **MobileNetV2 neural networks directly inside the browser using WebAssembly (WASM SIMD)**. With an average inference time of **~16ms**, it requires **zero active internet connection, zero server round-trips, and zero recurring server costs**.
+**KheetSathi** is an **offline-first, client-side Edge AI Progressive Web App (PWA)** that runs a fine-tuned **MobileNetV2 neural network directly inside the smartphone browser via WebAssembly (ONNX Runtime Web WASM SIMD)**. With an average inference latency of **~16ms**, it requires **zero active internet connection, zero server round-trips, and zero recurring server costs**.
 
 ---
 
@@ -37,7 +42,7 @@ In rural Indian farmlands, smallholder farmers lose **20% to 40% of their harves
 
 | Feature | Description | Technical Implementation |
 |---|---|---|
-| 🧠 **WASM Edge AI Engine** | Instant plant pathology inference directly on the farmer's mobile CPU | `ONNX Runtime Web (WASM SIMD)` • 15.95ms avg inference |
+| 🧠 **WASM Edge AI Engine** | Instant plant pathology inference executed directly on the mobile CPU | `ONNX Runtime Web (WASM SIMD)` • 15.95ms avg inference |
 | 🔍 **Interactive Leaf ROI Bounding Box** | Crop lesion from field clutter, boosting resolution $4\times$ to $10\times$ | HTML5 Canvas coordinate transform & live crop slice |
 | 🛡️ **3-Stage Reliability Gate** | Pre-inference luminance/blur checks & post-inference Shannon Entropy | Grayscale luminance, Laplacian $\sigma^2 \ge 65$, Shannon Entropy $H(P) < 2.0$ |
 | 🌿 **3-Tier Actionable Remedies** | Cultural sanitation $\rightarrow$ Biological control $\rightarrow$ Responsible chemicals | Integrated ICAR & CIBRC agricultural standard guidelines |
@@ -50,34 +55,60 @@ In rural Indian farmlands, smallholder farmers lose **20% to 40% of their harves
 
 ---
 
+## 📱 Application Visual Showcase
+
+<div align="center">
+
+### Core Diagnostic & Health Progression Flow
+
+| 1. Home Dashboard | 2. Camera & Leaf ROI Viewfinder | 3. AI Diagnostic Result |
+|:---:|:---:|:---:|
+| <img src="./assets/screenshots/screen_1_home.png" width="260px" alt="Home Dashboard" /> | <img src="./assets/screenshots/screen_5_scan_viewfinder.png" width="260px" alt="Camera Viewfinder" /> | <img src="./assets/screenshots/screen_6_diagnosis_result.png" width="260px" alt="Diagnosis Result" /> |
+
+| 4. Longitudinal Health Timeline | 5. Before vs. After Scan Comparison | 6. Treatments Encyclopedia |
+|:---:|:---:|:---:|
+| <img src="./assets/screenshots/screen_3_crop_timeline.png" width="260px" alt="Health Timeline" /> | <img src="./assets/screenshots/screen_4_compare_scans.png" width="260px" alt="Scan Comparison" /> | <img src="./assets/screenshots/screen_7_treatments.png" width="260px" alt="Treatments Hub" /> |
+
+| 7. Multi-Retailer Price Comparison | 8. Kisan Chaupal (Community Q&A) | 9. Verified Agri Experts Directory |
+|:---:|:---:|:---:|
+| <img src="./assets/screenshots/screen_8_products_comp.png" width="260px" alt="Price Comparison" /> | <img src="./assets/screenshots/screen_10_community.png" width="260px" alt="Community Feed" /> | <img src="./assets/screenshots/screen_11_experts.png" width="260px" alt="Experts Directory" /> |
+
+| 10. Farm Work Connect | 11. Crop Overview & Management | 12. Farmer Profile & Settings |
+|:---:|:---:|:---:|
+| <img src="./assets/screenshots/screen_9_farm_work.png" width="260px" alt="Farm Work Connect" /> | <img src="./assets/screenshots/screen_2_crop_overview.png" width="260px" alt="Crop Overview" /> | <img src="./assets/screenshots/screen_12_profile.png" width="260px" alt="Farmer Profile" /> |
+
+</div>
+
+---
+
 ## 🏗️ System Architecture
 
-KheetSathi is built with a strictly decoupled, 4-tier client-side architecture ensuring zero cloud dependency and low runtime memory footprint ($< 120\text{ KB}$ core bundle).
+KheetSathi is built with a strictly decoupled, 4-tier client-side architecture ensuring zero cloud dependency, rapid startup ($< 1\text{s}$), and a minimal footprint ($< 120\text{ KB}$ core JS/CSS bundle).
 
 ```mermaid
 graph TD
-    subgraph Presentation_Layer [📱 Client Presentation & UX Layer]
-        A1[Farmer-First Responsive UI / PWA Shell]
-        A2[Bilingual i18n Engine: Hindi / English]
-        A3[Vernacular Audio Guidance - Web Speech API]
-        A4[Interactive Leaf ROI Viewfinder Canvas]
+    subgraph Presentation_Layer [📱 1. Client Presentation & Farmer-First UX Layer]
+        A1[Single-Page PWA Shell - index.html]
+        A2[Bilingual i18n Dictionary - js/i18n.js]
+        A3[Vernacular Voice Engine - Web Speech API]
+        A4[Interactive Leaf ROI Framing Canvas]
     end
 
-    subgraph Quality_Gate [🛡️ 3-Stage Reliability & Quality Gate]
-        B1[Photometric Luminance Analyzer: Y in 35..230]
-        B2[Laplacian Variance Blur Detector: Var >= 65]
-        B3[Softmax Shannon Entropy Rejector: H < 2.0]
-        B4[Cross-Crop Biological Pathogen Consistency]
+    subgraph Quality_Gate [🛡️ 2. 3-Stage Reliability & Quality Gate]
+        B1[Photometric Luminance Gate: Y in 35..230]
+        B2[Laplacian Variance Blur Filter: Var >= 65]
+        B3[Softmax Shannon Entropy Rejection: H < 2.0]
+        B4[Cross-Crop Biological Pathogen Validation]
     end
 
-    subgraph Edge_AI [🧠 On-Device Edge AI Engine]
-        C1[ONNX Runtime Web - WebAssembly SIMD]
-        C2[MobileNetV2 FP32 / INT8 Quantized Model]
-        C3[Tensor Preprocessing: 224x224 RGB Normalization]
+    subgraph Edge_AI [🧠 3. WASM Edge AI Inference Engine]
+        C1[ONNX Runtime Web WASM SIMD - ort.min.js]
+        C2[MobileNetV2 FP32 & INT8 Quantized Models]
+        C3[Client-side Tensor Normalization: 224x224 RGB]
         C4[Top-K Softmax Classifier: 38 Canonical Classes]
     end
 
-    subgraph Ecosystem_Layer [🌾 Post-Diagnosis Agri Ecosystem]
+    subgraph Ecosystem_Layer [🌾 4. Post-Diagnosis Agricultural Ecosystem]
         D1[Treatments Encyclopedia: Cultural / Bio / Chem]
         D2[Multi-Retailer Price Comparison: Rs/100g Basis]
         D3[Kisan Chaupal: Peer Q&A & Expert Solutions]
@@ -86,37 +117,37 @@ graph TD
         D6[Crop Health Timeline & Comparative Delta]
     end
 
-    subgraph Storage_Layer [💾 Offline Cache & Storage Engine]
+    subgraph Storage_Layer [💾 5. Offline Storage & Cache Engine]
         E1[Service Worker Cache-First Storage - sw.js]
-        E2[LocalStorage Diagnostics & User Records]
+        E2[LocalStorage Diagnostics & History Engine]
     end
 
     Presentation_Layer --> Quality_Gate
     Quality_Gate --> Edge_AI
     Edge_AI --> Ecosystem_Layer
     Ecosystem_Layer --> Storage_Layer
-    Storage_Layer -.->|Offline Assets & State| Presentation_Layer
+    Storage_Layer -.->|Offline Assets & Local State| Presentation_Layer
 ```
 
 ---
 
 ## 🔄 Workflow & User Journey
 
-The end-to-end diagnostic and post-diagnosis ecosystem follows a seamless, farmer-centric lifecycle:
+The complete diagnostic and post-diagnosis lifecycle operates through an intuitive, farmer-tested progression:
 
 ```mermaid
 flowchart TD
-    Start([🌾 Farmer Observes Foliar Symptom]) --> Capture[📸 Capture Photo or Upload Leaf Image]
+    Start([🌾 Farmer Observes Foliar Symptom]) --> Capture[📸 Capture Photo or Select Demo Sample]
     Capture --> ROI[🔍 Adjust Interactive Leaf ROI Bounding Box]
     
     ROI --> Gate1{Gate 1: Image Quality?<br/>Luminance & Blur Variance}
-    Gate1 -- "Too Blurry / Dark / Washed out" --> QualityWarning[⚠️ Display Instant Retake Feedback]
+    Gate1 -- "Too Blurry / Dark / Washed out" --> QualityWarning[⚠️ Display Retake Instructions & Quality Score]
     QualityWarning --> Capture
     
     Gate1 -- "Pass Quality Check" --> WASM[🧠 WASM On-Device Neural Inference<br/>MobileNetV2 ~16ms]
     
     WASM --> Gate2{Gate 2: Confidence & Entropy?<br/>Shannon Entropy H < 2.0}
-    Gate2 -- "High Uncertainty / Non-Leaf" --> Fallback[🛡️ Safe Fallback View & Helplines]
+    Gate2 -- "High Uncertainty / Non-Leaf" --> Fallback[🛡️ Safe Uncertainty Fallback & Kisan Helpline]
     
     Gate2 -- "Verified Prediction" --> Gate3{Gate 3: Cross-Crop Check?<br/>Pathogen matches Crop ID}
     Gate3 -- "Biological Mismatch" --> MismatchAlert[⚠️ Flag Biological Discrepancy]
@@ -133,58 +164,59 @@ flowchart TD
     
     PostAction1 & PostAction2 & PostAction3 & PostAction4 --> FollowUp[📈 Follow-up Scan & Longitudinal Crop Timeline]
     FollowUp --> Compare[🔬 Before vs After Comparative Scan Analysis]
-    Compare --> End([🌾 Health Restored & Yield Protected])
+    Compare --> End([🌾 Crop Health Restored & Yield Protected])
 ```
 
 ---
 
 ## 🧠 Edge AI & ML Pipeline
 
-### 1. Neural Architecture
-- **Base Architecture:** MobileNetV2 with inverted residual bottlenecks and linear expansion modules.
-- **Quantization:** FP32 ONNX runtime export with INT8 Post-Training Quantization for ultra-low memory footprints on budget smartphones.
-- **Input Dimensions:** `[1, 3, 224, 224]` float32 tensor normalized via standard ImageNet statistics ($\mu = [0.485, 0.456, 0.406]$, $\sigma = [0.229, 0.224, 0.225]$).
-- **Execution Target:** ONNX Runtime WebAssembly SIMD (`ort.min.js`), fully executed on the client-side CPU/GPU thread.
+### 1. Neural Architecture Specifications
+- **Base Backbone:** MobileNetV2 with inverted residual blocks and linear bottlenecks.
+- **Model Formats:** FP32 ONNX model (`model/model.onnx`) and INT8 Quantized model (`model/model_quantized.onnx`).
+- **Input Tensor:** `[1, 3, 224, 224]` float32 normalized with standard ImageNet statistics:
+  $$\text{Normalized Pixel} = \frac{\frac{X}{255} - \mu}{\sigma}, \quad \mu = [0.485, 0.456, 0.406], \; \sigma = [0.229, 0.224, 0.225]$$
+- **Inference Runtime:** ONNX Runtime WebAssembly SIMD (`ort.min.js`), executing purely on the client-side CPU thread.
 
-### 2. Multi-Stage Reliability Gate
+### 2. Multi-Stage Quality & Reliability Gates
 
-$$\text{Shannon Entropy: } H(P) = -\sum_{i=1}^{N} p_i \ln(p_i)$$
+$$\text{Shannon Entropy: } H(P) = -\sum_{i=1}^{38} p_i \ln(p_i)$$
 
 $$\text{Laplacian Blur Variance: } \sigma^2 = \frac{1}{M}\sum (L(x,y) - \bar{L})^2 \quad (\text{Threshold: } \sigma^2 \ge 65)$$
 
-1. **Gate 1 (HTML5 Photometric & Laplacian Quality Gate):** Rejects underexposed ($Y < 35$), overexposed ($Y > 230$), or motion-blurred ($\sigma^2 < 65$) images before passing them to neural execution.
-2. **Gate 2 (Shannon Softmax Entropy Rejection):** Evaluates dispersion across the 38 class logits. If $H(P) \ge 2.0$ or top probability $< 0.50$, the system classifies the sample as Out-Of-Distribution (OOD) or non-leaf and redirects safely without guessing.
-3. **Gate 3 (Biological Consistency Check):** Cross-references predicted pathogen epidemiology against the farmer's declared crop species to prevent cross-botanical hallucinations (e.g., Apple Scab on Tomato).
+1. **Gate 1 (HTML5 Photometric & Laplacian Quality Filter):** Computes pixel grayscale luminance ($Y = 0.299R + 0.587G + 0.114B$) and discrete 2D Laplacian kernel variance ($\sigma^2$). Low-quality, dark ($Y < 35$), washed out ($Y > 230$), or blurry photos ($\sigma^2 < 65$) are flagged before inference.
+2. **Gate 2 (Shannon Softmax Entropy Rejection):** Evaluates probability dispersion across all 38 output classes. If entropy $H(P) \ge 2.0$ or maximum probability $< 0.50$, the system classifies the input as Out-Of-Distribution (OOD) or non-leaf and redirects safely to fallback support without guessing.
+3. **Gate 3 (Cross-Crop Biological Consistency Check):** Cross-references predicted pathogen signatures against the farmer's selected crop species to prevent cross-botanical false positives (e.g. Potato Late Blight on Tomato).
 
 ### 3. Model Benchmark Provenance
-- **PlantVillage In-Domain Dataset:** 54,305 verified pathology images across 38 canonical classes — **95.44% Top-1 / 99.68% Top-5 accuracy**.
-- **PlantDoc In-Field Benchmark:** 2,569 real field images.
-- **Leakage & Duplicate Audit:** 277 duplicate cross-split images identified and pruned via cryptographic perceptual hashing (`pHash`).
+- **PlantVillage In-Domain Dataset:** 54,305 verified images across 38 canonical classes — **95.44% Top-1 / 99.68% Top-5 accuracy**.
+- **PlantDoc In-Field Benchmark:** 2,569 field images (honest disclosure of 20.01% baseline domain shift, solved via Leaf ROI crop box).
+- **Leakage & Duplicate Audit:** 277 duplicate images detected and excluded via cryptographic perceptual hash (`pHash`).
 
 ---
 
 ## 🌾 Post-Diagnosis Ecosystem
 
-KheetSathi extends beyond raw disease detection into a complete post-diagnosis support system:
+KheetSathi provides an integrated suite of post-diagnosis agricultural tools:
 
 ### 1. 📖 Disease & Treatments Encyclopedia
-- Searchable compendium of crop diseases across major Indian staple crops (Potato, Tomato, Rice, Wheat, Cotton, Corn, Grape, Apple).
-- 3-tier actionable remedies prioritizing zero-cost cultural measures, biological bio-fungicides (*Trichoderma viride*, Neem Seed Kernel Extract), and approved chemical controls with ICAR/CIBRC compliance disclaimers.
+- Comprehensive directory of foliar diseases across major Indian staple crops (Potato, Tomato, Rice, Wheat, Cotton, Corn, Grape, Apple).
+- 3-tier actionable management strategies: zero-cost cultural sanitation, biological biocontrols (*Trichoderma viride*, Neem Seed Kernel Extract), and approved chemical controls with ICAR/CIBRC compliance disclaimers.
 
 ### 2. 🏷️ Multi-Retailer Product Price Comparison
 - Standardized unit pricing (**₹/100g** or **₹/100ml**) across regional agricultural input retailers.
-- Transparent Bio/Organic vs. Chemical categorization with one-tap store contact links.
+- Bio/Organic vs. Chemical categorization with one-tap store contact links.
 
 ### 3. 👥 Kisan Chaupal (Community Q&A Forum)
-- Crop-filtered discussion threads allowing farmers to ask peer questions and receive verified expert answers.
-- Community voting system (*"👍 मददगार लगा / Helpful"*) to elevate proven regional farming techniques.
+- Crop-filtered discussion threads with botanical emojis (`💬 All Topics`, `🥔 Potato`, `🍅 Tomato`, `🌾 Rice`, `🌾 Wheat`, `🌿 Cotton`).
+- Peer-to-peer voting (*"👍 मददगार लगा / Helpful"*) and expert-verified solution badges.
 
 ### 4. 👨‍🔬 Verified Agri Experts Directory
 - Certified directory of Agronomists, Entomologists, and KVK Extension Specialists.
-- Clear consultation fee tags (Call, Video, Field Visit) and prototype booking interfaces with demo compliance disclaimers.
+- Transparent consultation fee tags (Call, Video, Field Visit) and prototype booking interfaces.
 
 ### 5. 🚜 Farm Work & Waste Management Advisor
-- Connects local farmers needing seasonal agricultural labor (Harvesting, Spraying, Weeding) with available farm workers.
+- Segmented marketplace connecting farmers needing seasonal labor (Harvesting, Spraying, Weeding) with local workers.
 - Stubble and crop residue management advisor offering sustainable bio-decomposition and economic valorization guidance.
 
 ---
@@ -195,14 +227,26 @@ KheetSathi extends beyond raw disease detection into a complete post-diagnosis s
 KheetSathi/
 ├── assets/
 │   ├── images/               # High-res crop photography, hero banners, visual tutorials
-│   └── icons/                # PWA icons & manifest assets
+│   ├── icons/                # PWA icons & manifest assets
+│   └── screenshots/          # High-resolution application UI screenshots
 ├── css/
 │   └── styles.css            # Master Design System (Agritech CSS3 variables, mobile frame)
 ├── docs/                     # Full SIH 2026 engineering & architectural documentation
 │   ├── 01_PROJECT_OVERVIEW.md
+│   ├── 02_PRODUCT_REQUIREMENTS_DOCUMENT.md
+│   ├── 03_FEATURE_SPECIFICATION.md
 │   ├── 04_SYSTEM_ARCHITECTURE.md
 │   ├── 05_AI_ML_ARCHITECTURE.md
+│   ├── 06_DATABASE_DESIGN.md
+│   ├── 07_API_SPECIFICATION.md
+│   ├── 08_UI_UX_SPECIFICATION.md
+│   ├── 09_PROTOTYPE_PLAN.md
+│   ├── 10_RISK_FEASIBILITY.md
+│   ├── 11_INNOVATION_AND_DIFFERENTIATION.md
 │   ├── 12_SIH_PPT_BLUEPRINT.md
+│   ├── 13_HACKATHON_JUDGE_QA.md
+│   ├── 14_ROADMAP.md
+│   ├── 15_REQUIREMENTS_TRACEABILITY_MATRIX.md
 │   └── FINAL_HACKATHON_TECHNICAL_REVIEW.md
 ├── js/
 │   ├── app.js                # Master application controller & navigation router
@@ -226,20 +270,20 @@ KheetSathi/
 
 ## 💻 Tech Stack
 
-- **Edge AI & Computer Vision:** ONNX Runtime Web (WASM SIMD), MobileNetV2, PyTorch, OpenCV (Preprocessing)
-- **Quality & Image Heuristics:** HTML5 Canvas API, Grayscale Photometrics, 2D Laplacian Matrix Convolution
+- **Edge AI & Deep Learning:** ONNX Runtime Web (WASM SIMD), MobileNetV2, PyTorch
+- **Computer Vision & Heuristics:** HTML5 Canvas API, Grayscale Photometrics, 2D Laplacian Matrix Convolution
 - **Frontend Architecture:** Vanilla ES6+ JavaScript, Modern CSS3 Custom Properties, Semantic HTML5
-- **Offline & Storage:** PWA Service Worker (Cache Storage API v3.1), Web App Manifest, LocalStorage
-- **Accessibility & Speech:** Web Speech API (`SpeechSynthesisUtterance`), Web Share API
-- **Testing & Verification:** Chrome DevTools Protocol (CDP) Headless Testing Suite, Node.js QA Harness
+- **PWA & Offline Storage:** Service Worker (Cache Storage API v3.1), Web App Manifest, LocalStorage
+- **Accessibility & Voice:** Web Speech API (`SpeechSynthesisUtterance`), Web Share API
+- **QA & Testing:** Chrome DevTools Protocol (CDP) Headless Testing Suite, Node.js Test Harness
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Any modern web browser with WebAssembly SIMD support (Chrome, Edge, Firefox, Safari, Brave).
-- Python 3.x (or any local HTTP static server).
+- Modern web browser with WebAssembly SIMD support (Chrome, Edge, Firefox, Safari, Brave).
+- Python 3.x (or any local static HTTP server).
 
 ### 1. Clone the Repository
 ```bash
@@ -271,8 +315,6 @@ Navigate to `http://localhost:8080` on your desktop or mobile device.
 
 ## 🧪 Running Automated QA & Validation Suite
 
-The repository includes automated validation scripts testing model consistency, bilingual i18n key parity, and full CDP browser journeys:
-
 ```bash
 # 1. Syntax check all JS modules
 node -c js/app.js js/data.js js/storage.js js/i18n.js js/mlEngine.js js/qualityCheck.js
@@ -286,16 +328,16 @@ node scratch/run_visual_test.js
 
 ---
 
-## 🗺️ Roadmap & Future Vision
+## 📄 Project Documentation Index
 
-- [x] **Phase 1:** Core MobileNetV2 WASM Edge AI inference & 38-class plant pathology integration.
-- [x] **Phase 2:** 3-Stage Reliability Gate, HTML5 Canvas Quality Filter, and Leaf ROI Crop Box.
-- [x] **Phase 3:** Crop Health Timeline, Longitudinal Comparative Delta Analyzer, and Vernacular Voice Guidance.
-- [x] **Phase 4:** Post-Diagnosis Support Ecosystem (Multi-Retailer Price Comparison, Chaupal Q&A, Verified Experts Directory, Farm Work & Waste Advisor).
-- [x] **Phase 5:** 12-Screen Farmer-First UI/UX Rebuild with Desktop Presentation Shell and Zero-Scrollbar Polish.
-- [ ] **Future Scale 1:** Drone-based multispectral NDVI orthomosaic upload for acre-level heatmaps.
-- [ ] **Future Scale 2:** Edge-quantized Small Language Model (SLM) for offline conversational advisory.
-- [ ] **Future Scale 3:** Automated integration with PM Fasal Bima Yojana (PMFBY) claim validation APIs.
+| Document | Purpose |
+|---|---|
+| [`KHEETSATHI_PROJECT_MASTER_REPORT.md`](./KHEETSATHI_PROJECT_MASTER_REPORT.md) | Comprehensive engineering master report |
+| [`PROJECT_DOCUMENTATION.md`](./PROJECT_DOCUMENTATION.md) | Technical manual & deployment specifications |
+| [`FINAL_REVIEW.md`](./FINAL_REVIEW.md) | Engineering audit & feasibility analysis |
+| [`DATASET_SETUP.md`](./DATASET_SETUP.md) | Dataset preparation, provenance & benchmarks |
+| [`docs/12_SIH_PPT_BLUEPRINT.md`](./docs/12_SIH_PPT_BLUEPRINT.md) | SIH 2026 6-Slide pitch deck blueprint |
+| [`docs/04_SYSTEM_ARCHITECTURE.md`](./docs/04_SYSTEM_ARCHITECTURE.md) | In-depth architectural breakdown |
 
 ---
 
