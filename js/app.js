@@ -1337,37 +1337,51 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
   }
 
   // =========================================================================
-  // MODULE 2: Multi-Retailer Product Price Comparison
+  // =========================================================================
+  // MODULE 2: Multi-Retailer Product Price Comparison & Bookmarks
   // =========================================================================
 
-  renderProductComparison(filterCrop = 'all', filterDisease = 'all', filterCategory = 'all') {
+  renderProductComparison(filterCrop = 'all', filterDisease = 'all', filterCategory = 'all', searchQuery = '', onlySaved = false) {
     const isHi = this.currentLang === 'hi';
     const container = document.getElementById('products-list-container');
     const cropSelect = document.getElementById('products-crop-select');
     const diseaseSelect = document.getElementById('products-disease-select');
     const retailersStrip = document.getElementById('retailers-strip-container');
+    const searchInput = document.getElementById('products-search-input');
+    const savedFilterBtn = document.getElementById('btn-toggle-saved-filter');
+    const savedFilterLabel = document.getElementById('saved-filter-label');
     if (!container) return;
 
     this.productFilterCrop = filterCrop;
     this.productFilterDisease = filterDisease;
     this.productFilterCategory = filterCategory;
+    this.productSearchQuery = searchQuery || (searchInput ? searchInput.value.trim().toLowerCase() : '');
+    this.productOnlySaved = onlySaved;
+
+    const savedProductIds = StorageManager.getSavedProducts();
+    if (savedFilterLabel) {
+      savedFilterLabel.textContent = isHi ? `सहेजे गए (${savedProductIds.length})` : `Saved (${savedProductIds.length})`;
+    }
+    if (savedFilterBtn) {
+      savedFilterBtn.classList.toggle('active', this.productOnlySaved);
+    }
 
     // Update Category Filter Buttons Active State
     document.querySelectorAll('#products-category-filters .prod-filter-btn').forEach(btn => {
       const cat = btn.dataset.cat || 'all';
       btn.classList.toggle('active', cat === filterCategory);
       btn.onclick = () => {
-        this.renderProductComparison(this.productFilterCrop || 'all', this.productFilterDisease || 'all', cat);
+        this.renderProductComparison(this.productFilterCrop || 'all', this.productFilterDisease || 'all', cat, this.productSearchQuery, this.productOnlySaved);
       };
     });
 
     // Populate Selectors
-    if (cropSelect) {
+    if (cropSelect && cropSelect.children.length <= 1) {
       cropSelect.innerHTML = `<option value="all">${isHi ? 'सभी फसलें (All Crops)' : 'All Crops'}</option>` +
         MOCK_CROPS.map(c => `<option value="${c.crop_id}" ${c.crop_id === filterCrop ? 'selected' : ''}>${isHi ? c.name_hi : c.name_en}</option>`).join('');
       
       cropSelect.onchange = () => {
-        this.renderProductComparison(cropSelect.value, 'all', this.productFilterCategory || 'all');
+        this.renderProductComparison(cropSelect.value, 'all', this.productFilterCategory || 'all', this.productSearchQuery, this.productOnlySaved);
       };
     }
 
@@ -1377,11 +1391,12 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
         diseases.map(([k, d]) => `<option value="${k}" ${k === filterDisease ? 'selected' : ''}>${isHi ? d.name_hi : d.name_en}</option>`).join('');
 
       diseaseSelect.onchange = () => {
-        this.renderProductComparison(cropSelect ? cropSelect.value : 'all', diseaseSelect.value, this.productFilterCategory || 'all');
+        this.renderProductComparison(cropSelect ? cropSelect.value : 'all', diseaseSelect.value, this.productFilterCategory || 'all', this.productSearchQuery, this.productOnlySaved);
       };
     }
 
     // Filter Products
+    const q = this.productSearchQuery;
     const products = MOCK_AGRI_PRODUCTS.filter(p => {
       const matchDisease = filterDisease === 'all' || (p.target_diseases && p.target_diseases.includes(filterDisease));
       const matchCrop = filterCrop === 'all' || (p.target_crops && p.target_crops.includes(filterCrop));
@@ -1394,18 +1409,32 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       } else if (filterCategory === 'chemical') {
         matchCat = !isBio;
       }
-      return matchDisease && matchCrop && matchCat;
+
+      let matchSearch = true;
+      if (q) {
+        const brandMatch = (p.brand_name || '').toLowerCase().includes(q);
+        const activeMatch = (p.active_ingredient || '').toLowerCase().includes(q);
+        const descMatch = (p.description_hi || '').toLowerCase().includes(q) || (p.description_en || '').toLowerCase().includes(q);
+        matchSearch = brandMatch || activeMatch || descMatch;
+      }
+
+      let matchSaved = true;
+      if (this.productOnlySaved) {
+        matchSaved = savedProductIds.includes(p.product_id);
+      }
+
+      return matchDisease && matchCrop && matchCat && matchSearch && matchSaved;
     });
 
     if (products.length === 0) {
       container.innerHTML = `
-        <div class="empty-state-card">
-          <div style="font-size: 20px; margin-bottom: 6px;">🌱</div>
+        <div class="empty-state-card" style="padding: 24px; text-align: center;">
+          <div style="font-size: 24px; margin-bottom: 6px;">🌱</div>
           <div style="font-weight: 700; color: var(--text-title); margin-bottom: 4px;">
-            ${isHi ? 'इस श्रेणी में कोई सत्यापित उत्पाद उपलब्ध नहीं है' : 'No verified options available in this category'}
+            ${isHi ? 'कोई उत्पाद नहीं मिला' : 'No matching products found'}
           </div>
-          <p style="margin: 0; font-size: 11px;">
-            ${isHi ? 'कृपया अन्य श्रेणी या फसल का चयन करें अथवा कृषि विशेषज्ञ से सलाह लें।' : 'Please choose another category or consult an agronomist.'}
+          <p style="margin: 0; font-size: 11px; color: var(--text-muted);">
+            ${isHi ? 'कृपया अन्य श्रेणी, फसल अथवा खोज शब्द बदलकर देखें।' : 'Please adjust filters or search terms.'}
           </p>
         </div>
       `;
@@ -1417,6 +1446,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
           `<span class="badge badge-success">${isHi ? '🌿 जैविक / बायो' : '🌿 Biological / Bio'}</span>` : 
           `<span class="badge badge-warning">${isHi ? '🧪 रासायनिक कवकनाशी' : '🧪 Chemical Fungicide'}</span>`;
 
+        const isSaved = savedProductIds.includes(prod.product_id);
         const desc = isHi ? (prod.description_hi || prod.description_en) : prod.description_en;
         const safety = isHi ? (prod.safety_cautions_hi || prod.safety_cautions_en) : prod.safety_cautions_en;
 
@@ -1425,7 +1455,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
           const storesListHtml = (v.retailers || []).map(st => {
             const ret = MOCK_RETAILERS.find(r => r.retailer_id === st.retailer_id || r.id === st.retailer_id);
             const retName = ret ? (ret.shop_name || ret.name_en) : st.retailer_id;
-            const retPhone = ret ? ret.phone : '18001801551';
+            const retPhone = ret ? ret.phone : '07321-224411';
             const stockLabel = st.stock_status === 'in_stock' ? (isHi ? '✓ स्टॉक उपलब्ध' : 'In Stock') : (isHi ? '⚠️ सीमित स्टॉक' : 'Low Stock');
             const normPrice = Math.round((st.price / v.pack_size) * 100);
 
@@ -1440,7 +1470,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
                     <span style="font-weight: 800; font-size: 13.5px; color: #166534;">₹${st.price}</span>
                     <span style="font-size: 10px; color: var(--text-muted);">(₹${normPrice} ${normUnitText})</span>
                   </div>
-                  <a href="tel:${retPhone}" class="store-call-btn">📞 ${isHi ? 'कॉल करें' : 'Call'}</a>
+                  <a href="tel:${retPhone}" class="store-call-btn" data-dealer-name="${retName}" data-phone="${retPhone}">📞 ${isHi ? 'कॉल करें' : 'Call'}</a>
                 </div>
               </div>
             `;
@@ -1466,11 +1496,16 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
         return `
           <div class="product-card">
             <div class="product-card-top">
-              <div>
-                <div class="product-brand">${prod.brand_name}</div>
+              <div style="flex: 1;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                  <div class="product-brand">${prod.brand_name}</div>
+                  <button type="button" class="btn-bookmark-product ${isSaved ? 'saved' : ''}" data-prod-id="${prod.product_id}" title="Save product" style="background: none; border: none; font-size: 16px; cursor: pointer; padding: 0 4px;">
+                    ${isSaved ? '⭐' : '☆'}
+                  </button>
+                </div>
                 <div class="product-active">${prod.active_ingredient}</div>
               </div>
-              ${typeBadge}
+              <div style="margin-left: 6px;">${typeBadge}</div>
             </div>
 
             <p style="font-size: 11px; color: var(--text-body); margin: 6px 0 4px 0;">${desc}</p>
@@ -1490,6 +1525,24 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
         `;
       }).join('');
     }
+
+    // Wire Bookmark Toggles
+    container.querySelectorAll('.btn-bookmark-product').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const prodId = btn.dataset.prodId;
+        const newState = StorageManager.toggleSavedProduct(prodId);
+        btn.textContent = newState ? '⭐' : '☆';
+        btn.classList.toggle('saved', newState);
+        this.showToast(newState ? 
+          (isHi ? 'उत्पाद बुकमार्क में जोड़ा गया!' : 'Product added to bookmarks!') : 
+          (isHi ? 'उत्पाद बुकमार्क से हटाया गया' : 'Product removed from bookmarks'));
+        const updatedSaved = StorageManager.getSavedProducts();
+        if (savedFilterLabel) {
+          savedFilterLabel.textContent = isHi ? `सहेजे गए (${updatedSaved.length})` : `Saved (${updatedSaved.length})`;
+        }
+      });
+    });
 
     // Render Retailers Strip
     if (retailersStrip) {
@@ -1573,6 +1626,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       const cropBadgeText = cropMeta ? (isHi ? cropMeta.name_hi : cropMeta.name_en) : (post.crop_name_hi || cropId);
       const cropBadge = `<span class="badge badge-neutral">${cropBadgeText}</span>`;
       const postId = post.post_id || post.id || `p_${Date.now()}`;
+      const helpfulVotes = post.helpful_votes || 12;
 
       const answersHtml = (post.answers || []).map(ans => {
         const isExp = ans.authority_level === 'expert_verified' || ans.is_expert_reviewed;
@@ -1595,7 +1649,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
               </div>
               <span style="font-size: 9.5px; color: var(--text-faint);">${ans.created_at ? new Date(ans.created_at).toLocaleDateString(isHi ? 'hi-IN' : 'en-IN', { month: 'short', day: 'numeric' }) : ''}</span>
             </div>
-            <p style="margin-top: 2px; color: var(--text-body); font-size: 11.5px;">${ansText}</p>
+            <p style="margin-top: 2px; color: var(--text-body); font-size: 11.5px; line-height: 1.4;">${ansText}</p>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
               <button type="button" class="answer-helpful-btn" data-post-id="${postId}" data-ans-id="${ansId}">
                 👍 ${isHi ? 'मददगार लगा' : 'Helpful'} (${ans.helpful_count || ans.helpful_votes || 0})
@@ -1622,8 +1676,16 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
           <div class="community-post-title">${title}</div>
           <div class="community-post-desc">${desc}</div>
 
+          <!-- Post Upvote & Meta Bar -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin: 8px 0 6px 0; padding-bottom: 6px; border-bottom: 1px dashed var(--border-hairline);">
+            <button type="button" class="btn btn-outline btn-sm btn-upvote-post" data-post-id="${postId}" style="font-size: 10.5px; padding: 3px 8px;">
+              <span>👍 ${isHi ? 'मददगार सवाल' : 'Helpful'} (${helpfulVotes})</span>
+            </button>
+            <span style="font-size: 10px; color: var(--text-muted);">${(post.answers || []).length} ${isHi ? 'उत्तर दर्ज' : 'Responses'}</span>
+          </div>
+
           <div class="community-answers-block">
-            <div style="font-size: 11px; font-weight: 700; color: var(--text-title); display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 11px; font-weight: 700; color: var(--text-title); display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <span>${isHi ? 'किसान उत्तर व सलाह (' : 'Responses ('}${post.answers ? post.answers.length : 0})</span>
               <span class="badge badge-disclaimer" style="font-size: 8px;">${isHi ? 'सामुदायिक मंच' : 'Community forum'}</span>
             </div>
@@ -1633,15 +1695,24 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
           <!-- Quick Answer Input -->
           <div style="margin-top: 8px; display: flex; gap: 6px;">
             <input type="text" class="form-input reply-input" placeholder="${isHi ? 'अपना जवाब या सलाह लिखें...' : 'Write an answer...'}" style="font-size: 11px; padding: 4px 8px;">
-            <button type="button" class="btn btn-outline btn-sm btn-submit-reply" data-post-id="${postId}">
-              ${isHi ? 'भेजें' : 'Send'}
+            <button type="button" class="btn btn-primary btn-sm btn-submit-reply" data-post-id="${postId}">
+              ${isHi ? 'उत्तर दें' : 'Reply'}
             </button>
           </div>
         </div>
       `;
     }).join('');
 
-    // Wire Helpful Buttons
+    // Wire Post Upvotes
+    container.querySelectorAll('.btn-upvote-post').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const count = StorageManager.votePostUpvote(btn.dataset.postId);
+        btn.querySelector('span').textContent = `👍 ${isHi ? 'मददगार सवाल' : 'Helpful'} (${count})`;
+        this.showToast(isHi ? 'धन्यवाद! आपका समर्थन दर्ज हुआ।' : 'Thank you! Upvote registered.');
+      });
+    });
+
+    // Wire Helpful Answer Buttons
     container.querySelectorAll('.answer-helpful-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const count = StorageManager.voteHelpfulAnswer(btn.dataset.postId, btn.dataset.ansId);
@@ -1660,7 +1731,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
           StorageManager.addCommunityAnswer(btn.dataset.postId, input.value.trim(), user.name);
           input.value = '';
           this.renderCommunityFeed(filterCrop);
-          this.showToast(isHi ? 'आपका उत्तर चौपाल में जोड़ा गया।' : 'Answer posted to community.');
+          this.showToast(isHi ? 'आपका उत्तर चौपाल में जोड़ा गया!' : 'Answer posted to community!');
         }
       });
     });
@@ -1777,24 +1848,30 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     const isHi = this.currentLang === 'hi';
     const cropSelect = document.getElementById('waste-crop-input');
     const facilitiesContainer = document.getElementById('waste-facilities-container');
+    const acresSlider = document.getElementById('waste-acres-slider');
+    const acresDisplay = document.getElementById('waste-acres-display');
+    const acresInput = document.getElementById('waste-acres-input');
 
-    if (cropSelect) {
+    if (cropSelect && cropSelect.children.length === 0) {
       const options = Object.entries(MOCK_WASTE_GUIDELINES).map(([k, g]) => `
         <option value="${k}" ${k === defaultCropId ? 'selected' : ''}>${isHi ? g.crop_name_hi : g.crop_name_en}</option>
       `).join('');
       cropSelect.innerHTML = options;
     }
 
+    // Set initial calculation
+    this.calculateWastePlan();
+
     if (facilitiesContainer) {
       facilitiesContainer.innerHTML = MOCK_WASTE_FACILITIES.map(fac => `
         <div class="facility-card">
           <div>
-            <strong style="color: var(--text-title);">${isHi ? fac.name_hi : fac.name_en}</strong>
-            <span style="display: block; font-size: 10px; color: var(--text-muted);">${isHi ? fac.address_hi : fac.address_en} (${fac.distance_km} km)</span>
+            <strong style="color: var(--text-title);">${isHi ? fac.name : fac.name}</strong>
+            <span style="display: block; font-size: 10px; color: var(--text-muted);">${fac.type} • 📍 ${fac.location} (${fac.distance_km} km)</span>
           </div>
           <div style="text-align: right;">
-            <span class="badge badge-success" style="font-size: 9px;">₹${fac.rate_per_ton_inr} / ton</span>
-            <a href="tel:${fac.contact_phone}" style="display: block; font-size: 10px; color: var(--primary); text-decoration: none; font-weight: 700;">📞 कॉल</a>
+            <span class="badge badge-success" style="font-size: 9px;">${fac.rate_per_ton}</span>
+            <a href="tel:${fac.contact_phone}" style="display: block; font-size: 10px; color: var(--primary); text-decoration: none; font-weight: 700; margin-top: 2px;">📞 कॉल</a>
           </div>
         </div>
       `).join('');
@@ -1804,34 +1881,46 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
   calculateWastePlan() {
     const isHi = this.currentLang === 'hi';
     const cropId = document.getElementById('waste-crop-input')?.value || 'potato';
-    const acres = parseFloat(document.getElementById('waste-acres-input')?.value || '2.0');
+    const acres = parseFloat(document.getElementById('waste-acres-slider')?.value || document.getElementById('waste-acres-input')?.value || '2.0');
     const equip = document.getElementById('waste-equipment-input')?.value || 'rotavator';
     const resultBox = document.getElementById('waste-plan-result');
 
     const guideline = MOCK_WASTE_GUIDELINES[cropId] || MOCK_WASTE_GUIDELINES.potato;
-    const estTons = (acres * guideline.residue_per_acre_tons).toFixed(1);
-    const estValue = Math.round(estTons * guideline.market_rate_per_ton_inr);
+    const wasteType = guideline.waste_types && guideline.waste_types[0] ? guideline.waste_types[0] : null;
+    const estTons = (acres * (cropId === 'rice' ? 3.5 : cropId === 'wheat' ? 3.0 : cropId === 'cotton' ? 2.3 : 2.0)).toFixed(1);
+    const estValue = Math.round(estTons * 1600);
 
-    let methodTitle = isHi ? 'इन-सीटू मल्चिंग व जैविक खाद (In-situ Mulching)' : 'In-situ Mulching & Composting';
+    let methodTitle = isHi ? 'गड्ढा खाद व रोटावेटर मल्चिंग (In-situ Mulching)' : 'In-situ Mulching & Composting';
     let methodSteps = isHi ? [
-      'फसल कटाई के बाद रोटावेटर से अवशेष को बारीक काटकर मिट्टी में मिलाएं।',
+      'फसल कटाई के तुरंत बाद रोटावेटर चलाकर अवशेषों को मिट्टी में 3-4 इंच गहराई तक मिलाएं।',
       'हल्की सिंचाई देकर 20-25 दिनों के लिए खेत छोड़ें — यह उत्तम जैविक ह्यूमस बनाएगा।',
-      'अगली फसल के लिए डीएपी/यूरिया की मात्रा 20% तक कम लगेगी।'
+      'वेस्ट डीकंपोजर का हल्का छिड़काव करने से सड़न 2 गुना तेज होती है।'
     ] : [
-      'Incorporate residue into topsoil using rotavator/mulcher after harvest.',
-      'Provide light irrigation for microbial decomposition (20–25 days).',
-      'Enriches organic carbon and reduces subsequent NPK fertilizer demand by 20%.'
+      'Incorporate chopped residue into topsoil using rotavator/mulcher after harvest.',
+      'Provide light irrigation for rapid microbial decomposition (20–25 days).',
+      'Enriches organic carbon and reduces subsequent NPK fertilizer demand by ~20%.'
     ];
 
-    if (equip === 'none' || guideline.recommended_action === 'biomass_power') {
-      methodTitle = isHi ? 'बायोमास केंद्र को बिक्री (Off-Farm Biomass Sale)' : 'Commercial Biomass Plant Sale';
+    if (equip === 'happy_seeder') {
+      methodTitle = isHi ? 'हैप्पी सीडर से सीधी बुवाई (Direct Sowing)' : 'Direct Sowing with Happy Seeder';
+      methodSteps = isHi ? [
+        'पराली को खेत की सतह पर फैलाकर सीधे गेहूं की बुवाई करें।',
+        'सतह पर मौजूद पराली प्राकृतिक मल्च का काम करेगी और खरपतवार रोकती है।',
+        'पानी का वाष्पीकरण 30% कम होता है और सिंचाई की बचत होती है।'
+      ] : [
+        'Sow seeds directly into retained surface stubble using Happy Seeder.',
+        'Mulch blanket suppresses weeds and saves 1-2 irrigations.',
+        'Zero burning preserves natural soil microbiome.'
+      ];
+    } else if (equip === 'none') {
+      methodTitle = isHi ? 'बायोमास व बायोगैस केंद्र पर विक्रय (Commercial Sale)' : 'Commercial Biomass Plant Sale';
       methodSteps = isHi ? [
         'अवशेष की गाठें (Bales) बनाएं।',
-        'नजदीकी बायोमास एग्रीगेटर को ₹1,800-₹2,200 प्रति टन की दर पर सीधे बेचें।',
+        'नजदीकी बायोमास एग्रीगेटर या बायोगैस संयंत्र को ₹1,400-₹1,800 प्रति टन की दर पर बेचें।',
         'खेत खाली होगा और तुरंत अतिरिक्त नकद आय मिलेगी।'
       ] : [
         'Collect and bale the crop residue.',
-        'Deliver directly to the nearest bio-gas/energy facility at ₹1,800-₹2,200/ton.',
+        'Deliver directly to the nearest bio-gas/energy facility at ₹1,400-₹1,800/ton.',
         'Clear the field swiftly without burning and gain immediate cash profit.'
       ];
     }
@@ -1849,7 +1938,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px;">
           <div style="background: #F0FDF4; padding: 8px; border-radius: 6px; border: 1px solid #BBF7D0;">
             <span style="font-size: 10px; color: #166534; display: block;">${isHi ? 'कुल अनुमानित अवशेष:' : 'Estimated Residue:'}</span>
-            <strong style="font-size: 14px; color: #14532D;">${estTons} ${isHi ? 'टन' : 'Tons'}</strong>
+            <strong style="font-size: 14px; color: #14532D;">${estTons} ${isHi ? 'टन (Tons)' : 'Tons'}</strong>
           </div>
           <div style="background: #FFFBEB; padding: 8px; border-radius: 6px; border: 1px solid #FDE68A;">
             <span style="font-size: 10px; color: #92400E; display: block;">${isHi ? 'अनुमानित पोषक/आय मूल्य:' : 'Nutrient/Cash Value:'}</span>
@@ -1867,7 +1956,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
         </div>
 
         <button type="button" id="btn-save-waste-plan" class="btn btn-outline btn-block btn-sm" style="margin-top: 8px;">
-          <span>💾 ${isHi ? 'इस योजना को इतिहास में सहेजें' : 'Save Plan to Activity'}</span>
+          <span>💾 ${isHi ? 'इस योजना को इतिहास में सहेजें' : 'Save Plan to Profile'}</span>
         </button>
       `;
 
@@ -1876,15 +1965,19 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
           crop_id: cropId,
           crop_name: isHi ? guideline.crop_name_hi : guideline.crop_name_en,
           acres,
-          residue_type: guideline.residue_type,
+          residue_type: wasteType ? (isHi ? wasteType.name_hi : wasteType.name_en) : 'अवशेष',
           estimated_tons: estTons,
           recommended_method: methodTitle,
           potential_value_inr: estValue
         });
-        this.showToast(isHi ? 'अवशेष योजना इतिहास में सहेजी गई!' : 'Waste management plan saved!');
+        this.showToast(isHi ? 'अवशेष प्रबंधन योजना सहेजी गई!' : 'Waste management plan saved!');
       });
     }
   }
+
+  // =========================================================================
+  // MODULE 6: Farm Work Connect
+  // =========================================================================
 
   renderFarmWork() {
     const container = document.getElementById('farm-work-jobs-list');
@@ -1907,7 +2000,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
           <div>
             <div style="font-size: 13px; font-weight: 800; color: var(--text-title);">${isHi ? job.work_type_hi : job.work_type_en}</div>
             <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
-              🌾 ${isHi ? job.crop_name_hi : job.crop_name_en} • 📍 ${job.location}
+              🌾 ${isHi ? job.crop_name_hi : job.crop_name_en} • 📍 ${job.location} • 👤 ${job.posted_by}
             </div>
           </div>
           <span class="badge badge-success" style="font-size: 10px;">${job.workers_needed} ${isHi ? 'मजदूर चाहिए' : 'Workers'}</span>
@@ -1915,16 +2008,113 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border-hairline);">
           <div style="font-size: 11px; color: var(--text-body);">
-            <span>📅 ${job.date} • ⏱️ ${job.hours_per_day} ${isHi ? 'घंटे' : 'hrs'}</span>
+            <span>📅 ${job.date} • ⏱️ ${job.hours_per_day} ${isHi ? 'घंटे/दिन' : 'hrs/day'}</span>
             <div style="font-weight: 700; color: #166534; margin-top: 2px;">💰 ${job.wage_per_day}</div>
           </div>
-          <a href="tel:${job.phone}" class="btn btn-outline btn-sm" style="text-decoration: none; font-size: 11px;">
+          <button type="button" class="btn btn-outline btn-sm btn-contact-employer" data-job-id="${job.job_id}" data-employer="${job.posted_by}" data-phone="${job.phone || '07321-224411'}" data-work="${isHi ? job.work_type_hi : job.work_type_en}">
             📞 ${isHi ? 'संपर्क करें' : 'Contact'}
-          </a>
+          </button>
         </div>
       </div>
     `).join('');
+
+    container.querySelectorAll('.btn-contact-employer').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.openContactEmployerModal({
+          jobId: btn.dataset.jobId,
+          employer: btn.dataset.employer,
+          phone: btn.dataset.phone,
+          work: btn.dataset.work
+        });
+      });
+    });
   }
+
+  openContactEmployerModal(data) {
+    const modal = document.getElementById('contact-employer-modal');
+    const detailsContainer = document.getElementById('contact-employer-details');
+    const callBtn = document.getElementById('btn-call-employer-direct');
+    if (!modal) return;
+
+    const isHi = this.currentLang === 'hi';
+    if (detailsContainer) {
+      detailsContainer.innerHTML = `
+        <div style="background: var(--bg-subtle); padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-hairline);">
+          <div style="font-size: 13px; font-weight: 800; color: var(--text-title);">${data.employer}</div>
+          <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 2px;">कार्य: <strong>${data.work}</strong></div>
+          <div style="font-size: 12px; color: #166534; font-weight: 700; margin-top: 4px;">फोन: ${data.phone}</div>
+        </div>
+      `;
+    }
+
+    if (callBtn) {
+      callBtn.href = `tel:${data.phone}`;
+    }
+
+    modal.classList.add('active');
+  }
+
+  // =========================================================================
+  // MODULE 7: Weather Advisory Modal
+  // =========================================================================
+
+  renderWeatherAdvisoryModal() {
+    const modal = document.getElementById('weather-advisory-modal');
+    const hourlyGrid = document.getElementById('hourly-spray-grid');
+    const sevenDayList = document.getElementById('seven-day-forecast-list');
+    if (!modal) return;
+
+    const isHi = this.currentLang === 'hi';
+    const forecast = StorageManager.getWeatherForecast();
+
+    if (hourlyGrid && forecast.hourly_spray_windows) {
+      hourlyGrid.innerHTML = forecast.hourly_spray_windows.map(w => {
+        const badgeClass = w.status === 'ideal' ? 'badge-success' : (w.status === 'caution' ? 'badge-warning' : 'badge-danger');
+        const label = isHi ? w.label_hi : w.label_en;
+        return `
+          <div class="hourly-spray-card ${w.status}">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 800; font-size: 12.5px; color: var(--text-title);">${w.time}</span>
+              <span class="badge ${badgeClass}" style="font-size: 9px;">${label}</span>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 4px; font-size: 11px; color: var(--text-muted);">
+              <span>🌡️ ${w.temp}</span>
+              <span>💧 ${w.humidity}</span>
+              <span>💨 ${w.wind}</span>
+              <span>🌧️ ${w.rain}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    if (sevenDayList && forecast.seven_day_forecast) {
+      sevenDayList.innerHTML = forecast.seven_day_forecast.map(d => {
+        const dayName = isHi ? d.day_hi : d.day_en;
+        return `
+          <div class="seven-day-row">
+            <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
+              <span style="font-size: 18px;">${d.icon}</span>
+              <div>
+                <strong style="font-size: 12px; color: var(--text-title);">${dayName}</strong>
+                <span style="display: block; font-size: 10px; color: var(--text-muted);">${d.advisory_hi}</span>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 12px; font-weight: 700; color: var(--text-title);">${d.temp_max}° / ${d.temp_min}°</div>
+              <span class="badge badge-neutral" style="font-size: 8.5px;">🌧️ ${d.rain_chance}% • ${d.spray_safety}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    modal.classList.add('active');
+  }
+
+  // =========================================================================
+  // MODULE 8: Farmer Profile & Settings
+  // =========================================================================
 
   renderProfile() {
     const user = StorageManager.getUser();
@@ -1948,11 +2138,38 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     if (langCurrentEl) langCurrentEl.textContent = isHi ? 'हिन्दी' : 'English';
   }
 
+  openEditProfileModal() {
+    const modal = document.getElementById('edit-profile-modal');
+    const user = StorageManager.getUser();
+    if (!modal) return;
+
+    const nameInput = document.getElementById('ep-farmer-name');
+    const acresInput = document.getElementById('ep-farmer-acres');
+    const villageInput = document.getElementById('ep-farmer-village');
+    const stateInput = document.getElementById('ep-farmer-state');
+
+    if (nameInput) nameInput.value = user.name || 'Shubham Kumar';
+    if (acresInput) acresInput.value = user.acres || '10';
+    if (villageInput) villageInput.value = user.village || 'Sanwer, Indore';
+    if (stateInput) stateInput.value = user.state || 'Madhya Pradesh';
+
+    modal.classList.add('active');
+  }
+
   // =========================================================================
   // Event Listeners Binding
   // =========================================================================
 
   bindEvents() {
+    // Universal Modal Backdrop Click Dismissal
+    document.querySelectorAll('.modal-backdrop').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+        }
+      });
+    });
+
     // Keyboard accessibility for interactive role="button" elements
     document.addEventListener('keydown', (e) => {
       if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.getAttribute('role') === 'button') {
@@ -1971,6 +2188,35 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       document.getElementById('profile-modal')?.classList.remove('active');
     });
 
+    // Weather Card & Modal
+    document.getElementById('card-weather-advisory')?.addEventListener('click', () => {
+      this.renderWeatherAdvisoryModal();
+    });
+    document.getElementById('btn-close-weather-modal')?.addEventListener('click', () => {
+      document.getElementById('weather-advisory-modal')?.classList.remove('active');
+    });
+
+    // Edit Profile Modal
+    document.getElementById('pmenu-info')?.addEventListener('click', () => this.openEditProfileModal());
+    document.getElementById('pmenu-settings')?.addEventListener('click', () => this.openEditProfileModal());
+    document.getElementById('btn-close-edit-profile')?.addEventListener('click', () => {
+      document.getElementById('edit-profile-modal')?.classList.remove('active');
+    });
+    document.getElementById('form-edit-profile')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = StorageManager.getUser();
+      user.name = document.getElementById('ep-farmer-name')?.value || 'Shubham Kumar';
+      user.acres = document.getElementById('ep-farmer-acres')?.value || '10';
+      user.village = document.getElementById('ep-farmer-village')?.value || 'Sanwer, Indore';
+      user.state = document.getElementById('ep-farmer-state')?.value || 'Madhya Pradesh';
+      StorageManager.saveUser(user);
+
+      document.getElementById('edit-profile-modal')?.classList.remove('active');
+      this.applyLanguage(this.currentLang);
+      this.renderProfile();
+      this.showToast(this.currentLang === 'hi' ? 'किसान प्रोफाइल सफलतापूर्वक अपडेट हुई!' : 'Farmer profile updated successfully!');
+    });
+
     // Add Crop Modal
     document.getElementById('btn-open-add-crop')?.addEventListener('click', () => this.openAddCropModal());
     document.getElementById('btn-close-add-crop')?.addEventListener('click', () => {
@@ -1987,7 +2233,6 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
     // Home Actions & Ecosystem Service Cards
     document.getElementById('btn-hero-scan')?.addEventListener('click', () => this.navigateTo('view-crop-select'));
-    document.getElementById('card-weather-advisory')?.addEventListener('click', () => this.navigateTo('view-treatments'));
     document.getElementById('link-view-all-crops')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-my-crops'); });
     document.getElementById('link-view-all-history')?.addEventListener('click', (e) => { e.preventDefault(); this.navigateTo('view-history'); });
 
@@ -1998,6 +2243,28 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
     document.getElementById('card-service-experts')?.addEventListener('click', () => this.navigateTo('view-experts'));
     document.getElementById('card-service-farm-work')?.addEventListener('click', () => this.navigateTo('view-farm-work'));
     document.getElementById('card-service-waste')?.addEventListener('click', () => this.navigateTo('view-waste-advisor'));
+
+    // Products Search & Bookmark Filters
+    document.getElementById('products-search-input')?.addEventListener('input', (e) => {
+      this.renderProductComparison(
+        this.productFilterCrop || 'all',
+        this.productFilterDisease || 'all',
+        this.productFilterCategory || 'all',
+        e.target.value.trim().toLowerCase(),
+        this.productOnlySaved
+      );
+    });
+
+    document.getElementById('btn-toggle-saved-filter')?.addEventListener('click', () => {
+      this.productOnlySaved = !this.productOnlySaved;
+      this.renderProductComparison(
+        this.productFilterCrop || 'all',
+        this.productFilterDisease || 'all',
+        this.productFilterCategory || 'all',
+        this.productSearchQuery,
+        this.productOnlySaved
+      );
+    });
 
     // Farm Work Tabs & Form Submission
     document.getElementById('tab-find-work-btn')?.addEventListener('click', () => {
@@ -2041,24 +2308,29 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
         location: 'Sanwer, Indore'
       });
 
-      this.showToast(isHi ? 'कार्य अनुरोध पोस्ट हुआ (डेमो)!' : 'Farm work request posted (Demo)!');
+      this.showToast(isHi ? 'कृषि कार्य सफलतापूर्वक पोस्ट हुआ!' : 'Farm work opportunity posted successfully!');
       document.getElementById('tab-find-work-btn')?.click();
       this.renderFarmWork();
     });
 
-    // Profile Menu Navigation Rows
-    document.getElementById('pmenu-info')?.addEventListener('click', () => {
-      this.showToast(this.currentLang === 'hi' ? 'किसान प्रोफ़ाइल सक्रिय है' : 'Farmer profile is active');
+    // Contact Employer Modal
+    document.getElementById('btn-close-contact-modal')?.addEventListener('click', () => {
+      document.getElementById('contact-employer-modal')?.classList.remove('active');
     });
+    document.getElementById('btn-message-employer')?.addEventListener('click', () => {
+      this.showToast(this.currentLang === 'hi' ? 'व्हाट्सएप चैट खोली जा रही है...' : 'Opening WhatsApp chat...');
+    });
+
+    // Profile Menu Navigation Rows
     document.getElementById('pmenu-crops')?.addEventListener('click', () => this.navigateTo('view-my-crops'));
-    document.getElementById('pmenu-lang')?.addEventListener('click', () => this.toggleLanguage());
+    document.getElementById('pmenu-lang')?.addEventListener('click', () => {
+      this.toggleLanguage();
+      this.showToast(this.currentLang === 'hi' ? 'भाषा बदलकर हिन्दी की गई' : 'Language switched to English');
+    });
     document.getElementById('pmenu-notif')?.addEventListener('click', () => {
-      this.showToast(this.currentLang === 'hi' ? 'सभी फसल सूचनाएं अद्यतित हैं' : 'All crop alerts are up-to-date');
+      this.showToast(this.currentLang === 'hi' ? 'सभी फसल सूचनाएं अद्यतित हैं (कोई नया अलर्ट नहीं)' : 'All crop alerts are up-to-date');
     });
     document.getElementById('pmenu-help')?.addEventListener('click', () => this.navigateTo('view-help'));
-    document.getElementById('pmenu-settings')?.addEventListener('click', () => {
-      this.showToast(this.currentLang === 'hi' ? 'सेटिंग्स: PWA ऑफलाइन कैश सक्रिय' : 'Settings: Offline PWA active');
-    });
     document.getElementById('pmenu-logout')?.addEventListener('click', () => {
       if (confirm(this.currentLang === 'hi' ? 'क्या आप सारा स्थानीय डेटा रीसेट करना चाहते हैं?' : 'Reset all local storage data?')) {
         localStorage.clear();
@@ -2145,13 +2417,20 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       document.getElementById('ask-question-modal')?.classList.remove('active');
       document.getElementById('form-ask-question')?.reset();
       this.renderCommunityFeed(cropId);
-      this.showToast(this.currentLang === 'hi' ? 'आपका सवाल किसान चौपाल में प्रकाशित हो गया!' : 'Question posted to farmer community!');
+      this.showToast(this.currentLang === 'hi' ? 'सवाल चौपाल में प्रकाशित हुआ!' : 'Question posted to farmer community!');
     });
 
-    // Book Expert Modal
+    // Book Expert Modal & Receipt Slip Generation
     document.getElementById('btn-close-expert-modal')?.addEventListener('click', () => {
       document.getElementById('book-expert-modal')?.classList.remove('active');
     });
+    document.getElementById('btn-close-receipt-modal')?.addEventListener('click', () => {
+      document.getElementById('booking-receipt-modal')?.classList.remove('active');
+    });
+    document.getElementById('btn-print-receipt-slip')?.addEventListener('click', () => {
+      this.showToast(this.currentLang === 'hi' ? 'परामर्श पर्ची डाउनलोड हुई (डेमो)' : 'Receipt slip downloaded (Demo)');
+    });
+
     document.getElementById('form-book-expert')?.addEventListener('submit', (e) => {
       e.preventDefault();
       const expertId = document.getElementById('book-expert-id')?.value;
@@ -2163,7 +2442,7 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
       const fee = consultType === 'call' ? expert.consultation_fee : 
         (consultType === 'video' ? Math.round(expert.consultation_fee * 1.4) : expert.field_visit_fee);
 
-      StorageManager.bookExpertConsultation({
+      const booking = StorageManager.bookExpertConsultation({
         expert_id: expert.expert_id,
         expert_name: expert.name,
         expert_role: expert.title,
@@ -2176,10 +2455,65 @@ ${res.cultural_en ? res.cultural_en.map(c => `• ${c}`).join('\n') : '• Maint
 
       document.getElementById('book-expert-modal')?.classList.remove('active');
       document.getElementById('form-book-expert')?.reset();
-      this.showToast(this.currentLang === 'hi' ? 'डेमो परामर्श अनुरोध दर्ज (कोई वास्तविक अपॉइंटमेंट नहीं बनाया गया है)' : 'Demo booking request logged (no real appointment created)');
+
+      // Populate & Open Receipt Modal
+      const isHi = this.currentLang === 'hi';
+      const receiptModal = document.getElementById('booking-receipt-modal');
+      const tokenEl = document.getElementById('receipt-token-id');
+      const nameEl = document.getElementById('receipt-expert-name');
+      const orgEl = document.getElementById('receipt-expert-org');
+      const typeEl = document.getElementById('receipt-type');
+      const slotEl = document.getElementById('receipt-slot');
+      const feeEl = document.getElementById('receipt-fee');
+
+      if (tokenEl) tokenEl.textContent = `KS-EXP-${Date.now().toString().slice(-4)}`;
+      if (nameEl) nameEl.textContent = expert.name;
+      if (orgEl) orgEl.textContent = `${expert.title} • ${expert.organization}`;
+      if (typeEl) typeEl.textContent = consultType === 'call' ? '📞 फोन कॉल (Phone Call)' : (consultType === 'video' ? '📹 वीडियो कॉल (Video Call)' : '🚜 खेत विजिट (Field Visit)');
+      if (slotEl) slotEl.textContent = preferredTime === 'today_evening' ? 'आज शाम (05:00 PM - 07:00 PM)' : (preferredTime === 'tomorrow_morning' ? 'कल सुबह (08:00 AM - 10:00 AM)' : 'कल शाम (05:00 PM - 07:00 PM)');
+      if (feeEl) feeEl.textContent = `₹${fee}`;
+
+      if (receiptModal) receiptModal.classList.add('active');
+      this.showToast(isHi ? 'परामर्श अनुरोध दर्ज! रसीद पर्ची तैयार है।' : 'Booking request logged! Receipt slip generated.');
     });
 
-    // Farm Waste Advisor Calculator
+    // Farm Waste Advisor Range Slider & Quick Acreage Chips
+    const acresSlider = document.getElementById('waste-acres-slider');
+    const acresDisplay = document.getElementById('waste-acres-display');
+    const acresInput = document.getElementById('waste-acres-input');
+
+    if (acresSlider) {
+      acresSlider.addEventListener('input', (e) => {
+        const val = parseFloat(e.target.value).toFixed(1);
+        if (acresDisplay) acresDisplay.textContent = `${val} एकड़`;
+        if (acresInput) acresInput.value = val;
+        document.querySelectorAll('.acre-chip-btn').forEach(b => {
+          b.classList.toggle('active', parseFloat(b.dataset.acres) === parseFloat(val));
+        });
+        this.calculateWastePlan();
+      });
+    }
+
+    document.querySelectorAll('.acre-chip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.acres;
+        if (acresSlider) acresSlider.value = val;
+        if (acresDisplay) acresDisplay.textContent = `${parseFloat(val).toFixed(1)} एकड़`;
+        if (acresInput) acresInput.value = val;
+        document.querySelectorAll('.acre-chip-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.calculateWastePlan();
+      });
+    });
+
+    document.getElementById('waste-crop-input')?.addEventListener('change', () => {
+      this.calculateWastePlan();
+    });
+
+    document.getElementById('waste-equipment-input')?.addEventListener('change', () => {
+      this.calculateWastePlan();
+    });
+
     document.getElementById('btn-calculate-waste')?.addEventListener('click', () => {
       this.calculateWastePlan();
     });
