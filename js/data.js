@@ -73,6 +73,45 @@ const HELP_IMAGES = {
   `)
 };
 
+const MOCK_WEATHER_FORECAST = {
+  current: {
+    location: "Sanwer / Indore (M.P.)",
+    temp_c: 28,
+    temp_max: 32,
+    temp_min: 22,
+    condition_en: "Partly Cloudy",
+    condition_hi: "आंशिक बादल",
+    humidity_percent: 84,
+    wind_kph: 8,
+    wind_dir: "NW (उत्तर-पश्चिम)",
+    rain_probability: 20,
+    uv_index: 6,
+    dew_point_c: 21,
+    spore_infection_risk: "High Risk (पछेती झुलसा अनुकूल)",
+    spray_suitability_now: "ideal",
+    spray_summary_hi: "प्रातः 07:00 से 10:30 बजे तक फफूंदनाशक छिड़काव हेतु सर्वोत्तम समय। हवा शांत है।",
+    spray_summary_en: "Ideal window for foliar spray: 07:00 AM – 10:30 AM before afternoon heat and wind drift."
+  },
+  hourly_spray_windows: [
+    { time: "06:00 AM", temp: "22°C", humidity: "90%", wind: "4 km/h", rain: "5%", status: "ideal", label_hi: "✅ सर्वोत्तम (शांत हवा)", label_en: "Optimal (Low Wind)" },
+    { time: "08:00 AM", temp: "25°C", humidity: "82%", wind: "6 km/h", rain: "10%", status: "ideal", label_hi: "✅ सर्वोत्तम (छिड़काव करें)", label_en: "Optimal (Ideal Spray)" },
+    { time: "10:00 AM", temp: "28°C", humidity: "74%", wind: "8 km/h", rain: "15%", status: "ideal", label_hi: "✅ उपयुक्त समय", label_en: "Good Window" },
+    { time: "12:00 PM", temp: "31°C", humidity: "62%", wind: "14 km/h", rain: "20%", status: "caution", label_hi: "⚠️ तेज धूप (दवा वाष्पीकरण)", label_en: "High Heat & Evaporation" },
+    { time: "02:00 PM", temp: "32°C", humidity: "58%", wind: "18 km/h", rain: "25%", status: "bad", label_hi: "❌ तेज हवा (दवा बहने का खतरा)", label_en: "High Wind (Drift Risk)" },
+    { time: "04:00 PM", temp: "30°C", humidity: "65%", wind: "12 km/h", rain: "20%", status: "caution", label_hi: "⚠️ मध्यम उपयुक्त", label_en: "Moderate Window" },
+    { time: "06:00 PM", temp: "27°C", humidity: "76%", wind: "6 km/h", rain: "15%", status: "ideal", label_hi: "✅ शाम का सुरक्षित समय", label_en: "Evening Window" }
+  ],
+  seven_day_forecast: [
+    { day_hi: "आज (बुध)", day_en: "Today (Wed)", icon: "🌤️", temp_max: 32, temp_min: 22, rain_chance: 20, spray_safety: "उत्तम (सुबह)", advisory_hi: "सुबह झुलसा रोधी सुरक्षात्मक छिड़काव करें।" },
+    { day_hi: "कल (गुरु)", day_en: "Tomorrow (Thu)", icon: "⛅", temp_max: 31, temp_min: 21, rain_chance: 30, spray_safety: "अच्छा समय", advisory_hi: "कीट व रस चूसक कीड़ों की निगरानी रखें।" },
+    { day_hi: "शुक्रवार", day_en: "Friday", icon: "🌧️", temp_max: 29, temp_min: 20, rain_chance: 70, spray_safety: "छिड़काव न करें", advisory_hi: "भारी बारिश की संभावना, दवाई धुल सकती है।" },
+    { day_hi: "शनिवार", day_en: "Saturday", icon: "🌦️", temp_max: 28, temp_min: 19, rain_chance: 45, spray_safety: "सावधानी", advisory_hi: "खेत से पानी निकासी की नालियां साफ रखें।" },
+    { day_hi: "रविवार", day_en: "Sunday", icon: "☀️", temp_max: 33, temp_min: 22, rain_chance: 10, spray_safety: "सर्वोत्तम", advisory_hi: "जैविक खाद व सूक्ष्म पोषक तत्व स्प्रे करें।" },
+    { day_hi: "सोमवार", day_en: "Monday", icon: "☀️", temp_max: 34, temp_min: 23, rain_chance: 10, spray_safety: "सर्वोत्तम", advisory_hi: "निराई-गुड़ाई व खेत की जुताई के लिए उत्तम दिन।" },
+    { day_hi: "मंगलवार", day_en: "Tuesday", icon: "⛅", temp_max: 32, temp_min: 22, rain_chance: 15, spray_safety: "अच्छा समय", advisory_hi: "फसल स्वास्थ्य की सामान्य जांच करें।" }
+  ]
+};
+
 const MOCK_CROPS = [
   {
     crop_id: "potato",
@@ -686,7 +725,7 @@ const MOCK_AGRI_PRODUCTS = [
     product_id: "prod_trichoderma_viride",
     brand_name: "Sanjivani (Trichoderma viride 1% WP)",
     category: "Bio-Fungicide (जैविक फफूंद नियंत्रक)",
-    active_ingredient: "Trichoderma viride $2\\times 10^6$ cfu/g",
+    active_ingredient: "Trichoderma viride 2x10^6 cfu/g",
     target_crops: ["potato", "tomato", "rice", "wheat", "cotton", "general"],
     target_diseases: ["potato_late_blight", "potato_early_blight", "tomato_early_blight", "general_healthy"],
     description_hi: "मृदा जनित व फफूंद जनित रोगों की रोकथाम हेतु लाभकारी मित्र फफूंद।",
@@ -703,6 +742,94 @@ const MOCK_AGRI_PRODUCTS = [
           { retailer_id: "ret_01", price: 140, stock_status: "in_stock", last_updated: "Today" },
           { retailer_id: "ret_02", price: 130, stock_status: "in_stock", last_updated: "Today" },
           { retailer_id: "ret_03", price: 150, stock_status: "in_stock", last_updated: "2 days ago" }
+        ]
+      }
+    ],
+    isDemo: true
+  },
+  {
+    product_id: "prod_streptocycline_9010",
+    brand_name: "Streptocycline (Streptomycin Sulphate + Tetracycline 90:10)",
+    category: "Agricultural Antibiotic / Bactericide (जीवाणुनाशक)",
+    active_ingredient: "Streptomycin Sulphate 90% + Tetracycline Hydrochloride 10%",
+    target_crops: ["rice", "tomato", "potato", "general"],
+    target_diseases: ["rice_bacterial_blight", "tomato_bacterial_spot"],
+    description_hi: "धान में जीवाणु झुलसा (Bacterial Blight) की रोकथाम हेतु अत्यंत प्रभावी कवकनाशी सहायक।",
+    description_en: "Systemic agricultural bactericide for effective control of bacterial leaf blight and cankers.",
+    safety_cautions_hi: "कॉपर ऑक्सीक्लोराइड के साथ अनुशंसित मात्रा में ही घोल बनाएं।",
+    safety_cautions_en: "Combine with Copper Oxychloride strictly as per registered CIBRC proportions.",
+    dosage_guide: "6g pouch per 60 Litres of water",
+    pack_variants: [
+      {
+        pack_size: 6,
+        unit: "g",
+        normalized_unit: "10g",
+        retailers: [
+          { retailer_id: "ret_01", price: 45, stock_status: "in_stock", last_updated: "Today" },
+          { retailer_id: "ret_02", price: 42, stock_status: "in_stock", last_updated: "1 day ago" },
+          { retailer_id: "ret_03", price: 50, stock_status: "in_stock", last_updated: "3 days ago" }
+        ]
+      }
+    ],
+    isDemo: true
+  },
+  {
+    product_id: "prod_hexaconazole_5sc",
+    brand_name: "Contaf Plus (Hexaconazole 5% SC)",
+    category: "Systemic Fungicide (दैहिक कवकनाशी)",
+    active_ingredient: "Hexaconazole 5% SC",
+    target_crops: ["wheat", "rice", "cotton", "general"],
+    target_diseases: ["wheat_rust", "rice_sheath_blight"],
+    description_hi: "गेहूं के रतुआ (Rust) व धान के शीथ ब्लाइट हेतु त्रि-आयामी सुरक्षा व उपचारात्मक फफूंदनाशक।",
+    description_en: "Broad-spectrum systemic triazole fungicide providing protective, curative and eradicant action.",
+    safety_cautions_hi: "सुबह शांत मौसम में छिड़काव करें। जल निकायों में दवा न जाने दें।",
+    safety_cautions_en: "Ensure full canopy coverage. Highly toxic to aquatic life; prevent spray run-off.",
+    dosage_guide: "2.0 ml / Litre of water",
+    pack_variants: [
+      {
+        pack_size: 500,
+        unit: "ml",
+        normalized_unit: "100ml",
+        retailers: [
+          { retailer_id: "ret_01", price: 390, stock_status: "in_stock", last_updated: "Today" },
+          { retailer_id: "ret_02", price: 375, stock_status: "in_stock", last_updated: "Today" },
+          { retailer_id: "ret_03", price: 410, stock_status: "low_stock", last_updated: "2 days ago" }
+        ]
+      },
+      {
+        pack_size: 1000,
+        unit: "ml",
+        normalized_unit: "100ml",
+        retailers: [
+          { retailer_id: "ret_01", price: 720, stock_status: "in_stock", last_updated: "Today" },
+          { retailer_id: "ret_02", price: 690, stock_status: "in_stock", last_updated: "Today" },
+          { retailer_id: "ret_03", price: 750, stock_status: "in_stock", last_updated: "4 days ago" }
+        ]
+      }
+    ],
+    isDemo: true
+  },
+  {
+    product_id: "prod_verticillium_bio",
+    brand_name: "Biocatch (Verticillium lecanii 1.15% WP)",
+    category: "Biological / Entomopathogenic Fungicide (मित्र जैविक कीट फफूंद)",
+    active_ingredient: "Verticillium lecanii 1x10^8 CFU/g",
+    target_crops: ["cotton", "tomato", "potato", "general"],
+    target_diseases: ["cotton_bollworm", "tomato_leaf_curl", "general_healthy"],
+    description_hi: "सफेद मक्खी, माहू और रस चूसक कीटों को प्राकृतिक रूप से नियंत्रित करने वाला जैविक फफूंद।",
+    description_en: "Target-specific entomopathogenic fungus that parasitizes whiteflies, aphids and thrips naturally.",
+    safety_cautions_hi: "आर्द्रता 70%+ रहने पर शाम के समय स्प्रे करने पर सर्वश्रेष्ठ परिणाम मिलते हैं।",
+    safety_cautions_en: "Best applied during evening hours under high relative humidity (>70%).",
+    dosage_guide: "5.0 g / Litre of water",
+    pack_variants: [
+      {
+        pack_size: 1000,
+        unit: "g",
+        normalized_unit: "100g",
+        retailers: [
+          { retailer_id: "ret_01", price: 260, stock_status: "in_stock", last_updated: "Today" },
+          { retailer_id: "ret_02", price: 245, stock_status: "in_stock", last_updated: "1 day ago" },
+          { retailer_id: "ret_03", price: 275, stock_status: "in_stock", last_updated: "3 days ago" }
         ]
       }
     ],
@@ -842,6 +969,66 @@ const MOCK_COMMUNITY_POSTS = [
         text_hi: "यह लीफ कर्ल वायरस है जिसे सफेद मक्खी फैलाती है। खेत में 10-12 पीले चिपचिपे ट्रैप लगाएं और नीम तेल (10,000 ppm) का नियमित छिड़काव करें।",
         text_en: "This is leaf curl virus vectored by whiteflies. Install yellow sticky traps and apply registered neem oil regularly.",
         helpful_count: 15,
+        is_expert_reviewed: true,
+        isDemo: true
+      }
+    ],
+    isDemo: true
+  },
+  {
+    post_id: "post_03",
+    author_name: "Surendra Singh Solanki (सुरेंद्र सिंह)",
+    author_region: "Depalpur, Indore",
+    author_experience: "Paddy Grower (14 yrs)",
+    authority_level: "farmer_observation",
+    crop_id: "rice",
+    disease_tag: "rice_bacterial_blight",
+    title_hi: "धान के पत्तों के किनारे पीले-सफेद होकर सूख रहे हैं, क्या यह झुलसा है?",
+    title_en: "Paddy leaf margins turning wavy yellow-white, is this BLB?",
+    question_text: "लगातार 3 दिन बारिश के बाद धान की ऊपरी पत्तियों के किनारों पर लहरदार धारियां दिख रही हैं। यूरिया डालना बंद करें या चालू रखें?",
+    created_at: "2026-09-06T11:20:00Z",
+    image: "./assets/images/sample_rice_blight.jpg",
+    helpful_votes: 21,
+    answers: [
+      {
+        answer_id: "ans_03_1",
+        author_name: "Dr. Arvind Sharma (KVK Scientist)",
+        author_badge: "KVK Plant Pathologist",
+        experience_crop: "Rice & Cereals",
+        authority_level: "expert_verified",
+        text_hi: "यूरिया का प्रयोग तुरंत रोकें! अत्यधिक नाइट्रोजन से यह जीवाणु झुलसा तेजी से फैलता है। खेत से अतिरिक्त पानी निकालें और कॉपर ऑक्सीक्लोराइड + स्ट्रेप्टोसाइक्लिन का लेबल अनुसार छिड़काव करें।",
+        text_en: "Halt urea top-dressing immediately. Excess nitrogen accelerates BLB. Drain excess water and apply registered bactericide mix.",
+        helpful_count: 24,
+        is_expert_reviewed: true,
+        isDemo: true
+      }
+    ],
+    isDemo: true
+  },
+  {
+    post_id: "post_04",
+    author_name: "Gopal Patidar (गोपाल पाटीदार)",
+    author_region: "Sanwer, Indore",
+    author_experience: "Wheat & Soybean (15 yrs)",
+    authority_level: "farmer_observation",
+    crop_id: "wheat",
+    disease_tag: "wheat_rust",
+    title_hi: "गेहूं की पत्तियों पर पीले-भूरे पाउडर जैसे दाने दिख रहे हैं",
+    title_en: "Yellow-brown powdery pustules on wheat foliage",
+    question_text: "सुबह हाथ लगाने पर उंगलियों पर पीला पाउडर लग जाता है। क्या यह पीला रतुआ (Yellow Rust) है?",
+    created_at: "2026-09-05T09:45:00Z",
+    image: "./assets/images/sample_healthy_leaf.jpg",
+    helpful_votes: 16,
+    answers: [
+      {
+        answer_id: "ans_04_1",
+        author_name: "Dr. Rajeshwar Mukati",
+        author_badge: "Agri Extension Specialist",
+        experience_crop: "Wheat Pathology",
+        authority_level: "expert_verified",
+        text_hi: "हाँ, यह रतुआ रोग के प्रारंभिक लक्षण हैं। मौसम में ठंड और नमी बढ़ने पर हेक्साकोनाजोल या टेबुकोनाजोल का अनुमोदित छिड़काव करें।",
+        text_en: "Yes, these are rust pustules. Apply approved triazole fungicide early under favorable cool morning weather.",
+        helpful_count: 14,
         is_expert_reviewed: true,
         isDemo: true
       }
@@ -1185,6 +1372,40 @@ const MOCK_FARM_WORK_JOBS = [
     location: "Sanwer Tehsil",
     posted_by: "Babulal Patel",
     phone: "07321-223344",
+    status: "active",
+    isDemo: true
+  },
+  {
+    job_id: "job_04",
+    work_type_hi: "कपास चुनाई (Cotton Picking)",
+    work_type_en: "Cotton Picking",
+    crop_id: "cotton",
+    crop_name_hi: "कपास",
+    crop_name_en: "Cotton",
+    workers_needed: 8,
+    date: "20 सित. 2026",
+    hours_per_day: 8,
+    wage_per_day: "₹480 / दिन",
+    location: "Depalpur Road, Indore",
+    posted_by: "Surendra Singh Solanki",
+    phone: "07321-228811",
+    status: "active",
+    isDemo: true
+  },
+  {
+    job_id: "job_05",
+    work_type_hi: "ट्रैक्टर जुताई व बुवाई (Tractor Sowing)",
+    work_type_en: "Tractor Tillage & Sowing",
+    crop_id: "wheat",
+    crop_name_hi: "गेहूं",
+    crop_name_en: "Wheat",
+    workers_needed: 2,
+    date: "22 सित. 2026",
+    hours_per_day: 6,
+    wage_per_day: "₹650 / दिन",
+    location: "Kasturbagram, Indore",
+    posted_by: "Gopal Patidar",
+    phone: "0731-278855",
     status: "active",
     isDemo: true
   }

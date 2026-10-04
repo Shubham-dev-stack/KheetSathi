@@ -143,7 +143,7 @@ class StorageManager {
     try {
       const posts = this.getCommunityPosts();
       const post = posts.find(p => p.id === postId || p.post_id === postId);
-      if (post) {
+      if (post && post.answers) {
         const ans = post.answers.find(a => a.id === answerId || a.answer_id === answerId);
         if (ans) {
           ans.helpful_count = (ans.helpful_count || 0) + 1;
@@ -155,6 +155,25 @@ class StorageManager {
     } catch (e) {
       return 0;
     }
+  }
+
+  static votePostUpvote(postId) {
+    try {
+      const posts = this.getCommunityPosts();
+      const post = posts.find(p => p.id === postId || p.post_id === postId);
+      if (post) {
+        post.helpful_votes = (post.helpful_votes || 0) + 1;
+        localStorage.setItem(this.COMMUNITY_POSTS_KEY, JSON.stringify(posts));
+        return post.helpful_votes;
+      }
+      return 0;
+    } catch (e) {
+      return 0;
+    }
+  }
+
+  static getWeatherForecast() {
+    return MOCK_WEATHER_FORECAST;
   }
 
   /**
