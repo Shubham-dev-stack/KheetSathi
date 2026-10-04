@@ -1100,8 +1100,19 @@
               <button type="button" class="prod-filter-btn" data-cat="chemical" data-i18n="filter_chem_products">🧪 रासायनिक उत्पाद (Chemical)</button>
             </div>
 
+            <!-- Search and Bookmark Filter Bar -->
+            <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+              <div class="crop-search-bar" style="flex: 1; margin-bottom: 0;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <input type="text" id="products-search-input" class="crop-search-field" placeholder="दवाई या साल्ट खोजें (Mancozeb, Neem...)" aria-label="Search Medicine">
+              </div>
+              <button type="button" id="btn-toggle-saved-filter" class="btn btn-outline btn-sm" style="flex-shrink: 0; display: flex; align-items: center; gap: 4px;" title="View Bookmarked Products">
+                <span>⭐</span> <span id="saved-filter-label">सहेजे गए (0)</span>
+              </button>
+            </div>
+
             <!-- Disease / Crop Filter Selectors -->
-            <div style="display: flex; gap: 8px;">
+            <div style="display: flex; gap: 8px; margin-bottom: 6px;">
               <select id="products-crop-select" class="form-select" style="flex: 1;">
                 <option value="all">सभी फसलें (All Crops)</option>
               </select>
@@ -1219,20 +1230,28 @@
                 </select>
               </div>
 
-              <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                <div class="form-group" style="flex: 1;">
-                  <label for="waste-acres-input" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;">2. कुल रकबा (एकड़):</label>
-                  <input type="number" id="waste-acres-input" class="form-input" min="0.5" step="0.5" value="2.0">
+              <div class="form-group" style="margin-bottom: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px;">
+                  <label for="waste-acres-input" style="font-size: 11.5px; font-weight: 700;">2. कुल रकबा (एकड़): <strong id="waste-acres-display" style="color: var(--brand-primary); font-size: 13px;">2.0 एकड़</strong></label>
+                  <div style="display: flex; gap: 4px;">
+                    <button type="button" class="acre-chip-btn" data-acres="1">1 एकड़</button>
+                    <button type="button" class="acre-chip-btn active" data-acres="2">2 एकड़</button>
+                    <button type="button" class="acre-chip-btn" data-acres="5">5 एकड़</button>
+                    <button type="button" class="acre-chip-btn" data-acres="10">10 एकड़</button>
+                  </div>
                 </div>
-                <div class="form-group" style="flex: 1.2;">
-                  <label for="waste-equipment-input" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;">3. उपलब्ध साधन:</label>
-                  <select id="waste-equipment-input" class="form-select">
-                    <option value="rotavator">रोटावेटर / मल्चर</option>
-                    <option value="manual">हाथ से कटाई (मजदूर)</option>
-                    <option value="happy_seeder">हैप्पी सीडर / सुपर सीडर</option>
-                    <option value="none">कोई मशीन नहीं</option>
-                  </select>
-                </div>
+                <input type="range" id="waste-acres-slider" min="0.5" max="25" step="0.5" value="2.0" class="form-range" style="width: 100%; margin: 4px 0 6px 0;">
+                <input type="hidden" id="waste-acres-input" value="2.0">
+              </div>
+
+              <div class="form-group" style="margin-bottom: 10px;">
+                <label for="waste-equipment-input" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;">3. उपलब्ध साधन:</label>
+                <select id="waste-equipment-input" class="form-select">
+                  <option value="rotavator">रोटावेटर / मल्चर (Rotavator / Mulcher)</option>
+                  <option value="happy_seeder">हैप्पी सीडर / सुपर सीडर (Happy Seeder)</option>
+                  <option value="manual">हाथ से कटाई (मजदूर / Manual Labor)</option>
+                  <option value="none">कोई मशीन नहीं (No Machine)</option>
+                </select>
               </div>
 
               <button id="btn-calculate-waste" class="btn btn-primary btn-block">
@@ -1589,6 +1608,152 @@
                 <span data-i18n="modal_expert_submit">परामर्श अनुरोध भेजें (डेमो)</span>
               </button>
             </form>
+          </div>
+        </div>
+
+        <!-- Weather & Spray Suitability Modal Sheet -->
+        <div id="weather-advisory-modal" class="modal-backdrop">
+          <div class="modal-sheet" style="max-height: 85vh;">
+            <div class="modal-header">
+              <div>
+                <h3 style="font-size: 14px; font-weight: 700;" data-i18n="weather_modal_title">7-दिवसीय कृषि मौसम व छिड़काव परामर्श</h3>
+                <span style="font-size: 10.5px; color: var(--text-muted);">सांवेर / इंदौर (M.P.) • रियल-टाइम कृषि मौसम स्टेशन</span>
+              </div>
+              <button id="btn-close-weather-modal" class="icon-btn">✕</button>
+            </div>
+
+            <!-- Current Weather Overview Hero -->
+            <div class="weather-modal-hero" style="background: linear-gradient(135deg, #1B4D20, #2E7D32); color: #FFFFFF; border-radius: var(--radius-md); padding: 12px; margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span style="font-size: 32px;">🌤️</span>
+                  <div>
+                    <div style="font-size: 24px; font-weight: 800;">28°C <span style="font-size: 13px; font-weight: 600; opacity: 0.9;">आंशिक बादल</span></div>
+                    <div style="font-size: 11px; opacity: 0.85;">अधिकतम: 32°C • न्यूनतम: 22°C • ओस बिंदु: 21°C</div>
+                  </div>
+                </div>
+                <span class="badge" style="background: rgba(255,255,255,0.2); color: #FFFFFF; font-size: 10px;">💧 84% आर्द्रता</span>
+              </div>
+              <div style="background: rgba(0,0,0,0.2); border-radius: var(--radius-sm); padding: 8px 10px; margin-top: 10px; font-size: 11.5px; line-height: 1.4;">
+                🌾 <strong>छिड़काव सलाह:</strong> प्रातः 07:00 से 10:30 बजे तक फफूंदनाशक छिड़काव हेतु सर्वोत्तम समय। हवा की गति 6-8 km/h शांत रहेगी।
+              </div>
+            </div>
+
+            <!-- 24-Hour Hourly Spray Suitability -->
+            <div class="modal-section-group" style="margin-bottom: 12px;">
+              <h4 style="font-size: 12.5px; font-weight: 800; color: var(--text-title); margin-bottom: 6px;" data-i18n="hourly_spray_title">
+                24-घंटे फफूंदनाशक छिड़काव अनुकूलता (Spray Window)
+              </h4>
+              <div id="hourly-spray-grid" class="hourly-spray-list">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <!-- 7-Day Day-by-Day Forecast -->
+            <div class="modal-section-group">
+              <h4 style="font-size: 12.5px; font-weight: 800; color: var(--text-title); margin-bottom: 6px;" data-i18n="seven_day_title">
+                7-दिवसीय मौसम पूर्वानुमान व कृषि सलाह
+              </h4>
+              <div id="seven-day-forecast-list" class="seven-day-list">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Profile Modal Sheet -->
+        <div id="edit-profile-modal" class="modal-backdrop">
+          <div class="modal-sheet">
+            <div class="modal-header">
+              <h3 style="font-size: 14px; font-weight: 700;" data-i18n="edit_profile_title">किसान प्रोफाइल संपादित करें</h3>
+              <button id="btn-close-edit-profile" class="icon-btn">✕</button>
+            </div>
+            <form id="form-edit-profile" style="display: flex; flex-direction: column; gap: 10px;">
+              <div class="form-group">
+                <label for="ep-farmer-name" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;" data-i18n="edit_name_label">किसान का नाम:</label>
+                <input type="text" id="ep-farmer-name" class="form-input" value="Shubham Kumar" required>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <div class="form-group" style="flex: 1;">
+                  <label for="ep-farmer-acres" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;" data-i18n="edit_acres_label">रकबा (एकड़):</label>
+                  <input type="number" id="ep-farmer-acres" class="form-input" value="10" min="0.5" step="0.5" required>
+                </div>
+                <div class="form-group" style="flex: 1.2;">
+                  <label for="ep-farmer-village" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;" data-i18n="edit_village_label">गांव / तहसील:</label>
+                  <input type="text" id="ep-farmer-village" class="form-input" value="Sanwer, Indore" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="ep-farmer-state" style="font-size: 11.5px; font-weight: 700; display: block; margin-bottom: 3px;">राज्य (State):</label>
+                <input type="text" id="ep-farmer-state" class="form-input" value="Madhya Pradesh" required>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                <span data-i18n="btn_save_profile">विवरण सहेजें (Save Profile)</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Booking Receipt Confirmation Modal -->
+        <div id="booking-receipt-modal" class="modal-backdrop">
+          <div class="modal-sheet">
+            <div class="modal-header">
+              <h3 style="font-size: 14px; font-weight: 700;" data-i18n="booking_receipt_title">विशेषज्ञ परामर्श रसीद (डेमो पर्ची)</h3>
+              <button id="btn-close-receipt-modal" class="icon-btn">✕</button>
+            </div>
+            <div class="receipt-slip-card" style="background: #FAF6EC; border: 1.5px dashed #D4A373; border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px;">
+              <div style="text-align: center; border-bottom: 1px dashed #D4A373; padding-bottom: 10px; margin-bottom: 10px;">
+                <div style="font-size: 20px;">👨‍🔬</div>
+                <h4 style="font-size: 14px; font-weight: 800; color: var(--text-title); margin-top: 2px;" id="receipt-expert-name">Dr. Arvind Sharma</h4>
+                <p style="font-size: 11px; color: var(--text-muted);" id="receipt-expert-org">Senior Agronomist • KVK Indore</p>
+                <span class="badge badge-success" style="font-size: 10px; margin-top: 4px;">✓ अनुरोध दर्ज (Demo Logged)</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-muted);" data-i18n="receipt_token_label">टोकन संख्या:</span>
+                  <strong id="receipt-token-id">KS-EXP-2026-8891</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-muted);">परामर्श माध्यम:</span>
+                  <strong id="receipt-type">📞 फोन कॉल (Phone Call)</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-muted);" data-i18n="receipt_slot_label">निर्धारित स्लॉट:</span>
+                  <strong id="receipt-slot">कल सुबह (08:00 AM - 10:00 AM)</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-muted);" data-i18n="receipt_fee_label">परामर्श शुल्क:</span>
+                  <strong id="receipt-fee" style="color: var(--brand-primary); font-size: 13px;">₹200</strong>
+                </div>
+              </div>
+              <div style="font-size: 10.5px; color: var(--text-muted); line-height: 1.35; margin-top: 10px; border-top: 1px dashed #D4A373; padding-top: 8px;" data-i18n="receipt_advice_note">
+                ℹ️ यह एक डेमो रसीद है। वास्तविक सरकारी सहायता हेतु टोल-फ्री 1800-180-1551 पर कॉल करें।
+              </div>
+            </div>
+            <button type="button" id="btn-print-receipt-slip" class="btn btn-primary btn-block">
+              <span data-i18n="btn_download_slip">पर्ची डाउनलोड करें (Print Slip)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Contact Employer Modal -->
+        <div id="contact-employer-modal" class="modal-backdrop">
+          <div class="modal-sheet">
+            <div class="modal-header">
+              <h3 style="font-size: 14px; font-weight: 700;" data-i18n="contact_employer_title">कृषि कार्य संपर्क</h3>
+              <button id="btn-close-contact-modal" class="icon-btn">✕</button>
+            </div>
+            <div id="contact-employer-details" style="margin-bottom: 12px;">
+              <!-- Populated by JS -->
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <a href="#" id="btn-call-employer-direct" class="btn btn-primary btn-block" style="text-decoration: none;">
+                <span>📞 किसान को सीधे कॉल करें</span>
+              </a>
+              <button type="button" id="btn-message-employer" class="btn btn-outline btn-block">
+                <span>💬 व्हाट्सएप / एसएमएस संदेश भेजें (डेमो)</span>
+              </button>
+            </div>
           </div>
         </div>
 
